@@ -16,7 +16,7 @@ import logo from '@assets/svgs/logo.svg'
 import Card from '@components/Card'
 import Footer from '@components/Footer'
 
-function Login() {
+function SignIn() {
   const { t, i18n } = useTranslation()
   i18n.changeLanguage('en')
 
@@ -53,4 +53,4 @@ function Login() {
   )
 }
 
-export default Login
+export default SignIn
