@@ -24,3 +24,16 @@ class Lecturer(models.Model):
 
     class Meta:
         ordering = ['msgv']
+
+class Course(models.Model):
+    msmh = models.CharField(max_lenth=50,unique=True)
+    name = models.CharField(max_lenth=500)
+    description = models.TextField()
+    course_member = models.ManyToManyField(Student,related_name="have_student")
+
+    def __str__(self):
+        return "{0} - {1}".format(self.name,self.msmh)
+    
+
+    class Meta:
+        ordering = ['msmh']
