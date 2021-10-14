@@ -1,3 +1,4 @@
+
 from rest_framework.response import Response
 from django.http import JsonResponse
 from rest_framework.views import APIView
@@ -5,7 +6,7 @@ from .serializers import *
 from .models import *
 # Create your views here.
 
-class dmbanSon(APIView):
+class dmBanSon(APIView):
     def get(self,request):
         return Response({
             "" : "cấu trúc đường dẫn api",
@@ -21,26 +22,21 @@ class dmbanSon(APIView):
             }
         )
 
-class dmbanLuong(APIView):
+class dmBanLuong(APIView):
     def get(self,request):
         return Response({'Chua lam':True})
 
-class StudentAPIView(APIView):
-
-    def get(self,request):
-        studentList = Student.objects.all()
-        serializer = StudentSerializer(studentList,many=True)
-        print(serializer)
-        return Response(serializer.data)
 
 class CoursesAPIview(APIView):
     def get(self,request):
-        return Response({'Chua lam':True})
+        courseList = Course.objects.all()
+        serializer = CourseSerializer(courseList,many=True)
+        return Response(serializer.data)
 
 class CourseDetailAPIview(APIView):
-    def get(self,request):
-        return Response({'Chua lam':True})
-
-class CourseStudentListAPIView(APIView):
-    def get(self,request):
-        return Response({'Chua lam':True})
+    def get(self,request,mskh):
+        courseQuery = Course.objects.filter(mskh=mskh)
+        if courseQuery.exists():
+            serializer = CourseDetailSerializer(courseQuery[0])
+            return Response(serializer.data)
+        return Response({'error':'Object not found'},status=404)
