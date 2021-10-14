@@ -9,16 +9,15 @@ from .models import *
 class dmBanSon(APIView):
     def get(self,request):
         return Response({
-            "" : "cấu trúc đường dẫn api",
+            "" : "api structure",
             "login" : "login của bạn lương",
-            "courses": "chưa làm",
+            "courses": "return course list",
             "courses/<mã khóa học>" : {
-                "get" : "thông tin chi tiết khóa học (vẫn chưa làm)",
+                "get" : "return course detail",
                 "post" : "tạo khóa học (vẫn chưa làm)",
                 "update" : "cập nhận thông tin cho khóa học (vẫn chưa làm)",
                 "delete" : "xóa khóa học (vẫn chưa làm)"
                 },
-            "courses/<mã khóa học>/student_list": "cái tên nói lên tất cả nhưng vẫn chưa làm"
             }
         )
 
