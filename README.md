@@ -53,5 +53,5 @@ Alunno is a web-based course management application for Web application programm
 
 - [Django](https://www.djangoproject.com/)
 - [React](https://reactjs.org/)
-- [Chakra UI](https://chakra-ui.com/)
+- [Tailwind CSS](https://tailwindcss.com/)
 - [Vite](https://vitejs.dev/)
