@@ -1,7 +1,7 @@
 # Web-Application-Project - Alunno
 
 <p align="center">
-   <img src="./img/logowithdjangoandreact.svg">
+   <img src="./assets/logowithdjangoandreact.svg">
 </p>
 
 ## What is Alunno?
