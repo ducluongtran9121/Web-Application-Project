@@ -1,7 +1,5 @@
-import * as React from 'react'
-
 function Home() {
-  return <>Hello</>
+  return <>༼ つ ◕_◕ ༽つ Welcome</>
 }
 
 export default Home

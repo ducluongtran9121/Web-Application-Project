@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body {
+    @apply bg-base-default;
+  }
+
+  input,
+  button {
+    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-ternary;
+  }
+
+  a {
+    @apply text-center text-accent-default hover:underline;
+  }
+}
+/* scrollbar */
+::-webkit-scrollbar {
+  width: 1rem;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-scroll-bar-default hover:bg-scroll-bar-secondary active:bg-scroll-bar-ternary border-4 border-solid border-base-default rounded-lg;
+}
+
+/* components */
+.text-box {
+  @apply border border-default rounded px-3 py-1 shadow-sm;
+}
+
+.btn-accent {
+  @apply px-3 pt-0.5 pb-1 bg-accent-default border border-accent rounded shadow-sm text-inverse font-semibold hover:bg-accent-secondary active:bg-accent-ternary;
+}
+
+.card {
+  @apply bg-card-default border border-default rounded-lg shadow-sm;
+}

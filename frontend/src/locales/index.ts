@@ -3,29 +3,28 @@ import { initReactI18next } from 'react-i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
 
 // en
-import commonEN from './en/common.json'
-import loginEn from './en/login.json'
+import signinEn from './en/signin.json'
 import footerEN from './en/footer.json'
+import notfoundEN from './en/notfound.json'
 
 // vi
-import commonVI from './vi/common.json'
-import loginVI from './vi/login.json'
+import signinVI from './vi/signin.json'
 import footerVI from './vi/footer.json'
-
+import notfoundVI from './vi/notfound.json'
 
 const resources = {
   en: {
     translation: {
-      common: commonEN,
-      login: loginEn,
-      footer: footerEN
+      signin: signinEn,
+      footer: footerEN,
+      notfound: notfoundEN,
     },
   },
   vi: {
     translation: {
-      common: commonVI,
-      login: loginVI,
-      footer: footerVI
+      signin: signinVI,
+      footer: footerVI,
+      notfound: notfoundVI,
     },
   },
 }
