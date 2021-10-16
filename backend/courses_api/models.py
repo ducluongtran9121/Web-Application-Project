@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Member(models.Model):
-    code = models.CharField(max_length=50,unique=True)
+    code = models.CharField(max_length=50,primary_key=True)
     name = models.CharField(max_length=200)
     email = models.EmailField(max_length=254)
     image = models.ImageField()
@@ -15,7 +15,7 @@ class Member(models.Model):
         ordering = ['code']
 
 class Course(models.Model):
-    mskh = models.CharField(max_length=50,unique=True)
+    mskh = models.CharField(max_length=50,primary_key=True)
     name = models.CharField(max_length=500)
     description = models.TextField()
     course_member = models.ManyToManyField(Member,related_name="have_member")
