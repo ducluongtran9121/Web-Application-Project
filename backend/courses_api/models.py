@@ -20,7 +20,7 @@ class Course(models.Model):
     description = models.TextField()
     course_member = models.ManyToManyField(Member,related_name="have_member")
     create_date = models.DateTimeField(auto_created=True)
-    created_by = models.ForeignKey(Member, on_delete=models.CASCADE,null=False)
+    created_by = models.ForeignKey(Member, on_delete=models.SET_NULL)
     lecturer= models.ManyToManyField(Member,related_name="form_teacher")
 
     def __str__(self):
