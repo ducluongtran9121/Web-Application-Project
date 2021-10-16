@@ -29,3 +29,8 @@ class Course(models.Model):
 
     class Meta:
         ordering = ['mskh']
+
+class Lesson(models.Model):
+    name = models.CharField(max_length=50)
+    create_date = models.DateTimeField(auto_created=True)
+
