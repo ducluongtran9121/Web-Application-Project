@@ -11,6 +11,10 @@ db.sqlite3
 db.sqlite3-journal
 media
 backend/img/*
+backend/courses_api/migrations/__pycache__/*
+backend/courses_api/migrations/*
+!backend/courses_api/migrations/__init__.py
+!backend/courses_api/migrations/__pycache__
 
 # Environments
 .env
