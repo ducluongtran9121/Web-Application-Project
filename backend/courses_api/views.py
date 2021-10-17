@@ -32,10 +32,38 @@ class CoursesAPIview(APIView):
         serializer = CourseSerializer(courseList,many=True)
         return Response(serializer.data)
 
-class CourseDetailAPIview(APIView):
-    def get(self,request,mskh):
-        courseQuery = Course.objects.filter(mskh=mskh)
+    def post(self, request):
+        print(request.data)
+        serializer = CourseSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'success':'Object is created'},status=201)
+        return Response({'error':serializer.errors},status=serializer.status)
+
+class CourseDetailAPIView(APIView):
+    def get(self,request,pk):
+        courseQuery = Course.objects.filter(id=pk)
         if courseQuery.exists():
             serializer = CourseDetailSerializer(courseQuery[0])
             return Response(serializer.data)
         return Response({'error':'Object not found'},status=404)
+
+    def put(self,request,pk):
+        courseQuery = Course.objects.filter(id=pk)
+        if courseQuery.exists():
+            instance = courseQuery[0]
+            serializer = CourseDetailSerializer(data=request.data,instance=instance)
+            if serializer.is_valid():
+                serializer.save()
+                return Response({'success':'Update success'})
+            return Response({'error':serializer.errors},status=404)
+        return Response({'error':'Object not found'},status=404)
+
+
+class LessonAPIView(APIView):
+    def get(self,request):
+        courseList = Lesson.objects.all()
+        serializer = LessonSerializer(courseList,many=True)
+        return Response(serializer.data)
+    
+
