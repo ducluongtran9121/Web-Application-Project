@@ -44,7 +44,7 @@ module.exports = {
         '4.5xl': '2.5rem',
       },
       gridTemplateRows: {
-        'not-found': '1fr auto'
+        '2-bottom-auto': '1fr auto'
       },
       gridTemplateColumns: {
         '2-left-auto': 'auto 1fr'

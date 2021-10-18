@@ -3,10 +3,10 @@ import { useTranslation } from 'react-i18next'
 import Footer from '../components/Footer'
 
 function NotFound() {
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
 
   return (
-    <div className="min-h-screen grid grid-rows-not-found">
+    <div className="min-h-screen grid grid-rows-2-bottom-auto">
       <div className="flex flex-col gap-6 m-auto text-center">
         <p className="text-8xl whitespace-nowrap">¯\_(ツ)_/¯</p>
         <h1 className="text-4.5xl font-semibold">{t('notfound.hero')}</h1>
