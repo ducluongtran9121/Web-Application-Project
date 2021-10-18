@@ -2,41 +2,64 @@ from rest_framework import serializers
 from .models import *
 
 
+class MemberSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Member
+        fields = '__all__'
+
+class LectureSerialzier(serializers.ModelSerializer):
+    class Meta:
+        model = Member
+        fields = ['id','name','image','email']
 
 class CourseSerializer(serializers.ModelSerializer):
+    created_by = LectureSerialzier(read_only=True)
+    course_lecturer = LectureSerialzier(many=True,required=False)
+    url = serializers.CharField(source='get_absolute_url', read_only=True)
     class Meta:
         model = Course
-        fields = ['id','mskh','name','description','created_by','course_lecturer']
+        fields = ['id','mskh','name','description','created_by','course_lecturer','url']
 
+    
+    #def create(self, validated_data):
+    #   print(vadidated_data)
 
-
+class FileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = File
+        fields = '__all__'
 class LessonSerializer(serializers.ModelSerializer):
+    file_lesson = FileSerializer(many=True)
     class Meta:
         model = Lesson
-        fields = ['id','name']
-class CourseDetailSerializer(serializers.ModelSerializer):
-    course_lesson=LessonSerializer(many=True,read_only=True)
-    class Meta:
-        model = Course
-        fields = ['id','mskh','name','description','create_at','update_at','created_by','course_lecturer','course_lesson']
-        read_only_fields = ['id','create_at','update_at']
+        fields = '__all__'
+
+# class CourseDetailSerializer(serializers.ModelSerializer):
+#     course_lesson=LessonSerializer(many=True,read_only=True)
+#     class Meta:
+#         model = Course
+#         fields = ['id','mskh','name','description','create_at','update_at','created_by','course_lecturer','course_lesson']
+#         read_only_fields = ['id','create_at','update_at']
+#         extra_kwargs = {
+#             'course_lecturer':{'validators':[]}
+#         }
 
 
-    def update(self,instance,validated_data):
-        #lessons_data = validated_data.pop('course_lesson',None)
-        lecturers_data = validated_data.pop('course_lecturer',None)
+#     def update(self,instance,validated_data):
+#         #lessons_data = validated_data.pop('course_lesson',None)
+#         lecturers_data = validated_data.pop('course_lecturer',None)
         
-        instance = super(CourseDetailSerializer,self).update(instance, validated_data)
-        print(lecturers_data)
-        for lecturer_data in lecturers_data:
+#         instance = super(CourseDetailSerializer,self).update(instance, validated_data)
 
-            lecturer_qs = Member.objects.filter(id=lecturer_data.id)
+#         for lecturer_data in lecturers_data:
 
-            if lecturer_qs.exists():
-                lecturer = lecturer_qs.first()
-            else:
-                lecturer = Member.objects.create(**lecturer_data)
+#             lecturer_qs = Member.objects.filter(id=lecturer_data.id)
+
+#             if lecturer_qs.exists():
+#                 lecturer = lecturer_qs.first()
+#             else:
+#                 lecturer = Member.objects.create(**lecturer_data)
             
-            instance.course_lecturer.add(lecturer)
+#             instance.course_lecturer.add(lecturer)
 
-        return instance
+#         return instance

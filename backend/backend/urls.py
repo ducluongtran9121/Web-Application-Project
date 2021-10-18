@@ -17,11 +17,27 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
-from courses_api.views import dmBanSon,dmBanLuong
+from courses_api.views import dmBanSon,dmBanLuong,CourseViewSet,MemberViewSet,LessonViewSet
+from rest_framework.routers import DefaultRouter
+from rest_framework_nested import routers
+#router = DefaultRouter()
+#router.register(r"courses", CourseViewSet)
+member_router = routers.SimpleRouter()
+member_router.register(r'members', MemberViewSet, basename='members')
+
+course_router = routers.NestedSimpleRouter(member_router, r'members', lookup='member')
+course_router.register(r'courses', CourseViewSet,  basename='courses')
+
+lesson_router = routers.NestedSimpleRouter(course_router, r'courses', lookup='course')
+lesson_router.register(r'lessons', LessonViewSet,  basename='lessons')
 
 urlpatterns = [
     path('',dmBanSon.as_view()),
     path('login',dmBanLuong.as_view()),
     path('admin/', admin.site.urls),
-    path('courses/',include('courses_api.urls')),
+    path('',include(member_router.urls)),
+    path('',include(course_router.urls)),
+    path('',include(lesson_router.urls))
+    #path('',include(router.urls))
+    #path('courses/',include('courses_api.urls')),
 ] + static(settings.MEDIA_URL,document_root = settings.MEDIA_ROOT)
