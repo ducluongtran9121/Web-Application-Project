@@ -75,35 +75,58 @@ class MemberViewSet(viewsets.ModelViewSet):
     serializer_class = MemberSerializer
     queryset = Member.objects.all()
 
-class CourseViewSet(viewsets.ModelViewSet):
+class CourseViewSet(viewsets.ViewSet):
     serializer_class = CourseSerializer
-    queryset=Course.objects.all()
+    #queryset=Course.objects.all()
 
     def list(self, request, member_pk=None):
-        queryset = self.queryset.filter(course_member=member_pk)
+        queryset = Course.objects.filter(course_member=member_pk)
         serializer = CourseSerializer(queryset, many=True)
         return Response(serializer.data)
 
     def retrieve(self, request, pk=None, member_pk=None):
-        queryset = self.queryset.filter(pk=pk, course_member=member_pk)
+        queryset = Course.objects.filter(pk=pk, course_member=member_pk)
         course = get_object_or_404(queryset, pk=pk)
         serializer = CourseSerializer(course)
         return Response(serializer.data)
+    
+    @action(detail=True,methods=['get'])
+    def courseMember(self,request, pk=None,member_pk=None):
+        if Course.objects.filter(pk=pk, course_member=member_pk).exists():
+            queryset = Course.objects.get(pk=pk).course_member
+            serializer = MemberSerializer(queryset,many=True)
+            return Response(serializer.data)
 
 
     
-class LessonViewSet(viewsets.ModelViewSet):
+class LessonViewSet(viewsets.ViewSet):
     serializer_class = LessonSerializer
-    queryset = Lesson.objects.all()
+    #queryset = Lesson.objects.all()
 
     def list(self, request, member_pk=None, course_pk=None):
-        queryset = self.queryset.filter(course=course_pk)
+        queryset = Lesson.objects.filter(course__course_member=member_pk, course=course_pk)
         serializer = LessonSerializer(queryset, many=True)
         return Response(serializer.data)
 
     def retrieve(self, request, pk=None, member_pk=None,course_pk=None):
-        queryset = self.queryset.filter(pk=pk, course=course_pk)
+        queryset = Lesson.objects.filter(pk=pk,course__course_member=member_pk, course=course_pk)
         lesson = get_object_or_404(queryset, pk=pk)
         serializer = LessonSerializer(lesson)
         return Response(serializer.data)
+
+class FileViewSet(viewsets.ViewSet):
+    serializer_class = LessonSerializer
+    #queryset = Lesson.objects.all()
+
+    def list(self, request, member_pk=None, course_pk=None,lesson_pk=None):
+        queryset = File.objects.filter(lesson__course__course_member=member_pk, lesson__course=course_pk,lesson=lesson_pk )
+        serializer = FileSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def retrieve(self, request, pk=None, member_pk=None,course_pk=None,lesson_pk=None):
+        queryset = File.objects.filter(pk=pk,lesson__course__course_member=member_pk, lesson__course=course_pk,lesson=lesson_pk)
+        file = get_object_or_404(queryset, pk=pk)
+        serializer = FileSerializer(file)
+        return Response(serializer.data)
+
 
