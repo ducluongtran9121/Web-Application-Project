@@ -29,6 +29,7 @@ Alunno is a web-based course management application for Web application programm
 
     ```
     python -m venv .env
+    .env\Scripts\activate.bat (Activate.ps1)
     pip install -r .\requirement.txt
     ```
 
