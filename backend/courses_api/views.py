@@ -15,14 +15,51 @@ class dmBanSon(APIView):
         return Response({
             "" : "api structure",
             "login" : "login của bạn lương",
-            "courses": "return course list",
-            "courses/<mã khóa học>" : {
-                "get" : "return course detail",
-                "post" : "tạo khóa học (vẫn chưa làm)",
-                "update" : "cập nhận thông tin cho khóa học (vẫn chưa làm)",
-                "delete" : "xóa khóa học (vẫn chưa làm)"
-                },
-            }
+            "members":
+            {
+                "get" : "return member list (will be disabled in future)",
+                "post" : "create a member (will be disabled in future)",
+            },
+            "members/pk":
+            {
+                "get" : "returns the details of member whose id is pk",
+                "put" : "update member whose id is pko",
+                "delete" : "delete member whose id is pk",
+            },
+            "members/member_pk/courses":
+            {
+                "get" : "return course list of member whose id is member_pk",
+                "post": "create course for member whose id is member"
+            },
+            "members/member_pk/courses/pk":
+            {
+                "get" : "returns the details of course",
+                "put" : "update course",
+                "delete" : "delete course",
+            },
+            "members/member_pk/courses/courseMember": "return course member list",
+            "members/member_pk/courses/course_pk/lesson":
+            {
+                "get" : "return lesson list",
+                "post": "create lesson"
+            },
+            "members/member_pk/courses/course_pk/lesson/pk":
+            {
+                "get" : "returns the details of lesson",
+                "put" : "update lesson",
+                "delete" : "delete lesson",
+            },
+            "members/member_pk/courses/course_pk/lesson/lesson_pk/files":
+            {
+                "get" : "return file list",
+                "post": "create file"
+            },
+            "members/member_pk/courses/course_pk/lesson/lesson_pk/files/pk":
+            {
+                "get" : "returns the details of file",
+                "put" : "update file",
+                "delete" : "delete file",
+            }}
         )
 
 class dmBanLuong(APIView):
