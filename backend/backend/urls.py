@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
-from alunno_api.views import dmBanSon,dmBanLuong,CourseViewSet,MemberViewSet,LessonViewSet,FileViewSet
+from courses_api.views import dmBanSon,dmBanLuong,CourseViewSet,MemberViewSet,LessonViewSet,FileViewSet
 from rest_framework.routers import DefaultRouter
 from rest_framework_nested import routers
 #router = DefaultRouter()
