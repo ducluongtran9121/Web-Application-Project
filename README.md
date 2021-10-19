@@ -25,20 +25,63 @@ Alunno is a web-based course management application for Web application programm
 
 - Set up python environment
 
-  - Go to backend folder:
-
+  - Create enviroment:
+  
     ```
+    cd backend
     python -m venv .env
-    .env\Scripts\activate.bat (Activate.ps1)
+    ```
+       
+  - Active enviroment:
+  
+    - Powershell:
+    
+      ```
+      .env\Scripts\Activate.ps1
+      ```
+    - Command Prompt:
+    
+      ```
+      .env\Scripts\activate.bat
+      ```
+  
+  - Install dependencies:
+  
+    ```
     pip install -r .\requirement.txt
+    ```
+  
+  - Migrate django
+  
+    ```
+    python manage.py makemigrations
+    python manage.py migrate
+    ```
+  
+  - To run server:
+  
+    ```
+    python manage.py runserver
     ```
 
 - Set up frontend package:
 
-  - Go to frontend folder:
-
+  - Install dependencies and dev dependencies:
+  
     ```
+    cd frontend
     yarn install
+    ```
+  - To run dev build app:
+  
+    ```
+    yarn dev
+    ```
+  
+  - To build app:
+    
+    ```
+    yarn build
     ```
 
 ## Requirements
