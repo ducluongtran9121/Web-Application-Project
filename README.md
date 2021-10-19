@@ -33,10 +33,6 @@ Alunno is a web-based course management application for Web application programm
     pip install -r .\requirement.txt
     ```
 
-  - Active your environment:
-    - Powershell: `.env\Scripts\Activate.ps1`
-    - Cmd : `.env\Scripts\activate.bat`
-
 - Set up frontend package:
 
   - Go to frontend folder:
