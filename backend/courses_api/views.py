@@ -13,6 +13,7 @@ from .models import *
 class dmBanSon(APIView):
     def get(self,request):
         return Response({
+            "note": "pk, member_pk, course_pk,... is a number",
             "" : "api structure",
             "login" : "login của bạn lương",
             "members":
