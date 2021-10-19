@@ -7,18 +7,13 @@ class MemberSerializer(serializers.ModelSerializer):
         model = Member
         fields = '__all__'
 
-class LectureSerialzier(serializers.ModelSerializer):
-    class Meta:
-        model = Member
-        fields = ['id','name','image','email']
 
 class CourseSerializer(serializers.ModelSerializer):
-    created_by = LectureSerialzier(read_only=True)
-    course_lecturer = LectureSerialzier(many=True,required=False)
-    url = serializers.CharField(source='get_absolute_url', read_only=True)
     class Meta:
         model = Course
-        fields = ['id','mskh','name','description','created_by','course_lecturer','url']
+        fields = ['id','mskh','name','description','created_by','course_lecturer']
+        read_only_fields = ['id','created_by']
+        depth=1
 
     
     #def create(self, validated_data):
@@ -29,7 +24,7 @@ class FileSerializer(serializers.ModelSerializer):
         model = File
         fields = '__all__'
 class LessonSerializer(serializers.ModelSerializer):
-    file_lesson = FileSerializer(many=True)
+    file_lesson = FileSerializer(many=True,read_only=True)
     class Meta:
         model = Lesson
         fields = '__all__'
