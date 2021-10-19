@@ -29,6 +29,7 @@ const colors = {
     },
     text: {
       default: '#000000ff',
+      lighter: '#000000bb',
       inverse: '#ffffffff',
     },
   },
@@ -62,6 +63,7 @@ const colors = {
     },
     text: {
       default: '#000000ff',
+      lighter: '#000000bb',
       inverse: '#ffffffff',
     },
   },
