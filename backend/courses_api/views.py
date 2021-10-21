@@ -38,7 +38,7 @@ class dmBanSon(APIView):
                 "put" : "update course",
                 "delete" : "delete course",
             },
-            "members/member_pk/courses/courseMember": "return course member list",
+            "members/member_pk/courses/listMember": "return course member list",
             "members/member_pk/courses/course_pk/lesson":
             {
                 "get" : "return lesson list",
