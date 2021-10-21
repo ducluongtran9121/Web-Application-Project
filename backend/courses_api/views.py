@@ -68,48 +68,6 @@ class dmBanLuong(APIView):
         return Response({'Chua lam':True})
 
 
-# class CoursesAPIview(APIView):
-#     def get(self,request):
-#         courseList = Course.objects.all()
-#         serializer = CourseSerializer(courseList,many=True)
-#         return Response(serializer.data)
-
-#     def post(self, request):
-#         serializer = CourseSerializer(data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response({'success':'Object is created'},status=201)
-#         return Response({'error':serializer.errors},status=serializer.status)
-
-# class CourseDetailAPIView(APIView):
-#     def get(self,request,pk):
-#         courseQuery = Course.objects.filter(id=pk)
-#         if courseQuery.exists():
-#             serializer = CourseDetailSerializer(courseQuery[0])
-#             return Response(serializer.data)
-#         return Response({'error':'Object not found'},status=404)
-
-#     def put(self,request,pk):
-#         courseQuery = Course.objects.filter(id=pk)
-#         if courseQuery.exists():
-#             instance = courseQuery[0]
-#             serializer = CourseDetailSerializer(data=request.data,instance=instance)
-#             if serializer.is_valid():
-#                 serializer.save()
-#                 return Response({'success':'Update success'})
-#             return Response({'error':serializer.errors},status=400)
-#         return Response({'error':'Object not found'},status=404)
-
-
-# class CourseLessonDetailAPIView(APIView):
-#     def get(self, request, pk):
-#         courseQuery = Course.objects.filter(id=pk)
-#         if courseQuery.exists():
-#             lessonQuery = Lesson.objects.filter(course=courseQuery[0])
-#             serializer = CourseLessonDetailSerializer(lessonQuery,many=True)
-#             return Response(serializer.data)
-#         return Response({'error':'Object not found'},status=404)
-
 class MemberViewSet(viewsets.ModelViewSet):
     serializer_class = MemberSerializer
     queryset = Member.objects.all()
@@ -138,7 +96,9 @@ class MemberViewSet(viewsets.ModelViewSet):
         return self.update(request, *args, **kwargs)
 
 
-class CourseViewSet(viewsets.ViewSet):
+class CourseViewSet(viewsets.ViewSet,viewsets.GenericViewSet):
+    serializer_class = CourseSerializer
+    queryset = Course.objects.all()
 
     def list(self,request,member_pk=None):
         queryset = Course.objects.filter(course_member=member_pk)
@@ -157,12 +117,11 @@ class CourseViewSet(viewsets.ViewSet):
     def create(self, request,pk=None, member_pk=None):
         queryset = Member.objects.filter(pk=member_pk)
         if queryset.exists():
-            lecturer=queryset[0]
             serializer = CourseSerializer(data=request.data)
             serializer.is_valid(raise_exception=True)
             instance = serializer.save()
-            instance.created_by = lecturer
-            instance.course_lecturer.add(lecturer)
+            instance.created_by = queryset[0]
+            instance.course_lecturer.add(queryset[0])
             instance.save()
             return Response(serializer.data,status=201)
         return Response({'errors':'Bad request'},status=400)
@@ -191,23 +150,53 @@ class CourseViewSet(viewsets.ViewSet):
         if queryset.exists():
             serializer = MemberSerializer(queryset[0].course_member,many=True)
             return Response(serializer.data)
-
-
     
-class LessonViewSet(viewsets.ModelViewSet):
+class LessonViewSet(viewsets.ViewSet,viewsets.GenericViewSet):
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
 
     def list(self, request, member_pk=None, course_pk=None):
         queryset = Lesson.objects.filter(course__course_member=member_pk, course=course_pk)
-        serializer = LessonSerializer(queryset, many=True)
-        return Response(serializer.data)
+        if queryset.exists():
+            serializer = LessonSerializer(queryset, many=True)
+            return Response(serializer.data)
+        return Response({'errors':'Objects not found'},status=404) 
 
-    def retrieve(self, request, pk=None, member_pk=None,course_pk=None):
-        queryset = Lesson.objects.filter(pk=pk,course__course_member=member_pk, course=course_pk)
-        lesson = get_object_or_404(queryset, pk=pk)
-        serializer = LessonSerializer(lesson)
-        return Response(serializer.data)
+    def retrieve(self, request, member_pk=None,course_pk=None, pk=None):
+        queryset = Lesson.objects.filter(pk=pk, course=course_pk,course__course_member=member_pk)
+        if queryset.exists():
+            serializer = LessonSerializer(queryset[0])
+            return Response(serializer.data)
+        return Response({'errors':'Objects not found'},status=404)
+
+    def create(self, request, member_pk=None,course_pk=None):
+        queryset = Course.objects.filter(pk=course_pk, course_member=member_pk)
+        if queryset.exists():
+            serializer = LessonSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            instance = serializer.save()
+            instance.course = queryset[0]
+            instance.save()
+            return Response(serializer.data,status=201)
+        return Response({'errors':'Bad request'},status=400)
+    
+    def update(self, request, member_pk=None,course_pk=None, pk=None):
+        queryset = Lesson.objects.filter(pk=pk, course=course_pk,course__course_member=member_pk)
+        if queryset.exists():
+            instance = queryset[0]
+            serializer = LessonSerializer(instance=instance,data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Response(serializer.data)
+        return Response({'errors':'Bad request'},status=400)
+
+    def destroy(self, request, member_pk=None,course_pk=None, pk=None):
+        queryset = Lesson.objects.filter(pk=pk, course=course_pk,course__course_member=member_pk)
+        if queryset.exists():
+            instance=queryset[0]
+            instance.delete()
+            return Response(status=204)
+        return Response({'errors':'Bad request'},status=400)
 
 class FileViewSet(viewsets.ViewSet,viewsets.GenericViewSet,mixins.DestroyModelMixin):
     serializer_class = FileSerializer
@@ -215,46 +204,47 @@ class FileViewSet(viewsets.ViewSet,viewsets.GenericViewSet,mixins.DestroyModelMi
     parser_classes = (FormParser,MultiPartParser,JSONParser,)
 
     def list(self, request, member_pk=None, course_pk=None,lesson_pk=None):
-        queryset = File.objects.filter(lesson__course__course_member=member_pk, lesson__course=course_pk,lesson=lesson_pk)
-        serializer = FileSerializer(queryset, many=True)
-        return Response(serializer.data)
+        queryset = File.objects.filter(lesson=lesson_pk, lesson__course=course_pk, lesson__course__course_member=member_pk)
+        if queryset.exists():
+            serializer = FileSerializer(queryset, many=True)
+            return Response(serializer.data)
+        return Response({'errors':'Objects not found'},status=404) 
 
     def retrieve(self, request, pk=None, member_pk=None,course_pk=None,lesson_pk=None):
-        queryset = File.objects.filter(pk=pk,lesson__course__course_member=member_pk, lesson__course=course_pk,lesson=lesson_pk)
-        file_upload = get_object_or_404(queryset, pk=pk)
-        serializer = FileSerializer(file_upload)
-        return Response(serializer.data)
+        queryset = File.objects.filter(pk=pk,lesson=lesson_pk, lesson__course=course_pk, lesson__course__course_member=member_pk)
+        if queryset.exists():
+            serializer = FileSerializer(queryset[0])
+            return Response(serializer.data)
+        return Response({'errors':'Objects not found'},status=404)
 
     def create(self, request, member_pk=None,course_pk=None,lesson_pk=None):
-        serializer = FileSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
+        queryset = Lesson.objects.filter(pk=lesson_pk, course=course_pk, course__course_member=member_pk)
+        if queryset.exists():
+            serializer = FileSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            instance = serializer.save()
+            instance.lesson = queryset[0]
+            instance.save()
             return Response(serializer.data, status=201)
-        else:
-            return Response(serializer.errors, status=400)
+        return Response(serializer.errors, status=400)
     
-    def update(self, request, *args, **kwargs):
-        partial = kwargs.pop('partial', False)
-        instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data, partial=partial)
-        serializer.is_valid(raise_exception=True)
-        instance.file_upload.delete()
-            
-        self.perform_update(serializer)
+    def update(self, request,lesson_pk, member_pk=None,course_pk=None, pk=None):
+        queryset = File.objects.filter(pk=pk,lesson=lesson_pk, lesson__course=course_pk, lesson__course__course_member=member_pk)
+        if queryset.exists():
+            instance = queryset[0]
+            serializer = FileSerializer(instance=instance,data=request.data)
+            serializer.is_valid(raise_exception=True)
+            instance.file_upload.delete()
+            serializer.save()
+            return Response(serializer.data)
+        return Response({'errors':'Bad request'},status=400)
 
-        if getattr(instance, '_prefetched_objects_cache', None):
-            # If 'prefetch_related' has been applied to a queryset, we need to
-            # forcibly invalidate the prefetch cache on the instance.
-            instance._prefetched_objects_cache = {}
-
-        return Response(serializer.data)
-
-    def perform_update(self, serializer):
-        serializer.save()
-
-    def partial_update(self, request, *args, **kwargs):
-        kwargs['partial'] = True
-        return self.update(request, *args, **kwargs)
-
+    def destroy(self, request,lesson_pk, member_pk=None,course_pk=None, pk=None):
+        queryset = File.objects.filter(pk=pk,lesson=lesson_pk, lesson__course=course_pk, lesson__course__course_member=member_pk)
+        if queryset.exists():
+            instance=queryset[0]
+            instance.delete()
+            return Response(status=204)
+        return Response({'errors':'Bad request'},status=400)
 
 

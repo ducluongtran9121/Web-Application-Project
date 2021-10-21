@@ -23,12 +23,14 @@ class CourseSerializer(serializers.ModelSerializer):
 class FileSerializer(serializers.ModelSerializer):
     class Meta:
         model = File
-        fields = '__all__'
+        fields = ['id','name','file_upload','in_folder']
+        read_only_fields = ['id']
 class LessonSerializer(serializers.ModelSerializer):
     file_lesson = FileSerializer(many=True,read_only=True)
     class Meta:
         model = Lesson
-        fields = '__all__'
+        fields = ['id','name','create_at','file_lesson']
+        read_only_fields = ['id']
 
 # class CourseDetailSerializer(serializers.ModelSerializer):
 #     course_lesson=LessonSerializer(many=True,read_only=True)

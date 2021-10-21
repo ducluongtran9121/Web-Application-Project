@@ -1,5 +1,6 @@
 from django.db import models
 from datetime import datetime
+from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
 
 
@@ -17,7 +18,7 @@ class Member(models.Model):
     is_lecturer = models.BooleanField(default=False)
 
     def __str__(self):
-        return "{0} - {1}".format(self.name,self.code)
+        return "%s - %s" % (self.name,self.code)
 
     def delete(self, using=None, keep_parents=False):
         self.image.storage.delete(self.image.name)
@@ -38,7 +39,7 @@ class Course(models.Model):
     course_lecturer= models.ManyToManyField(Member,related_name="lecturer_course")
 
     def __str__(self):
-        return "{0} - {1}".format(self.name,self.mskh)
+        return "%s - %s" % (self.name,self.mskh)
     
 
 
@@ -47,7 +48,7 @@ class Course(models.Model):
 
 
 class Lesson(models.Model):
-    course = models.ForeignKey(Course, on_delete=models.CASCADE,related_name='course_lesson')
+    course = models.ForeignKey(Course, on_delete=models.CASCADE,related_name='course_lesson',null=True)
     name = models.CharField(max_length=50)
     create_at = models.DateTimeField(auto_now_add=True)
 
@@ -57,7 +58,7 @@ class Lesson(models.Model):
         return self.name
  
 class File(models.Model):
-    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE,related_name='file_lesson')
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE,related_name='file_lesson',null=True)
     name = models.CharField(max_length=50)
     file_upload = models.FileField(upload_to="file/%Y/%m/%d/")
     in_folder = models.CharField(max_length=200,blank=True)
@@ -66,8 +67,6 @@ class File(models.Model):
         self.file_upload.delete()
         super().delete()
     
-    
-
     def __str__(self):
         return self.name
     
