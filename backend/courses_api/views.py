@@ -2,7 +2,7 @@
 from rest_framework.response import Response
 from rest_framework.parsers import FormParser,MultiPartParser,JSONParser
 from rest_framework.views import APIView
-from rest_framework.mixins import DestroyModelMixin, UpdateModelMixin
+from rest_framework import mixins
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from django.shortcuts import get_object_or_404
@@ -138,26 +138,58 @@ class MemberViewSet(viewsets.ModelViewSet):
         return self.update(request, *args, **kwargs)
 
 
-class CourseViewSet(viewsets.ModelViewSet):
-    serializer_class = CourseSerializer
-    queryset=Course.objects.all()
+class CourseViewSet(viewsets.ViewSet):
 
-    def list(self, request, member_pk=None):
+    def list(self,request,member_pk=None):
         queryset = Course.objects.filter(course_member=member_pk)
-        serializer = CourseSerializer(queryset, many=True)
-        return Response(serializer.data)
+        if queryset.exists():
+            serializer=CourseSerializer(queryset,many=True)
+            return Response(serializer.data)
+        return Response({'errors':'Objects not found'},status=404)
 
-    def retrieve(self, request, pk=None, member_pk=None):
-        queryset = Course.objects.filter(pk=pk, course_member=member_pk)
-        course = get_object_or_404(queryset, pk=pk)
-        serializer = CourseSerializer(course)
-        return Response(serializer.data)
+    def retrieve(self,request,pk=None,member_pk=None):
+        queryset = Course.objects.filter(pk=pk,course_member=member_pk)
+        if queryset.exists():
+            serializer=CourseSerializer(queryset[0])
+            return Response(serializer.data)
+        return Response({'errors':'Objects not found'},status=404)
+
+    def create(self, request,pk=None, member_pk=None):
+        queryset = Member.objects.filter(pk=member_pk)
+        if queryset.exists():
+            lecturer=queryset[0]
+            serializer = CourseSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            instance = serializer.save()
+            instance.created_by = lecturer
+            instance.course_lecturer.add(lecturer)
+            instance.save()
+            return Response(serializer.data,status=201)
+        return Response({'errors':'Bad request'},status=400)
     
+    def update(self,request, member_pk=None,pk=None):
+        queryset = Course.objects.filter(pk=pk,course_member=member_pk)
+        if queryset.exist():
+            instance = queryset[0]
+            serializer = CourseSerializer(instance=instance,data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Resposne(serializer.data)
+        return Response({'errors':'Bad request'},status=400)
+    
+    def destroy(self,request, member_pk=None,pk=None):
+        queryset = Course.objects.filter(pk=pk,course_member=member_pk)
+        if queryset.exist():
+            instance = queryset[0]
+            instance.detele()
+            return Response(status=204)
+        return Response({'errors':'Bad request'},status=400)
+
     @action(detail=True,methods=['get'])
-    def courseMember(self,request, pk=None,member_pk=None):
-        if Course.objects.filter(pk=pk, course_member=member_pk).exists():
-            queryset = Course.objects.get(pk=pk).course_member
-            serializer = MemberSerializer(queryset,many=True)
+    def listMember(self,request, pk=None,member_pk=None):
+        queryset = Course.objects.filter(pk=pk,course_member=member_pk)
+        if queryset.exists():
+            serializer = MemberSerializer(queryset[0].course_member,many=True)
             return Response(serializer.data)
 
 
@@ -177,7 +209,7 @@ class LessonViewSet(viewsets.ModelViewSet):
         serializer = LessonSerializer(lesson)
         return Response(serializer.data)
 
-class FileViewSet(viewsets.ViewSet,viewsets.GenericViewSet,DestroyModelMixin):
+class FileViewSet(viewsets.ViewSet,viewsets.GenericViewSet,mixins.DestroyModelMixin):
     serializer_class = FileSerializer
     queryset = File.objects.all()
     parser_classes = (FormParser,MultiPartParser,JSONParser,)

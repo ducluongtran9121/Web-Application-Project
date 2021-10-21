@@ -7,17 +7,18 @@ class MemberSerializer(serializers.ModelSerializer):
         model = Member
         fields = '__all__'
 
-
+class LectureSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Member
+        fields = ['id','name','email','image']
 class CourseSerializer(serializers.ModelSerializer):
+    course_lecturer = LectureSerializer(many=True,read_only=True)
+    created_by = LectureSerializer(read_only=True)
     class Meta:
         model = Course
         fields = ['id','mskh','name','description','created_by','course_lecturer']
-        read_only_fields = ['id','created_by']
-        depth=1
+        read_only_fields = ['id']
 
-    
-    #def create(self, validated_data):
-    #   print(vadidated_data)
 
 class FileSerializer(serializers.ModelSerializer):
     class Meta:
