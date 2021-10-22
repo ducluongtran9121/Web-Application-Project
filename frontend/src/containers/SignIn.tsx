@@ -1,4 +1,6 @@
 import * as React from 'react'
+import { Interpreter } from 'xstate'
+import { AuthContext, AuthEvent, AuthTypeState } from '../machines/authMachine'
 import { useTranslation } from 'react-i18next'
 import {
   VStack,
@@ -12,11 +14,15 @@ import {
   Link,
   Box,
 } from '@chakra-ui/react'
-import logo from '../assets/svgs/logo.svg'
 import Footer from '../components/Footer'
 import Card from '../components/Card'
+import logo from '../assets/svgs/logo.svg'
 
-function SignIn() {
+interface Props {
+  authService: Interpreter<AuthContext, any, AuthEvent, AuthTypeState>
+}
+
+function SignIn({ authService }: Props) {
   const { t } = useTranslation()
 
   function handleSubmit(e: React.FormEvent) {

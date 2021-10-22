@@ -1,4 +1,4 @@
-export interface FetchUser {
+export interface UserResponse {
   id: number
   code: string
   name: string

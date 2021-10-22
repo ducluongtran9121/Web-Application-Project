@@ -1,9 +1,10 @@
-import { Lecturer } from '.'
+import { User, Lecturer } from '.'
 
-export interface FetchCourse {
+export interface CourseResponse {
   mskh: string
   name: string
   description: string
+  user: User[]
 }
 
 export interface Course {
