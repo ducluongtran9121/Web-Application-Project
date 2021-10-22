@@ -1,8 +1,8 @@
 # Web-Application-Project - Alunno
 
-<p align="center">
+<div align="center">
    <img src="./assets/logowithdjangoandreact.svg">
-</p>
+</div>
 
 ## What is Alunno?
 
@@ -10,9 +10,13 @@ Alunno is a web-based course management application for Web application programm
 
 ## Features
 
-## QuickStart
+## Getting Started
 
-### Windows
+### Prerequisites
+- Python: [3.9.7](https://www.python.org/ftp/python/3.9.7/)
+- Nodejs: [17.0.1](https://nodejs.org/dist/v17.0.1/)
+
+### Installation (Windows)
 
 1. Get the source code
 
@@ -21,7 +25,7 @@ Alunno is a web-based course management application for Web application programm
    cd Web-Application-Project
    ```
 
-2. Set up environment
+2. Set up
 
 - Set up python environment
 
@@ -59,12 +63,6 @@ Alunno is a web-based course management application for Web application programm
     python manage.py migrate
     ```
 
-  - To run server:
-
-    ```
-    python manage.py runserver
-    ```
-
 - Set up frontend package:
 
   - Install dependencies and dev dependencies:
@@ -74,13 +72,23 @@ Alunno is a web-based course management application for Web application programm
     yarn
     ```
 
-  - To run dev build app:
+### Run
+
+- Backend:
+
+  ```
+  python manage.py runserver
+  ```
+
+- Frontend:
+
+  - To run the app:
 
     ```
     yarn dev
     ```
-
-  - To build app:
+  
+  - To build the app:
 
     ```
     yarn build
