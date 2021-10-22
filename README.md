@@ -65,8 +65,6 @@ Alunno is a web-based course management application for Web application programm
 
 - Set up frontend package:
 
-  - Install dependencies and dev dependencies:
-
     ```
     cd frontend
     yarn
@@ -93,11 +91,6 @@ Alunno is a web-based course management application for Web application programm
     ```
     yarn build
     ```
-
-## Requirements
-
-- Python: [3.9.7](https://www.python.org/ftp/python/3.9.7/)
-- Nodejs: [17.0.1](https://nodejs.org/dist/v17.0.1/)
 
 ## Tech Stack
 
