@@ -55,7 +55,7 @@ class Lesson(models.Model):
     create_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.name
+        return "%s - %s" % (self.name, self.course.mskh)
 
 
 class File(models.Model):
@@ -70,7 +70,7 @@ class File(models.Model):
         super().delete()
 
     def __str__(self):
-        return self.name
+        return "%s - %s" % (self.name, self.lesson)
 
 
 # class Image(models.Model):
