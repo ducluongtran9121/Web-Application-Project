@@ -10,7 +10,7 @@ from .models import *
 # Create your views here.
 
 
-class dmBanSon(APIView):
+class ApiStructure(APIView):
     def get(self, request):
         return Response({
             "note": "pk, member_pk, course_pk,... is a number",
@@ -64,7 +64,7 @@ class dmBanSon(APIView):
         )
 
 
-class dmBanLuong(APIView):
+class LoginApiView(APIView):
     def get(self, request):
         return Response({'Chua lam': True})
 
