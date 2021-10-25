@@ -9,6 +9,15 @@ from rest_framework_simplejwt.token_blacklist.models import BlacklistedToken, Ou
 from rest_framework_simplejwt.tokens import AccessToken, RefreshToken
 
 # Create your views here.
+
+class AccountAPIStructure(APIView):
+    def get(self, request):
+        return Response({
+            "/login": "Login (Refresh Token + Access Token)",
+            "/refreshtoken" : "Get Refresh Token",
+            "/logout" : "logout" 
+        })
+
 # class LoginApiView(APIView):
 #     def get(self, request):
 #         return response({'Chua lam': True})
