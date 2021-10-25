@@ -2,16 +2,16 @@ from rest_framework import serializers
 from .models import *
 
 
-class MemberSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Member
-        fields = '__all__'
+# class MemberSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Member
+#         fields = '__all__'
 
 
 class LectureSerializer(serializers.ModelSerializer):
     class Meta:
         model = Member
-        fields = ['id', 'name', 'email', 'image']
+        fields = ['id','code', 'name', 'email', 'image']
 
 
 class CourseSerializer(serializers.ModelSerializer):

@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
-from courses_api.views import ApiStructure, LoginApiView, CourseViewSet, MemberViewSet, LessonViewSet, FileViewSet
+from courses_api.views import ApiStructure, CourseViewSet, MemberViewSet, LessonViewSet, FileViewSet
 from rest_framework.routers import DefaultRouter
 from rest_framework_nested import routers
 #router = DefaultRouter()
@@ -39,7 +39,7 @@ file_router.register(r'files', FileViewSet,  basename='files')
 
 urlpatterns = [
     path('', ApiStructure.as_view()),
-    path('login', LoginApiView.as_view()),
+    path('account/', include('account.urls')),
     path('admin/', admin.site.urls),
     path('', include(member_router.urls)),
     path('', include(course_router.urls)),

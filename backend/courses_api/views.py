@@ -1,3 +1,4 @@
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.parsers import FormParser, MultiPartParser, JSONParser
 from rest_framework.views import APIView
@@ -5,8 +6,11 @@ from rest_framework import mixins
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from django.shortcuts import get_object_or_404
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from .serializers import *
 from .models import *
+from account.serializers import MemberSerializer
+from account import permissions
 # Create your views here.
 
 
@@ -63,16 +67,12 @@ class ApiStructure(APIView):
             }}
         )
 
-
-class LoginApiView(APIView):
-    def get(self, request):
-        return Response({'Chua lam': True})
-
-
 class MemberViewSet(viewsets.ModelViewSet):
     serializer_class = MemberSerializer
     queryset = Member.objects.all()
-
+    permission_classes = (permissions.UpdateOwnMemberProfile, IsAuthenticated,)
+    # authentication_classes = (JWTAuthentication,)
+    
     def update(self, request, *args, **kwargs):
         partial = kwargs.pop('partial', False)
         instance = self.get_object()
@@ -135,7 +135,7 @@ class CourseViewSet(viewsets.ViewSet, viewsets.GenericViewSet):
             serializer = CourseSerializer(instance=instance, data=request.data)
             serializer.is_valid(raise_exception=True)
             serializer.save()
-            return Resposne(serializer.data)
+            return Response(serializer.data)
         return Response({'errors': 'Bad request'}, status=400)
 
     def destroy(self, request, member_pk=None, pk=None):
@@ -237,7 +237,7 @@ class FileViewSet(viewsets.ViewSet, viewsets.GenericViewSet, mixins.DestroyModel
             instance.lesson = queryset[0]
             instance.save()
             return Response(serializer.data, status=201)
-        return Response(serializer.errors, status=400)
+        return Response(serializers.errors, status=400)
 
     def update(self, request, lesson_pk, member_pk=None, course_pk=None, pk=None):
         queryset = File.objects.filter(
