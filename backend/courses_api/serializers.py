@@ -11,7 +11,7 @@ class MemberSerializer(serializers.ModelSerializer):
 class LectureSerializer(serializers.ModelSerializer):
     class Meta:
         model = Member
-        fields = ['id', 'name', 'email', 'image']
+        fields = ['id','code', 'name', 'email', 'image']
 
 
 class CourseSerializer(serializers.ModelSerializer):
