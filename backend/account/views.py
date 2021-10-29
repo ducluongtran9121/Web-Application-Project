@@ -13,9 +13,9 @@ from rest_framework_simplejwt.tokens import AccessToken, RefreshToken
 class AccountAPIStructure(APIView):
     def get(self, request):
         return Response({
-            "/login": "Login (Refresh Token + Access Token)",
-            "/refreshtoken" : "Get Refresh Token",
-            "/logout" : "logout" 
+            "login/": "Login (Refresh Token + Access Token)",
+            "refreshtoken/" : "Get Refresh Token",
+            "logout/" : "logout" 
         })
 
 # class LoginApiView(APIView):

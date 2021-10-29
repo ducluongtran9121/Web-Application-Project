@@ -14,88 +14,44 @@ from account import permissions
 # Create your views here.
 
 
-class ApiStructure(APIView):
+class CourseApiStructure(APIView):
     def get(self, request):
         return Response({
-            "note": "pk, member_pk, course_pk,... is a number",
-            "": "api structure",
-            "login": "login của bạn lương",
-            "members":
+            "courses/":
             {
-                "get": "return member list (will be disabled in future)",
-                "post": "create a member (will be disabled in future)",
+                "get": "return course list of member",
+                "post": "create course for member"
             },
-            "members/pk":
-            {
-                "get": "returns the details of member whose id is pk",
-                "put": "update member whose id is pko",
-                "delete": "delete member whose id is pk",
-            },
-            "members/member_pk/courses":
-            {
-                "get": "return course list of member whose id is member_pk",
-                "post": "create course for member whose id is member"
-            },
-            "members/member_pk/courses/pk":
+            "courses/pk/":
             {
                 "get": "returns the details of course",
                 "put": "update course",
                 "delete": "delete course",
             },
-            "members/member_pk/courses/listMember": "return course member list",
-            "members/member_pk/courses/course_pk/lesson":
+            "listMember/": "return course member list",
+            "courses/course_pk/lesson/":
             {
                 "get": "return lesson list",
                 "post": "create lesson"
             },
-            "members/member_pk/courses/course_pk/lesson/pk":
+            "courses/course_pk/lesson/pk/":
             {
                 "get": "returns the details of lesson",
                 "put": "update lesson",
                 "delete": "delete lesson",
             },
-            "members/member_pk/courses/course_pk/lesson/lesson_pk/files":
+            "courses/course_pk/lesson/lesson_pk/files/":
             {
                 "get": "return file list",
                 "post": "create file"
             },
-            "members/member_pk/courses/course_pk/lesson/lesson_pk/files/pk":
+            "courses/course_pk/lesson/lesson_pk/files/pk/":
             {
                 "get": "returns the details of file",
                 "put": "update file",
                 "delete": "delete file",
             }}
         )
-
-class MemberViewSet(viewsets.ModelViewSet):
-    serializer_class = MemberSerializer
-    queryset = Member.objects.all()
-    permission_classes = (permissions.UpdateOwnMemberProfile, IsAuthenticated,)
-    # authentication_classes = (JWTAuthentication,)
-    
-    def update(self, request, *args, **kwargs):
-        partial = kwargs.pop('partial', False)
-        instance = self.get_object()
-        serializer = self.get_serializer(
-            instance, data=request.data, partial=partial)
-        serializer.is_valid(raise_exception=True)
-        instance.image.delete()
-
-        self.perform_update(serializer)
-
-        if getattr(instance, '_prefetched_objects_cache', None):
-            # If 'prefetch_related' has been applied to a queryset, we need to
-            # forcibly invalidate the prefetch cache on the instance.
-            instance._prefetched_objects_cache = {}
-
-        return Response(serializer.data)
-
-    def perform_update(self, serializer):
-        serializer.save()
-
-    def partial_update(self, request, *args, **kwargs):
-        kwargs['partial'] = True
-        return self.update(request, *args, **kwargs)
 
 
 class CourseViewSet(viewsets.ViewSet, viewsets.GenericViewSet):
