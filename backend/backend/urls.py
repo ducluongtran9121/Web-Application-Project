@@ -22,11 +22,10 @@ from rest_framework.routers import DefaultRouter
 from rest_framework_nested import routers
 #router = DefaultRouter()
 #router.register(r"courses", CourseViewSet)
-member_router = routers.SimpleRouter()
-member_router.register(r'members', MemberViewSet, basename='members')
+# member_router = routers.SimpleRouter()
+# member_router.register(r'members', MemberViewSet, basename='members')
 
-course_router = routers.NestedSimpleRouter(
-    member_router, r'members', lookup='member')
+course_router = routers.SimpleRouter()
 course_router.register(r'courses', CourseViewSet,  basename='courses')
 
 lesson_router = routers.NestedSimpleRouter(
@@ -41,7 +40,7 @@ urlpatterns = [
     path('', ApiStructure.as_view()),
     path('account/', include('account.urls')),
     path('admin/', admin.site.urls),
-    path('', include(member_router.urls)),
+    #path('', include(member_router.urls)),
     path('', include(course_router.urls)),
     path('', include(lesson_router.urls)),
     path('', include(file_router.urls))

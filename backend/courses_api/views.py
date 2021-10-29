@@ -101,22 +101,26 @@ class MemberViewSet(viewsets.ModelViewSet):
 class CourseViewSet(viewsets.ViewSet, viewsets.GenericViewSet):
     serializer_class = CourseSerializer
     queryset = Course.objects.all()
+    permission_classes = (IsAuthenticated,)
 
-    def list(self, request, member_pk=None):
+    def list(self, request):
+        member_pk=request.user.id
         queryset = Course.objects.filter(course_member=member_pk)
         if queryset.exists():
             serializer = CourseSerializer(queryset, many=True)
             return Response(serializer.data)
         return Response({'errors': 'Objects not found'}, status=404)
 
-    def retrieve(self, request, pk=None, member_pk=None):
+    def retrieve(self, request, pk=None):
+        member_pk=request.user.id
         queryset = Course.objects.filter(pk=pk, course_member=member_pk)
         if queryset.exists():
             serializer = CourseSerializer(queryset[0])
             return Response(serializer.data)
         return Response({'errors': 'Objects not found'}, status=404)
 
-    def create(self, request, pk=None, member_pk=None):
+    def create(self, request, pk=None):
+        member_pk=request.user.id
         queryset = Member.objects.filter(pk=member_pk)
         if queryset.exists():
             serializer = CourseSerializer(data=request.data)
@@ -128,7 +132,8 @@ class CourseViewSet(viewsets.ViewSet, viewsets.GenericViewSet):
             return Response(serializer.data, status=201)
         return Response({'errors': 'Bad request'}, status=400)
 
-    def update(self, request, member_pk=None, pk=None):
+    def update(self, request, pk=None):
+        member_pk=request.user.id
         queryset = Course.objects.filter(pk=pk, course_member=member_pk)
         if queryset.exist():
             instance = queryset[0]
@@ -138,7 +143,8 @@ class CourseViewSet(viewsets.ViewSet, viewsets.GenericViewSet):
             return Response(serializer.data)
         return Response({'errors': 'Bad request'}, status=400)
 
-    def destroy(self, request, member_pk=None, pk=None):
+    def destroy(self, request, pk=None):
+        member_pk=request.user.id
         queryset = Course.objects.filter(pk=pk, course_member=member_pk)
         if queryset.exist():
             instance = queryset[0]
@@ -147,7 +153,8 @@ class CourseViewSet(viewsets.ViewSet, viewsets.GenericViewSet):
         return Response({'errors': 'Bad request'}, status=400)
 
     @action(detail=True, methods=['get'])
-    def listMember(self, request, pk=None, member_pk=None):
+    def listMember(self, request, pk=None):
+        member_pk=request.user.id
         queryset = Course.objects.filter(pk=pk, course_member=member_pk)
         if queryset.exists():
             serializer = MemberSerializer(queryset[0].course_member, many=True)
@@ -157,8 +164,10 @@ class CourseViewSet(viewsets.ViewSet, viewsets.GenericViewSet):
 class LessonViewSet(viewsets.ViewSet, viewsets.GenericViewSet):
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
+    permission_classes = (IsAuthenticated,)
 
-    def list(self, request, member_pk=None, course_pk=None):
+    def list(self, request, course_pk=None):
+        member_pk=request.user.id
         queryset = Lesson.objects.filter(
             course__course_member=member_pk, course=course_pk)
         if queryset.exists():
@@ -166,7 +175,8 @@ class LessonViewSet(viewsets.ViewSet, viewsets.GenericViewSet):
             return Response(serializer.data)
         return Response({'errors': 'Objects not found'}, status=404)
 
-    def retrieve(self, request, member_pk=None, course_pk=None, pk=None):
+    def retrieve(self, request, course_pk=None, pk=None):
+        member_pk=request.user.id
         queryset = Lesson.objects.filter(
             pk=pk, course=course_pk, course__course_member=member_pk)
         if queryset.exists():
@@ -174,7 +184,8 @@ class LessonViewSet(viewsets.ViewSet, viewsets.GenericViewSet):
             return Response(serializer.data)
         return Response({'errors': 'Objects not found'}, status=404)
 
-    def create(self, request, member_pk=None, course_pk=None):
+    def create(self, request, course_pk=None):
+        member_pk=request.user.id
         queryset = Course.objects.filter(pk=course_pk, course_member=member_pk)
         if queryset.exists():
             serializer = LessonSerializer(data=request.data)
@@ -185,7 +196,8 @@ class LessonViewSet(viewsets.ViewSet, viewsets.GenericViewSet):
             return Response(serializer.data, status=201)
         return Response({'errors': 'Bad request'}, status=400)
 
-    def update(self, request, member_pk=None, course_pk=None, pk=None):
+    def update(self, request, course_pk=None, pk=None):
+        member_pk=request.user.id
         queryset = Lesson.objects.filter(
             pk=pk, course=course_pk, course__course_member=member_pk)
         if queryset.exists():
@@ -196,7 +208,8 @@ class LessonViewSet(viewsets.ViewSet, viewsets.GenericViewSet):
             return Response(serializer.data)
         return Response({'errors': 'Bad request'}, status=400)
 
-    def destroy(self, request, member_pk=None, course_pk=None, pk=None):
+    def destroy(self, request, course_pk=None, pk=None):
+        member_pk=request.user.id
         queryset = Lesson.objects.filter(
             pk=pk, course=course_pk, course__course_member=member_pk)
         if queryset.exists():
@@ -210,8 +223,10 @@ class FileViewSet(viewsets.ViewSet, viewsets.GenericViewSet, mixins.DestroyModel
     serializer_class = FileSerializer
     queryset = File.objects.all()
     parser_classes = (FormParser, MultiPartParser, JSONParser,)
+    permission_classes = (IsAuthenticated,)
 
-    def list(self, request, member_pk=None, course_pk=None, lesson_pk=None):
+    def list(self, request, course_pk=None, lesson_pk=None):
+        member_pk=request.user.id
         queryset = File.objects.filter(
             lesson=lesson_pk, lesson__course=course_pk, lesson__course__course_member=member_pk)
         if queryset.exists():
@@ -219,7 +234,8 @@ class FileViewSet(viewsets.ViewSet, viewsets.GenericViewSet, mixins.DestroyModel
             return Response(serializer.data)
         return Response({'errors': 'Objects not found'}, status=404)
 
-    def retrieve(self, request, pk=None, member_pk=None, course_pk=None, lesson_pk=None):
+    def retrieve(self, request, pk=None, course_pk=None, lesson_pk=None):
+        member_pk=request.user.id
         queryset = File.objects.filter(
             pk=pk, lesson=lesson_pk, lesson__course=course_pk, lesson__course__course_member=member_pk)
         if queryset.exists():
@@ -227,7 +243,8 @@ class FileViewSet(viewsets.ViewSet, viewsets.GenericViewSet, mixins.DestroyModel
             return Response(serializer.data)
         return Response({'errors': 'Objects not found'}, status=404)
 
-    def create(self, request, member_pk=None, course_pk=None, lesson_pk=None):
+    def create(self, request, course_pk=None, lesson_pk=None):
+        member_pk=request.user.id
         queryset = Lesson.objects.filter(
             pk=lesson_pk, course=course_pk, course__course_member=member_pk)
         if queryset.exists():
@@ -239,7 +256,8 @@ class FileViewSet(viewsets.ViewSet, viewsets.GenericViewSet, mixins.DestroyModel
             return Response(serializer.data, status=201)
         return Response(serializers.errors, status=400)
 
-    def update(self, request, lesson_pk, member_pk=None, course_pk=None, pk=None):
+    def update(self, request, lesson_pk, course_pk=None, pk=None):
+        member_pk=request.user.id
         queryset = File.objects.filter(
             pk=pk, lesson=lesson_pk, lesson__course=course_pk, lesson__course__course_member=member_pk)
         if queryset.exists():
@@ -251,7 +269,8 @@ class FileViewSet(viewsets.ViewSet, viewsets.GenericViewSet, mixins.DestroyModel
             return Response(serializer.data)
         return Response({'errors': 'Bad request'}, status=400)
 
-    def destroy(self, request, lesson_pk, member_pk=None, course_pk=None, pk=None):
+    def destroy(self, request, lesson_pk, course_pk=None, pk=None):
+        member_pk=request.user.id
         queryset = File.objects.filter(
             pk=pk, lesson=lesson_pk, lesson__course=course_pk, lesson__course__course_member=member_pk)
         if queryset.exists():
