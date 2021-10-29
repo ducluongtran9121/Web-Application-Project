@@ -19,7 +19,8 @@ class AccountAPIStructure(APIView):
         return Response({
             "login/": "Login (Refresh Token + Access Token)",
             "refreshtoken/" : "Get Refresh Token",
-            "logout/" : "logout" 
+            "logout/" : "logout" ,
+            "profile/" : "user info" 
         })
 
 # class LoginApiView(APIView):
