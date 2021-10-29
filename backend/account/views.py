@@ -58,9 +58,9 @@ class MemberProfileView(RetrieveUpdateDestroyAPIView):
     def put(self, request):
         instance = self.queryset.get(id=request.user.id)
         serializer = MemberSerializer(instance=instance, data=request.data)
+        serializer.is_valid(raise_exception=True)
         if not not request.data.get('image',None):
             instance.image.delete()
-        serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
     
