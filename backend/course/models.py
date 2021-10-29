@@ -5,30 +5,6 @@ from django.core.exceptions import ValidationError
 from account.models import Member
 
 
-# class Member(models.Model):
-#     code = models.CharField(max_length=50)
-#     name = models.CharField(max_length=200)
-#     GENDER_CHOICES = (
-#         ('M', 'man'),
-#         ('W', 'woman')
-#     )
-#     gender = models.CharField(
-#         max_length=1, choices=GENDER_CHOICES, default='M')
-#     email = models.EmailField(max_length=254)
-#     image = models.ImageField(upload_to="profile_img/", null=True)
-#     is_lecturer = models.BooleanField(default=False)
-
-#     def __str__(self):
-#         return "%s - %s" % (self.name, self.code)
-
-#     def delete(self, using=None, keep_parents=False):
-#         self.image.storage.delete(self.image.name)
-#         super().delete()
-
-#     class Meta:
-#         ordering = ['code']
-
-
 class Course(models.Model):
     mskh = models.CharField(max_length=50)
     name = models.CharField(max_length=500)

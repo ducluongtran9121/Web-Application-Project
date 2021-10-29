@@ -6,11 +6,10 @@ from rest_framework import mixins
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from django.shortcuts import get_object_or_404
-from rest_framework_simplejwt.authentication import JWTAuthentication
 from .serializers import *
 from .models import *
 from account.serializers import MemberSerializer
-from account import permissions
+
 # Create your views here.
 
 
@@ -28,7 +27,7 @@ class CourseApiStructure(APIView):
                 "put": "update course",
                 "delete": "delete course",
             },
-            "listMember/": "return course member list",
+            "courses/pk/listMember/": "return course member list",
             "courses/course_pk/lesson/":
             {
                 "get": "return lesson list",
