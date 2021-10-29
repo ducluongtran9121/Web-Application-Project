@@ -6,8 +6,9 @@ class MemberSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Member
-        fields = ('id', 'code', 'email', 'name', 'password',)
-        extra_kwargs = {'password':{'write_only': True}}
+        fields = ('id', 'code', 'email', 'name', 'password','image','gender','is_lecturer')
+        read_only_fields = ('id','code','is_lecturer')
+        extra_kwargs = {'password':{'write_only': True,'required': False}}
 
     def create(self, validated_data):
         

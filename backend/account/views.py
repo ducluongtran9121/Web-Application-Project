@@ -3,10 +3,14 @@ from django.http import response
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.generics import RetrieveUpdateDestroyAPIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.parsers import FormParser, MultiPartParser, JSONParser
 from rest_framework_simplejwt.token_blacklist.models import BlacklistedToken, OutstandingToken
 from rest_framework_simplejwt.tokens import AccessToken, RefreshToken
+from .models import Member
+from .serializers import MemberSerializer
 
 # Create your views here.
 
@@ -38,3 +42,29 @@ class LogoutView(APIView):
         # accesstoken.set_exp(from_time=datetime.datetime.now(),lifetime=datetime.timedelta(seconds=1))
         refreshtoken.blacklist()
         return Response({"status": "OK, goodbye"})
+
+class MemberProfileView(RetrieveUpdateDestroyAPIView):
+    serializer_class = MemberSerializer
+    queryset = Member.objects.all()
+    permission_classes = (IsAuthenticated,)
+    parser_classes = (FormParser, MultiPartParser, JSONParser,)
+
+    def get(self, request):
+        userInfo = self.queryset.get(id=request.user.id)
+        serializer = MemberSerializer(userInfo)
+        return Response(serializer.data)
+    
+    def put(self, request):
+        instance = self.queryset.get(id=request.user.id)
+        serializer = MemberSerializer(instance=instance, data=request.data)
+        if not not request.data.get('image',None):
+            instance.image.delete()
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+    
+    def delete(self, request):
+        instance = self.queryset.get(id=request.user.id)
+        instance.delete()
+        return Response(status=204)
+
