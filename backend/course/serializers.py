@@ -12,7 +12,7 @@ from account.models import Member
 class LectureSerializer(serializers.ModelSerializer):
     class Meta:
         model = Member
-        fields = ['id','code', 'name', 'email', 'image']
+        fields = ['id', 'code', 'name', 'email', 'image']
 
 
 class CourseSerializer(serializers.ModelSerializer):
@@ -38,7 +38,7 @@ class LessonSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Lesson
-        fields = ['id', 'name', 'create_at', 'file_lesson']
+        fields = ['id', 'name', 'description', 'create_at', 'file_lesson']
         read_only_fields = ['id']
 
 # class CourseDetailSerializer(serializers.ModelSerializer):
