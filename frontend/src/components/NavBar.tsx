@@ -16,7 +16,9 @@ import {
   MenuButton,
   MenuDivider,
   MenuItem,
+  MenuItemOption,
   MenuList,
+  MenuOptionGroup,
   Text,
   useBreakpointValue,
   useColorMode,
@@ -25,6 +27,7 @@ import {
 } from '@chakra-ui/react'
 import {
   IoCloseOutline,
+  IoGlobeOutline,
   IoLogOutOutline,
   IoMenuOutline,
   IoNotificationsOutline,
@@ -43,12 +46,18 @@ interface Props {
 
 function NavBar({ user: { id, name, imageUrl } }: Props): JSX.Element {
   const { signOut } = useAuth()
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { colorMode, toggleColorMode } = useColorMode()
   const isMd = useBreakpointValue({ base: false, md: true })
 
   const baseBg = useColorModeValue('light.card.default', 'dark.card.default')
+
+  function handleChangeLanguage(e: React.MouseEvent<HTMLButtonElement>) {
+    if (e.currentTarget.value !== i18n.language) {
+      i18n.changeLanguage(e.currentTarget.value)
+    }
+  }
 
   async function handleSignOut() {
     await signOut()
@@ -136,6 +145,33 @@ function NavBar({ user: { id, name, imageUrl } }: Props): JSX.Element {
           border="none"
           alignContent="center"
         />
+        <Box pr="0.75rem" display={{ base: 'none', md: 'block' }}>
+          <Menu closeOnSelect={false}>
+            <MenuButton>
+              <IconButton
+                aria-label=""
+                bg="transparent"
+                icon={<Icon as={IoGlobeOutline} fontSize="large" />}
+                border="none"
+                alignContent="center"
+              />
+            </MenuButton>
+            <MenuList>
+              <MenuOptionGroup
+                defaultValue={i18n.language}
+                title={t('navBar.languages')}
+                type="radio"
+              >
+                <MenuItemOption onClick={handleChangeLanguage} value="en">
+                  English
+                </MenuItemOption>
+                <MenuItemOption onClick={handleChangeLanguage} value="vi">
+                  Tiếng Việt
+                </MenuItemOption>
+              </MenuOptionGroup>
+            </MenuList>
+          </Menu>
+        </Box>
         <Box display={{ base: 'none', md: 'block' }}>
           <Menu>
             <MenuButton>

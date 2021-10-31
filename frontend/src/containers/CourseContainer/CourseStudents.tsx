@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { Avatar, Container, Flex, Link, Text } from '@chakra-ui/react'
 
@@ -13,6 +14,7 @@ interface Props {
 
 function CourseStudents({ courseId }: Props): JSX.Element {
   const { getCourseStudents } = useAuth()
+  const { t } = useTranslation()
   const [isLoading, setLoading] = React.useState<boolean>(true)
   const [students, setStudents] = React.useState<Student[]>()
 
@@ -37,7 +39,7 @@ function CourseStudents({ courseId }: Props): JSX.Element {
     return (
       <Container variant="card">
         <Text fontWeight="semibold" fontSize="1.5rem">
-          Students:
+          {t('course.students')}:
         </Text>
         <Flex
           direction="column"

@@ -3,5 +3,6 @@
   "lecturers": "Giảng viên",
   "allStudents": "Tất cả học sinh",
   "noLessons": "Khoá học này không có bài học nào cả",
-  "noStudents": "Khoá học này không có học sinh nào cả"
+  "noStudents": "Khoá học này không có học sinh nào cả",
+  "students": "Danh sách học sinh"
 }

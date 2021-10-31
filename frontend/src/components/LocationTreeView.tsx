@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import { Box, Flex, Grid, Icon, Link, Text } from '@chakra-ui/react'
-import type { IconProps, FlexProps } from '@chakra-ui/react'
+import type { FlexProps, IconProps } from '@chakra-ui/react'
 import { motion } from 'framer-motion'
 import { IoChevronForward } from 'react-icons/io5'
 
@@ -109,7 +109,10 @@ interface LocationTreeViewProps extends FlexProps {
   items: LocationItem[]
 }
 
-function LocationTreeView({ items, ...rest }: LocationTreeViewProps): JSX.Element {
+function LocationTreeView({
+  items,
+  ...rest
+}: LocationTreeViewProps): JSX.Element {
   return (
     <Flex direction="column" alignItems="start" gridGap="0.5rem" {...rest}>
       {items.map((item) => (
