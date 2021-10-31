@@ -17,7 +17,7 @@ Alunno is a web-based course management application for Web application programm
 - Python: [3.9.7](https://www.python.org/ftp/python/3.9.7/)
 - Nodejs: [17.0.1](https://nodejs.org/dist/v17.0.1/)
 
-### Windows
+### Setup
 
 1. Get the source code
 
@@ -30,14 +30,14 @@ Alunno is a web-based course management application for Web application programm
 
 - Set up python environment
 
-  - Create enviroment:
+  - Create environment:
 
     ```
     cd backend
     python -m venv .env
     ```
 
-  - Active enviroment:
+  - Active environment:
 
     - Powershell:
 
@@ -51,25 +51,39 @@ Alunno is a web-based course management application for Web application programm
       .env\Scripts\activate.bat
       ```
 
+    - \*Nix
+
+      ```
+      .env\Scripts\activate
+      ```
+
   - Install dependencies:
 
     ```
     pip install -r .\requirement.txt
     ```
 
-  - Migrate django
+  - Migrate Django
 
     ```
     python manage.py makemigrations
     python manage.py migrate
     ```
 
-- Set up frontend package:
+- Set up frontend environment:
 
-  ```
-  cd frontend
-  yarn
-  ```
+  - Install dependencies:
+
+    ```
+    cd frontend
+    yarn
+    ```
+
+  - Add server api url environment variable: (You can use your server url)
+
+    ```
+    echo "REACT_APP_API_URL=http://127.0.0.1:8000" > .env.local
+    ```
 
 ### Run
 
