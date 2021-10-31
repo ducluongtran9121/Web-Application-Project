@@ -41,12 +41,15 @@ function CourseLessons({ courseId }: Props): JSX.Element {
   if (lessons) {
     return (
       <Flex direction="column" gridGap="0.5rem">
-        {lessons.map(({ id, name, items }) => (
+        {lessons.map(({ id, name, description, items }) => (
           <Container key={id} variant="card">
-            <Text fontWeight="semibold" fontSize="1.5rem">
-              {name}
-            </Text>
-            <LocationTreeView items={items} />
+            <Flex direction="column" gridGap="0.25rem">
+              <Text fontWeight="semibold" fontSize="1.5rem">
+                {name}
+              </Text>
+              <Text>{description}</Text>
+              <LocationTreeView pt="0.5rem" items={items} />
+            </Flex>
           </Container>
         ))}
       </Flex>

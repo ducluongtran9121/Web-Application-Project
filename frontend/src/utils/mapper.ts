@@ -95,6 +95,7 @@ function fromLessonResponsesToLessons(lessonResponse: LessonResponse): Lesson {
   return {
     id: lessonResponse.id,
     name: lessonResponse.name,
+    description: lessonResponse.description,
     items: fromLocationResponseToLocation(lessonResponse.file_lesson),
   }
 }
