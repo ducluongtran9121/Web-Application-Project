@@ -1,39 +1,66 @@
 {
   "name": "frontend",
-  "version": "0.0.1",
+  "version": "0.1.0",
+  "private": true,
   "license": "MIT",
   "description": "Frontend part of Alunno - A web-based courses management application 😘",
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "serve": "vite preview"
-  },
   "dependencies": {
     "@babel/core": "^7.15.8",
     "@chakra-ui/react": "^1.6.10",
-    "@emotion/react": "^11.5.0",
-    "@emotion/styled": "^11.3.0",
-    "@xstate/react": "^1.6.1",
-    "axios": "^0.23.0",
+    "@emotion/react": "^11",
+    "@emotion/styled": "^11",
+    "@testing-library/dom": "^8.10.1",
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
+    "@types/jest": "^26.0.15",
+    "@types/node": "^12.0.0",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "axios": "^0.24.0",
+    "env-cmd": "^10.1.0",
     "focus-visible": "^5.2.0",
-    "framer-motion": "^4.1.17",
+    "framer-motion": "^4",
     "i18next": "^21.3.3",
     "i18next-browser-languagedetector": "^6.1.2",
-    "lodash": "^4.17.21",
+    "jwt-decode": "^3.1.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-i18next": "^11.12.0",
     "react-icons": "^4.3.1",
     "react-router-dom": "^5.3.0",
-    "xstate": "^4.25.0"
+    "react-scripts": "4.0.3",
+    "typescript": "^4.1.2",
+    "web-vitals": "^1.0.1"
+  },
+  "scripts": {
+    "start": "react-scripts --openssl-legacy-provider start",
+    "build": "react-scripts --openssl-legacy-provider build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "build:production": "env-cmd -f .env.production react-scripts --openssl-legacy-provider build"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.176",
-    "@types/react": "^17.0.31",
-    "@types/react-dom": "^17.0.10",
+    "@trivago/prettier-plugin-sort-imports": "^3.0.0",
     "@types/react-router-dom": "^5.3.1",
-    "@vitejs/plugin-react": "^1.0.5",
-    "typescript": "^4.4.4",
-    "vite": "^2.6.10"
+    "prettier": "^2.4.1"
   }
 }

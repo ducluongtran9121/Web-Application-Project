@@ -1,11 +1,11 @@
-import { Route, Redirect, RouteProps } from 'react-router-dom'
+import { Redirect, Route, RouteProps } from 'react-router-dom'
 
-interface Props extends RouteProps {
-  isAuthorized: boolean
-}
+import { useAuth } from '../contexts/AuthContext'
 
-function PrivateRoute({ isAuthorized, ...rest }: Props) {
-  if (isAuthorized) return <Route {...rest} />
+function PrivateRoute({ ...rest }: RouteProps): JSX.Element {
+  const { accessToken } = useAuth()
+
+  if (accessToken) return <Route {...rest} />
   return <Redirect to="/signin" />
 }
 

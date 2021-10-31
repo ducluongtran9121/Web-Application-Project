@@ -1,0 +1,6 @@
+{
+  "default": "An error happened! Please try again",
+  "network": "Network error!",
+  "sessionExpired": "Session expired!",
+  "incorrectEmailPassword": "Incorrect email or password!"
+}

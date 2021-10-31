@@ -1,14 +1,10 @@
 import axios from 'axios'
 
-const baseUrl = import.meta.env.VITE_API_URL
+const baseUrl = process.env.REACT_APP_API_URL
 
 const httpClient = axios.create({
   baseURL: baseUrl,
   withCredentials: false,
-})
-
-httpClient.interceptors.request.use((config) => {
-  return config
 })
 
 export { httpClient }

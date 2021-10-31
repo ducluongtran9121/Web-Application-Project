@@ -12,8 +12,22 @@ const variantText: SystemStyleFunction = (props) => ({
   },
 })
 
+const variantMenu: SystemStyleFunction = (props) => ({
+  color: mode('light.text.default', 'dark.text.default')(props),
+
+  _hover: {
+    color: mode('light.text.lighter', 'dark.text.lighter')(props),
+    textDecoration: 'none',
+  },
+
+  _active: {
+    color: mode('light.text.lighter', 'dark.text.lighter')(props),
+  },
+})
+
 const Link = {
   baseStyle: (props: any) => ({
+    textAlign: 'center',
     color: mode('light.accent.default', 'dark.accent.default')(props),
 
     _hover: {
@@ -27,6 +41,7 @@ const Link = {
 
   variants: {
     text: variantText,
+    menu: variantMenu,
   },
 }
 

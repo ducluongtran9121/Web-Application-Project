@@ -1,2 +1,6 @@
 export * from './user'
 export * from './course'
+export * from './payload'
+export * from './location'
+export * from './lesson'
+export * from './jwt'

@@ -2,13 +2,15 @@ import { extendTheme } from '@chakra-ui/react'
 
 // styles
 import colors from './colors'
-import global from './global'
-
+import Alert from './components/Alert'
 // components
 import Button from './components/Button'
+import Container from './components/Container'
 import Input from './components/Input'
 import Link from './components/Link'
 import Menu from './components/Menu'
+import Spinner from './components/Spinner'
+import global from './global'
 
 const theme = {
   shadows: {
@@ -23,6 +25,9 @@ const theme = {
     Input,
     Link,
     Menu,
+    Alert,
+    Container,
+    Spinner,
   },
 }
 

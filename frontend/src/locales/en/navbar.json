@@ -1,3 +1,9 @@
 {
-  "searchBoxPlaceHolder": "Search something...."
+  "searchBoxPlaceHolder": "Search something....",
+  "signOut": "Sign out",
+  "yourProfile": "Your profiles",
+  "yourCourses": "Your courses",
+  "yourDeadlines": "Your deadlines",
+  "turnOnDarkMode": "Turn on dark mode",
+  "turnOffDarkMode": "Turn off dark mode"
 }

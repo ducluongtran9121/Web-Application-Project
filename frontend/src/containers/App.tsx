@@ -1,32 +1,30 @@
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import { useMachine } from '@xstate/react'
-import { authMachine } from '../machines/authMachine'
-import SignIn from './SignIn'
-import Home from './Home'
-import NotFound from './NotFound'
+import { Route, Switch } from 'react-router-dom'
+
 import PrivateRoute from '../components/PrivateRoute'
-import About from './About'
+import PrivateRouteContainer from './PrivateRouteContainer'
+import SignIn from './SignIn'
 
-function App() {
-  const [authState, , authService] = useMachine(authMachine)
-  const isAuthorized = authState.matches('authorized')
-
+function App(): JSX.Element {
   return (
-    <Router>
-      <Switch>
-        <PrivateRoute
-          isAuthorized={isAuthorized}
-          exact
-          path="/"
-          component={Home}
-        />
-        <Route path="/signin">
-          <SignIn authService={authService} />
-        </Route>
-        <Route path="/about" component={About} />
-        <Route path="*" component={NotFound} />
-      </Switch>
-    </Router>
+    <Switch>
+      <Route path="/signin">
+        <Switch>
+          <Route path="/signin" component={SignIn} />
+        </Switch>
+      </Route>
+      <PrivateRoute
+        exact
+        path={[
+          '/',
+          '/courses/:courseId',
+          '/courses/:courseId/students',
+          '/users/:userId',
+          '/users/:userId/courses',
+          '/users/:userId/deadlines',
+        ]}
+        component={PrivateRouteContainer}
+      ></PrivateRoute>
+    </Switch>
   )
 }
 

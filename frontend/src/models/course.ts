@@ -1,14 +1,19 @@
-import { User, Lecturer } from '.'
+import type { Lecturer, UserResponse } from './user'
 
-export interface CourseResponse {
+interface CourseResponse {
+  id: number
   mskh: string
   name: string
   description: string
-  user: User[]
+  course_lecturer: UserResponse[]
 }
 
-export interface Course {
+interface Course {
+  id: number
   code: string
   name: string
+  description: string
   lecturers: Lecturer[]
 }
+
+export type { Course, CourseResponse }

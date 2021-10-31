@@ -1,8 +1,8 @@
 import { menuAnatomy as parts } from '@chakra-ui/anatomy'
 import {
   mode,
-  SystemStyleFunction,
   PartsStyleFunction,
+  SystemStyleFunction,
 } from '@chakra-ui/theme-tools'
 
 const baseStyleItem: SystemStyleFunction = (props) => {
@@ -34,7 +34,7 @@ const baseStyleList: SystemStyleFunction = (props) => {
     bg: mode('light.control.default', 'dark.control.default')(props),
     color: 'inherit',
     borderWidth: '1px',
-    borderRadius: '8px',
+    borderRadius: '4px',
     borderColor: mode('light.border.default', 'dark.border.default')(props),
     boxShadow: mode('sm', 'dark-lg')(props),
     minW: '3xs',

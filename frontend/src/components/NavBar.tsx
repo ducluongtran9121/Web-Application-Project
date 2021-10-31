@@ -1,35 +1,58 @@
 import { useTranslation } from 'react-i18next'
+import { Link as RouteLink } from 'react-router-dom'
+
 import {
-  Flex,
-  Image,
   Avatar,
-  InputGroup,
-  Input,
-  InputLeftElement,
+  Box,
+  Flex,
   Icon,
   IconButton,
-  Text,
-  useDisclosure,
-  useBreakpointValue,
+  Image,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  Link,
   Menu,
   MenuButton,
-  MenuList,
-  MenuItem,
   MenuDivider,
-  Box,
+  MenuItem,
+  MenuList,
+  Text,
+  useBreakpointValue,
+  useColorMode,
+  useColorModeValue,
+  useDisclosure,
 } from '@chakra-ui/react'
-import { FiSearch, FiBell, FiMenu, FiX } from 'react-icons/fi'
-import { User } from '../models'
+import {
+  IoCloseOutline,
+  IoLogOutOutline,
+  IoMenuOutline,
+  IoNotificationsOutline,
+  IoSearchOutline,
+} from 'react-icons/io5'
+
 import logo from '../assets/svgs/logo.svg'
+
+import type { User } from '../models'
+
+import { useAuth } from '../contexts/AuthContext'
 
 interface Props {
   user: User
 }
 
-function NavBar({ user: { name, imageUrl } }: Props) {
+function NavBar({ user: { id, name, imageUrl } }: Props): JSX.Element {
+  const { signOut } = useAuth()
   const { t } = useTranslation()
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const { colorMode, toggleColorMode } = useColorMode()
   const isMd = useBreakpointValue({ base: false, md: true })
+
+  const baseBg = useColorModeValue('light.card.default', 'dark.card.default')
+
+  async function handleSignOut() {
+    await signOut()
+  }
 
   return (
     <Flex
@@ -39,19 +62,24 @@ function NavBar({ user: { name, imageUrl } }: Props) {
       gridGap="0.75rem"
       px="1.5rem"
       py="0.75rem"
-      bg="white"
+      bg={baseBg}
       boxShadow="sm"
       position="relative"
     >
       <IconButton
         display={{ base: 'inline-block', md: 'none' }}
         aria-label=""
-        icon={<Icon as={isOpen ? FiX : FiMenu} fontSize="xl" />}
+        bg="transparent"
+        icon={
+          <Icon as={isOpen ? IoCloseOutline : IoMenuOutline} fontSize="xl" />
+        }
         onClick={() => (isOpen ? onClose() : onOpen())}
         border="none"
         alignContent="center"
       />
-      <Image src={logo} alt="asdas" w="3rem" />
+      <Link as={RouteLink} to="/" textColor="transparent">
+        <Image src={logo} alt={t('logoAlt')} w="3rem" />
+      </Link>
       {(isOpen || isMd) && (
         <Flex
           order={{ base: 1, md: 0 }}
@@ -62,16 +90,40 @@ function NavBar({ user: { name, imageUrl } }: Props) {
           fontWeight="semibold"
         >
           <InputGroup w={{ base: 'full', md: '20rem' }}>
-            <InputLeftElement children={<Icon as={FiSearch} />} />
-            <Input type="search" placeholder={t('navbar.searchBoxPlaceHolder')} />
+            <InputLeftElement children={<Icon as={IoSearchOutline} />} />
+            <Input
+              type="search"
+              placeholder={t('navBar.searchBoxPlaceHolder')}
+            />
           </InputGroup>
           <Flex
-            alignItems="center"
+            direction="column"
+            justifyContent="stretch"
             gridGap="0.75rem"
             display={{ base: 'flex', md: 'none' }}
+            w="full"
           >
-            <Avatar src={imageUrl} boxSize="1.5rem" bg="white" />
-            <Text>{name}</Text>
+            <Link
+              variant="menu"
+              as={RouteLink}
+              to={`/users/${id}`}
+              display="flex"
+              gridGap="0.5rem"
+              alignItems="center"
+            >
+              <Avatar src={imageUrl} boxSize="1.25rem" bg="white" />
+              <Text>{name}</Text>
+            </Link>
+            <Link
+              variant="menu"
+              onClick={handleSignOut}
+              display="flex"
+              gridGap="0.5rem"
+              alignItems="center"
+            >
+              <Icon fontSize="1.25rem" as={IoLogOutOutline} />
+              <Text>{t('navBar.signOut')}</Text>
+            </Link>
           </Flex>
         </Flex>
       )}
@@ -79,7 +131,8 @@ function NavBar({ user: { name, imageUrl } }: Props) {
       <Flex alignItems="center" gridGap="0.75rem">
         <IconButton
           aria-label=""
-          icon={<Icon as={FiBell} fontSize="large" />}
+          bg="transparent"
+          icon={<Icon as={IoNotificationsOutline} fontSize="large" />}
           border="none"
           alignContent="center"
         />
@@ -94,7 +147,27 @@ function NavBar({ user: { name, imageUrl } }: Props) {
               />
             </MenuButton>
             <MenuList>
-              <MenuItem>{name}</MenuItem>
+              <MenuItem as={RouteLink} to={`/users/${id}`}>
+                {name}
+              </MenuItem>
+              <MenuDivider />
+              <MenuItem as={RouteLink} to={`/users/${id}`}>
+                {t('navBar.yourProfile')}
+              </MenuItem>
+              <MenuItem as={RouteLink} to={`/users/${id}/courses`}>
+                {t('navBar.yourCourses')}
+              </MenuItem>
+              <MenuItem as={RouteLink} to={`/users/${id}/deadlines`}>
+                {t('navBar.yourDeadlines')}
+              </MenuItem>
+              <MenuDivider />
+              <MenuItem onClick={toggleColorMode}>
+                {t(
+                  `navBar.turn${colorMode === 'light' ? 'On' : 'Off'}DarkMode`,
+                )}
+              </MenuItem>
+              <MenuDivider />
+              <MenuItem onClick={handleSignOut}>{t('navBar.signOut')}</MenuItem>
             </MenuList>
           </Menu>
         </Box>

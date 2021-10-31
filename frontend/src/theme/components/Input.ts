@@ -1,12 +1,19 @@
-import { mode, SystemStyleFunction } from '@chakra-ui/theme-tools'
+import { inputAnatomy as parts } from '@chakra-ui/anatomy'
+import {
+  mode,
+  PartsStyleFunction,
+  SystemStyleFunction,
+} from '@chakra-ui/theme-tools'
 
 const sizeSm: SystemStyleFunction = () => ({
   field: {
     borderRadius: '4px',
+    py: '5px',
+    px: '11px',
   },
 })
 
-const varianOutline: SystemStyleFunction = (props) => ({
+const variantOutline: PartsStyleFunction<typeof parts> = (props) => ({
   field: {
     bg: mode('light.control.default', 'dark.control.default')(props),
     color: 'inherit',
@@ -22,12 +29,13 @@ const varianOutline: SystemStyleFunction = (props) => ({
 })
 
 const Input = {
+  parts: parts.keys,
   baseStyles: {},
   sizes: {
     sm: sizeSm,
   },
   variants: {
-    outline: varianOutline,
+    outline: variantOutline,
   },
   defaultProps: {
     size: 'sm',

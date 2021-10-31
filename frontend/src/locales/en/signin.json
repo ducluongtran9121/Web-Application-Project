@@ -1,7 +1,9 @@
 {
   "hero": "Sign in to Alunno",
-  "username": "Username",
+  "email": "Email",
   "password": "Password",
   "signIn": "Sign in",
-  "forgotPassword": "Forgot your password?"
+  "forgotPassword": "Forgot your password?",
+  "networkError": "Network error! Please check your connection and try again!",
+  "error": "An error happened! Please try again!"
 }

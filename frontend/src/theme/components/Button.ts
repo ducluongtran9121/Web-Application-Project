@@ -1,9 +1,10 @@
 import { mode, SystemStyleFunction } from '@chakra-ui/theme-tools'
 
 const sizeSm: SystemStyleFunction = () => ({
-  p: '1px 16px 3px',
-  borderRadius: '4px',
+  p: '5px 11px 6px',
+  fontWeight: 'normal',
   border: '1px solid',
+  borderRadius: '4px',
 })
 
 const variantSolid: SystemStyleFunction = (props) => ({

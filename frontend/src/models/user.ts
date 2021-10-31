@@ -1,4 +1,4 @@
-export interface UserResponse {
+interface UserResponse {
   id: number
   code: string
   name: string
@@ -8,22 +8,22 @@ export interface UserResponse {
   is_lecturer: boolean
 }
 
-export interface User {
+interface User {
   id: number
   code: string
   name: string
   role: 'student' | 'lecture'
-  gender: 'men' | 'women'
+  gender: 'man' | 'woman'
   email: string
   imageUrl: string
 }
 
-export class Student implements User {
+class Student implements User {
   id: number
   code: string
   name: string
   role: 'student' | 'lecture'
-  gender: 'men' | 'women'
+  gender: 'man' | 'woman'
   email: string
   imageUrl: string
 
@@ -31,9 +31,9 @@ export class Student implements User {
     id: number,
     code: string,
     name: string,
-    gender: 'men' | 'women',
+    gender: 'man' | 'woman',
     email: string,
-    imageUrl: string
+    imageUrl: string,
   ) {
     this.id = id
     this.code = code
@@ -45,12 +45,12 @@ export class Student implements User {
   }
 }
 
-export class Lecturer implements User {
+class Lecturer implements User {
   id: number
   code: string
   name: string
   role: 'student' | 'lecture'
-  gender: 'men' | 'women'
+  gender: 'man' | 'woman'
   email: string
   imageUrl: string
 
@@ -58,9 +58,9 @@ export class Lecturer implements User {
     id: number,
     code: string,
     name: string,
-    gender: 'men' | 'women',
+    gender: 'man' | 'woman',
     email: string,
-    imageUrl: string
+    imageUrl: string,
   ) {
     this.id = id
     this.code = code
@@ -71,3 +71,6 @@ export class Lecturer implements User {
     this.imageUrl = imageUrl
   }
 }
+
+export { Lecturer, Student }
+export type { User, UserResponse }

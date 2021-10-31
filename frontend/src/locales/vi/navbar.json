@@ -1,3 +1,9 @@
 {
-  "searchBoxPlaceHolder": "Tìm một thứ gì đó...."
+  "searchBoxPlaceHolder": "Tìm một thứ gì đó....",
+  "signOut": "Đăng xuất",
+  "yourProfile": "Thông tin của bạn",
+  "yourCourses": "Khoá học của bạn",
+  "yourDeadlines": "Bài tập của bạn",
+  "turnOnDarkMode": "Bật chế độ tối",
+  "turnOffDarkMode": "Tắt chế độ tối"
 }
