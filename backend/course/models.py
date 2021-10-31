@@ -8,7 +8,7 @@ from account.models import Member
 class Course(models.Model):
     mskh = models.CharField(max_length=50)
     name = models.CharField(max_length=500)
-    description = models.TextField()
+    description = models.TextField(blank=True)
     course_member = models.ManyToManyField(
         Member, related_name="member_course")
     create_at = models.DateTimeField(auto_now_add=True)
@@ -29,6 +29,7 @@ class Lesson(models.Model):
     course = models.ForeignKey(
         Course, on_delete=models.CASCADE, related_name='course_lesson', null=True)
     name = models.CharField(max_length=50)
+    description = models.TextField(blank=True)
     create_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
