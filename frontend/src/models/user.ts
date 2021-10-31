@@ -12,7 +12,7 @@ interface User {
   id: number
   code: string
   name: string
-  role: 'student' | 'lecture'
+  role: 'student' | 'lecturer'
   gender: 'man' | 'woman'
   email: string
   imageUrl: string
@@ -22,7 +22,7 @@ class Student implements User {
   id: number
   code: string
   name: string
-  role: 'student' | 'lecture'
+  role: 'student' | 'lecturer'
   gender: 'man' | 'woman'
   email: string
   imageUrl: string
@@ -49,7 +49,7 @@ class Lecturer implements User {
   id: number
   code: string
   name: string
-  role: 'student' | 'lecture'
+  role: 'student' | 'lecturer'
   gender: 'man' | 'woman'
   email: string
   imageUrl: string
@@ -65,7 +65,7 @@ class Lecturer implements User {
     this.id = id
     this.code = code
     this.name = name
-    this.role = 'lecture'
+    this.role = 'lecturer'
     this.gender = gender
     this.email = email
     this.imageUrl = imageUrl
