@@ -52,7 +52,11 @@ const resources = {
   },
 }
 
-i18next.use(LanguageDetector).use(initReactI18next).init({
-  fallbackLng: 'en',
-  resources,
-})
+i18next
+  .use(LanguageDetector)
+  .use(initReactI18next)
+  .init({
+    fallbackLng: 'en',
+    supportedLngs: ['en', 'vi'],
+    resources,
+  })
