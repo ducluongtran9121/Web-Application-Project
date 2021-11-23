@@ -113,17 +113,17 @@ function NavBar({ user: { id, name, code, imageUrl } }: Props): JSX.Element {
               <Avatar display={{ base: 'none', md: 'inline-block' }} bg="white" boxSize="2rem" src={imageUrl} />
             </MenuButton>
             <MenuList>
-              <MenuItem as={RouteLink} to={`users/${code}`} state={{ userId: id }}>
+              <MenuItem as={RouteLink} to={`users/${id}`}>
                 {name}
               </MenuItem>
               <MenuDivider />
-              <MenuItem as={RouteLink} to={`users/${code}`} state={{ userId: id }}>
+              <MenuItem as={RouteLink} to={`users/${id}`}>
                 {LL.navbar.yourProfile()}
               </MenuItem>
-              <MenuItem as={RouteLink} to={`users/${code}/courses`} state={{ userId: id }}>
+              <MenuItem as={RouteLink} to={`users/${id}/courses`}>
                 {LL.navbar.yourCourses()}
               </MenuItem>
-              <MenuItem as={RouteLink} to={`users/${code}/deadlines`} state={{ userId: id }}>
+              <MenuItem as={RouteLink} to={`users/${id}/deadlines`}>
                 {LL.navbar.yourDeadlines()}
               </MenuItem>
               <MenuDivider />
