@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from .models import *
 from account.models import Member
+from resource.models import File
+from resource.serializers import FileSerializer
 
 
 # class MemberSerializer(serializers.ModelSerializer):
@@ -26,11 +28,11 @@ class CourseSerializer(serializers.ModelSerializer):
         read_only_fields = ['id']
 
 
-class FileSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = File
-        fields = ['id', 'name', 'file_upload', 'in_folder']
-        read_only_fields = ['id']
+# class FileSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = File
+#         fields = ['id', 'name', 'file_upload', 'in_folder']
+#         read_only_fields = ['id']
 
 
 class LessonSerializer(serializers.ModelSerializer):

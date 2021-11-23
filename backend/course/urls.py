@@ -1,4 +1,4 @@
-from django.urls import path,include
+from django.urls import path, include
 from .views import *
 
 #from course.views import ApiStructure, CourseViewSet, MemberViewSet, LessonViewSet, FileViewSet
@@ -14,7 +14,7 @@ lesson_router.register(r'lessons', LessonViewSet,  basename='lessons')
 
 file_router = routers.NestedSimpleRouter(
     lesson_router, r'lessons', lookup='lesson')
-file_router.register(r'files', FileViewSet,  basename='files')
+file_router.register(r'files', LessonFileViewSet,  basename='files')
 
 urlpatterns = [
     path('', CourseApiStructure.as_view()),
