@@ -3,6 +3,7 @@ from .models import *
 from account.models import Member
 from resource.models import File
 from resource.serializers import FileSerializer
+from deadline.serializers import DeadlineSerializer
 
 
 # class MemberSerializer(serializers.ModelSerializer):
@@ -37,10 +38,13 @@ class CourseSerializer(serializers.ModelSerializer):
 
 class LessonSerializer(serializers.ModelSerializer):
     file_lesson = FileSerializer(many=True, read_only=True)
+    deadline_lesson = DeadlineSerializer(many=True, read_only=True)
 
     class Meta:
         model = Lesson
-        fields = ['id', 'name', 'description', 'create_at', 'file_lesson']
+        # fields = ['id', 'name', 'description',
+        #           'create_at', 'file_lesson', 'deadline_lesson']
+        fields = '__all__'
         read_only_fields = ['id']
 
 # class CourseDetailSerializer(serializers.ModelSerializer):

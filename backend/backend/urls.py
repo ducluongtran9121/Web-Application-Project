@@ -26,5 +26,6 @@ urlpatterns = [
     path('', APIStructureView.as_view()),
     path('account/', include('account.urls')),
     path('admin/', admin.site.urls),
-    path('courseAPI/',include('course.urls'))
+    path('courseAPI/', include('course.urls')),
+    path('deadlineAPI/', include('deadline.urls'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

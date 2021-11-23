@@ -64,10 +64,8 @@ class CourseViewSet(viewsets.ViewSet, viewsets.GenericViewSet):
     def list(self, request):
         member_pk = request.user.id
         queryset = Course.objects.filter(course_member=member_pk)
-        if queryset.exists():
-            serializer = CourseSerializer(queryset, many=True)
-            return Response(serializer.data)
-        return Response({'errors': 'Objects not found'}, status=404)
+        serializer = CourseSerializer(queryset, many=True)
+        return Response(serializer.data)
 
     def retrieve(self, request, pk=None):
         member_pk = request.user.id
@@ -128,10 +126,8 @@ class LessonViewSet(viewsets.ViewSet, viewsets.GenericViewSet):
         member_pk = request.user.id
         queryset = Lesson.objects.filter(
             course__course_member=member_pk, course=course_pk)
-        if queryset.exists():
-            serializer = LessonSerializer(queryset, many=True)
-            return Response(serializer.data)
-        return Response({'errors': 'Objects not found'}, status=404)
+        serializer = LessonSerializer(queryset, many=True)
+        return Response(serializer.data)
 
     def retrieve(self, request, course_pk=None, pk=None):
         member_pk = request.user.id
@@ -187,10 +183,8 @@ class LessonFileViewSet(viewsets.ViewSet, viewsets.GenericViewSet, mixins.Destro
         member_pk = request.user.id
         queryset = File.objects.filter(
             lesson=lesson_pk, lesson__course=course_pk, lesson__course__course_member=member_pk)
-        if queryset.exists():
-            serializer = FileSerializer(queryset, many=True)
-            return Response(serializer.data)
-        return Response({'errors': 'Objects not found'}, status=404)
+        serializer = FileSerializer(queryset, many=True)
+        return Response(serializer.data)
 
     def retrieve(self, request, pk=None, course_pk=None, lesson_pk=None):
         member_pk = request.user.id
@@ -214,7 +208,7 @@ class LessonFileViewSet(viewsets.ViewSet, viewsets.GenericViewSet, mixins.Destro
             return Response(serializer.data, status=201)
         return Response(serializers.errors, status=400)
 
-    def update(self, request, lesson_pk, course_pk=None, pk=None):
+    def update(self, request, lesson_pk=None, course_pk=None, pk=None):
         member_pk = request.user.id
         queryset = File.objects.filter(
             pk=pk, lesson=lesson_pk, lesson__course=course_pk, lesson__course__course_member=member_pk)
@@ -227,7 +221,7 @@ class LessonFileViewSet(viewsets.ViewSet, viewsets.GenericViewSet, mixins.Destro
             return Response(serializer.data)
         return Response({'errors': 'Bad request'}, status=400)
 
-    def destroy(self, request, lesson_pk, course_pk=None, pk=None):
+    def destroy(self, request, lesson_pk=None, course_pk=None, pk=None):
         member_pk = request.user.id
         queryset = File.objects.filter(
             pk=pk, lesson=lesson_pk, lesson__course=course_pk, lesson__course__course_member=member_pk)
