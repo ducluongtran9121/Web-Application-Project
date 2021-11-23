@@ -1,30 +1,43 @@
-import { Route, Switch } from 'react-router-dom'
+import * as React from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { localStorageDetector, navigatorDetector } from 'typesafe-i18n/detectors'
+import { ChakraProvider } from '@chakra-ui/react'
+import TypesafeI18n from '../i18n/i18n-react'
+import { detectLocale } from '../i18n/i18n-util'
+import AuthProvider from '../contexts/AuthContext'
+import theme from '../theme'
 
-import PrivateRoute from '../components/PrivateRoute'
-import PrivateRouteContainer from './PrivateRouteContainer'
+import PrivateElement from '../components/PrivateElement'
+import PrivateElementContainer from './PrivateElementContainer'
 import SignIn from './SignIn'
 
-function App(): JSX.Element {
+function App() {
+  const detectedLocale = detectLocale(localStorageDetector, navigatorDetector)
+
+  if (!localStorage.getItem('lang')) {
+    localStorage.setItem('lang', detectedLocale)
+  }
+
   return (
-    <Switch>
-      <Route path="/signin">
-        <Switch>
-          <Route path="/signin" component={SignIn} />
-        </Switch>
-      </Route>
-      <PrivateRoute
-        exact
-        path={[
-          '/',
-          '/courses/:courseId',
-          '/courses/:courseId/students',
-          '/users/:userId',
-          '/users/:userId/courses',
-          '/users/:userId/deadlines',
-        ]}
-        component={PrivateRouteContainer}
-      ></PrivateRoute>
-    </Switch>
+    <TypesafeI18n initialLocale={detectedLocale}>
+      <ChakraProvider theme={theme}>
+        <Router>
+          <AuthProvider>
+            <Routes>
+              <Route path="signin" element={<SignIn />} />
+              <Route
+                path="/*"
+                element={
+                  <PrivateElement>
+                    <PrivateElementContainer />
+                  </PrivateElement>
+                }
+              />
+            </Routes>
+          </AuthProvider>
+        </Router>
+      </ChakraProvider>
+    </TypesafeI18n>
   )
 }
 

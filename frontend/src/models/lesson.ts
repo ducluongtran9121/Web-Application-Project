@@ -1,10 +1,10 @@
-import type { LocationItem, LocationResponse } from './location'
+import type { LocationItem, LocationPayload } from './location'
 
-interface LessonResponse {
+interface LessonPayload {
   id: number
   name: string
   description: string
-  file_lesson: LocationResponse[]
+  file_lesson: LocationPayload[]
 }
 
 interface Lesson {
@@ -14,4 +14,4 @@ interface Lesson {
   items: LocationItem[]
 }
 
-export type { Lesson, LessonResponse }
+export type { Lesson, LessonPayload }

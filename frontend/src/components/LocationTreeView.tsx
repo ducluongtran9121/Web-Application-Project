@@ -1,28 +1,22 @@
 import * as React from 'react'
-
 import { Box, Flex, Grid, Icon, Link, Text } from '@chakra-ui/react'
-import type { FlexProps, IconProps } from '@chakra-ui/react'
 import { motion } from 'framer-motion'
 import { IoChevronForward } from 'react-icons/io5'
 
-import { ReactComponent as DocumentIcon } from '../assets/svgs/document.svg'
-import { ReactComponent as FileIcon } from '../assets/svgs/file.svg'
-import { ReactComponent as FolderIcon } from '../assets/svgs/folder.svg'
-import { ReactComponent as PdfIcon } from '../assets/svgs/pdf.svg'
+import { ReactComponent as DocumentIcon } from '../assets/svg/document.svg'
+import { ReactComponent as FileIcon } from '../assets/svg/file.svg'
+import { ReactComponent as FolderIcon } from '../assets/svg/folder.svg'
+import { ReactComponent as PdfIcon } from '../assets/svg/pdf.svg'
 
-import { LocationItem } from '../models'
+import type { FlexProps, IconProps } from '@chakra-ui/react'
+import type { LocationItem } from '../models'
 
 interface LocationItemIconProps extends IconProps {
   type: string
 }
 
-function LocationItemIcon({
-  type,
-  ...rest
-}: LocationItemIconProps): JSX.Element {
-  function SelectIcon(): React.FunctionComponent<
-    React.SVGProps<SVGSVGElement>
-  > {
+function LocationItemIcon({ type, ...rest }: LocationItemIconProps): JSX.Element {
+  function SelectIcon(): React.FunctionComponent<React.SVGProps<SVGSVGElement>> {
     switch (type) {
       case 'folder':
         return FolderIcon
@@ -37,8 +31,7 @@ function LocationItemIcon({
     }
   }
 
-  const icon: React.FunctionComponent<React.SVGProps<SVGSVGElement>> =
-    SelectIcon()
+  const icon: React.FunctionComponent<React.SVGProps<SVGSVGElement>> = SelectIcon()
 
   return <Icon fontSize="1.25rem" {...rest} as={icon} />
 }
@@ -47,9 +40,7 @@ interface LocationTreeItemProps {
   item: LocationItem
 }
 
-function LocationTreeItem({
-  item: { name, type, children, fileUrl },
-}: LocationTreeItemProps): JSX.Element {
+function LocationTreeItem({ item: { name, type, children, fileUrl } }: LocationTreeItemProps): JSX.Element {
   const [isOpen, setOpen] = React.useState<boolean>(false)
 
   return (
@@ -62,7 +53,7 @@ function LocationTreeItem({
           isOpen ? setOpen(false) : setOpen(true)
         }}
         _hover={{
-          cursor: 'pointer',
+          cursor: 'pointer'
         }}
       >
         {children && (
@@ -71,11 +62,11 @@ function LocationTreeItem({
             animate={isOpen ? 'up' : 'down'}
             variants={{
               up: {
-                rotate: [0, 90],
+                rotate: [0, 90]
               },
               down: {
-                rotate: [90, 0],
-              },
+                rotate: [90, 0]
+              }
             }}
             transition={{ ease: 'easeInOut', duration: 0.15, delay: 0.15 }}
           >
@@ -109,10 +100,7 @@ interface LocationTreeViewProps extends FlexProps {
   items: LocationItem[]
 }
 
-function LocationTreeView({
-  items,
-  ...rest
-}: LocationTreeViewProps): JSX.Element {
+function LocationTreeView({ items, ...rest }: LocationTreeViewProps): JSX.Element {
   return (
     <Flex direction="column" alignItems="start" gridGap="0.5rem" {...rest}>
       {items.map((item) => (

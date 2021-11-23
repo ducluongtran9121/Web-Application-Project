@@ -1,50 +1,36 @@
-import { useTranslation } from 'react-i18next'
+import * as React from 'react'
+import { Flex, Link, Text, useColorModeValue } from '@chakra-ui/react'
+import { I18nContext } from '../i18n/i18n-react'
 
-import { Flex, Link, Text } from '@chakra-ui/react'
-import { StackProps } from '@chakra-ui/react'
-import { useColorModeValue } from '@chakra-ui/react'
+import type { FlexProps } from '@chakra-ui/react'
 
-interface Props extends StackProps {
+interface FooterProps extends FlexProps {
   isBackgroundTransparent?: boolean
 }
 
-function Footer({ isBackgroundTransparent, ...rest }: Props): JSX.Element {
-  const { t } = useTranslation()
-
-  const baseBg = useColorModeValue(
-    'light.base.secondary',
-    'dark.base.secondary',
-  )
+function Footer({ isBackgroundTransparent }: FooterProps): JSX.Element {
+  const { LL } = React.useContext(I18nContext)
+  const baseBg = useColorModeValue('light.base.secondary', 'dark.base.secondary')
 
   return (
-    <Flex
-      direction="column"
-      alignItems="center"
-      px={{ base: '0.75rem', md: '1.5rem' }}
-      py="1.5rem"
-      textAlign="center"
-      bg={isBackgroundTransparent ? 'transparent' : baseBg}
-      gridGap="0.5rem"
-      {...rest}
-    >
+    <Flex bg={isBackgroundTransparent ? 'transparent' : baseBg} direction="column" alignItems="center" p="2rem 1rem" gridGap="0.5rem">
       <Text>
         &copy;{' '}
         <Text as="span" fontWeight="semibold">
           2021 Alunno
         </Text>
         {' - '}
-        {t('footer.description')}
+        {LL.footer.description()}
       </Text>
       <Text>
-        {t('footer.makeWithLove')} {t('footer.and')}{' '}
+        {LL.footer.makeWithLove()} {LL.footer.and()}{' '}
         <Text as="span" fontWeight="semibold">
           Django React
         </Text>
       </Text>
-
       <Flex gridGap="0.75rem">
-        <Link>{t('footer.contact')}</Link>
-        <Link>{t('footer.about')}</Link>
+        <Link>{LL.footer.contact()}</Link>
+        <Link>{LL.footer.about()}</Link>
       </Flex>
     </Flex>
   )

@@ -1,14 +1,15 @@
-import { useTranslation } from 'react-i18next'
+import * as React from 'react'
+import { I18nContext } from '../../i18n/i18n-react'
 
 import { Flex, Text } from '@chakra-ui/react'
 
 function UserDeadlines(): JSX.Element {
-  const { t } = useTranslation()
+  const { LL } = React.useContext(I18nContext)
 
   return (
     <Flex direction="column" alignItems="center">
       <Text textAlign="center" fontSize="3rem">
-        🙃 {t('user.survived')}
+        🙃 {LL.user.survived()}
       </Text>
     </Flex>
   )

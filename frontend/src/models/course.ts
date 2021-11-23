@@ -1,11 +1,11 @@
-import type { Lecturer, UserResponse } from './user'
+import type { Lecturer, UserPayload } from './user'
 
-interface CourseResponse {
+interface CoursePayload {
   id: number
   mskh: string
   name: string
   description: string
-  course_lecturer: UserResponse[]
+  course_lecturer: UserPayload[]
 }
 
 interface Course {
@@ -16,4 +16,4 @@ interface Course {
   lecturers: Lecturer[]
 }
 
-export type { Course, CourseResponse }
+export type { Course, CoursePayload }

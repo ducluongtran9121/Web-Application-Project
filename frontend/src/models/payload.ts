@@ -12,8 +12,8 @@ interface RefreshSessionPayLoad {
   access: string
 }
 
-export type {
-  SignInRequestPayload,
-  SignInResponsePayload,
-  RefreshSessionPayLoad,
+interface ErrorResponsePayload {
+  detail: string
 }
+
+export type { SignInRequestPayload, SignInResponsePayload, RefreshSessionPayLoad, ErrorResponsePayload }
