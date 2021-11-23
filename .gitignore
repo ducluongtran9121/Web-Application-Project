@@ -12,10 +12,9 @@ db.sqlite3
 db.sqlite3-journal
 media
 backend/img/*
-backend/course/migrations/*
-!backend/course/migrations/__init__.py
-backend/account/migrations/*
-!backend/account/migrations/__init__.py
+backend/*/migrations/*
+!backend/*/migrations/__init__.py
+
 # Environments
 .env
 .venv
