@@ -76,6 +76,9 @@ class CourseViewSet(viewsets.ViewSet, viewsets.GenericViewSet):
         return Response({'errors': 'Objects not found'}, status=404)
 
     def create(self, request, pk=None):
+        if not request.user.is_lecturer:
+            return Response({'error': 'You are not a lecturer'}, status=403)
+
         member_pk = request.user.id
         queryset = Member.objects.filter(pk=member_pk)
         if queryset.exists():
@@ -89,6 +92,9 @@ class CourseViewSet(viewsets.ViewSet, viewsets.GenericViewSet):
         return Response({'errors': 'Bad request'}, status=400)
 
     def update(self, request, pk=None):
+        if not request.user.is_lecturer:
+            return Response({'error': 'You are not a lecturer'}, status=403)
+
         member_pk = request.user.id
         queryset = Course.objects.filter(pk=pk, course_member=member_pk)
         if queryset.exist():
@@ -100,6 +106,9 @@ class CourseViewSet(viewsets.ViewSet, viewsets.GenericViewSet):
         return Response({'errors': 'Bad request'}, status=400)
 
     def destroy(self, request, pk=None):
+        if not request.user.is_lecturer:
+            return Response({'error': 'You are not a lecturer'}, status=403)
+
         member_pk = request.user.id
         queryset = Course.objects.filter(pk=pk, course_member=member_pk)
         if queryset.exist():
@@ -139,6 +148,9 @@ class LessonViewSet(viewsets.ViewSet, viewsets.GenericViewSet):
         return Response({'errors': 'Objects not found'}, status=404)
 
     def create(self, request, course_pk=None):
+        if not request.user.is_lecturer:
+            return Response({'error': 'You are not a lecturer'}, status=403)
+
         member_pk = request.user.id
         queryset = Course.objects.filter(pk=course_pk, course_member=member_pk)
         if queryset.exists():
@@ -151,6 +163,9 @@ class LessonViewSet(viewsets.ViewSet, viewsets.GenericViewSet):
         return Response({'errors': 'Bad request'}, status=400)
 
     def update(self, request, course_pk=None, pk=None):
+        if not request.user.is_lecturer:
+            return Response({'error': 'You are not a lecturer'}, status=403)
+
         member_pk = request.user.id
         queryset = Lesson.objects.filter(
             pk=pk, course=course_pk, course__course_member=member_pk)
@@ -163,6 +178,9 @@ class LessonViewSet(viewsets.ViewSet, viewsets.GenericViewSet):
         return Response({'errors': 'Bad request'}, status=400)
 
     def destroy(self, request, course_pk=None, pk=None):
+        if not request.user.is_lecturer:
+            return Response({'error': 'You are not a lecturer'}, status=403)
+
         member_pk = request.user.id
         queryset = Lesson.objects.filter(
             pk=pk, course=course_pk, course__course_member=member_pk)
@@ -196,6 +214,9 @@ class LessonFileViewSet(viewsets.ViewSet, viewsets.GenericViewSet, mixins.Destro
         return Response({'errors': 'Objects not found'}, status=404)
 
     def create(self, request, course_pk=None, lesson_pk=None):
+        if not request.user.is_lecturer:
+            return Response({'error': 'You are not a lecturer'}, status=403)
+
         member_pk = request.user.id
         queryset = Lesson.objects.filter(
             pk=lesson_pk, course=course_pk, course__course_member=member_pk)
@@ -209,6 +230,9 @@ class LessonFileViewSet(viewsets.ViewSet, viewsets.GenericViewSet, mixins.Destro
         return Response(serializers.errors, status=400)
 
     def update(self, request, lesson_pk=None, course_pk=None, pk=None):
+        if not request.user.is_lecturer:
+            return Response({'error': 'You are not a lecturer'}, status=403)
+
         member_pk = request.user.id
         queryset = File.objects.filter(
             pk=pk, lesson=lesson_pk, lesson__course=course_pk, lesson__course__course_member=member_pk)
@@ -222,6 +246,9 @@ class LessonFileViewSet(viewsets.ViewSet, viewsets.GenericViewSet, mixins.Destro
         return Response({'errors': 'Bad request'}, status=400)
 
     def destroy(self, request, lesson_pk=None, course_pk=None, pk=None):
+        if not request.user.is_lecturer:
+            return Response({'error': 'You are not a lecturer'}, status=403)
+
         member_pk = request.user.id
         queryset = File.objects.filter(
             pk=pk, lesson=lesson_pk, lesson__course=course_pk, lesson__course__course_member=member_pk)

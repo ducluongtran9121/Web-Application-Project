@@ -26,7 +26,6 @@ class CourseSerializer(serializers.ModelSerializer):
         model = Course
         fields = ['id', 'mskh', 'name', 'description',
                   'created_by', 'course_lecturer']
-        read_only_fields = ['id']
 
 
 # class FileSerializer(serializers.ModelSerializer):
@@ -45,7 +44,7 @@ class LessonSerializer(serializers.ModelSerializer):
         # fields = ['id', 'name', 'description',
         #           'create_at', 'file_lesson', 'deadline_lesson']
         fields = '__all__'
-        read_only_fields = ['id']
+        read_only_fields = ['course']
 
 # class CourseDetailSerializer(serializers.ModelSerializer):
 #     course_lesson=LessonSerializer(many=True,read_only=True)

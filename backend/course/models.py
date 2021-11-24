@@ -14,7 +14,7 @@ class Course(models.Model):
     create_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(
-        Member, related_name="created_course", on_delete=models.SET_NULL, null=True)
+        Member, related_name="created_course", on_delete=models.SET_NULL, null=True, blank=True)
     course_lecturer = models.ManyToManyField(
         Member, related_name="lecturer_course")
 
@@ -27,7 +27,7 @@ class Course(models.Model):
 
 class Lesson(models.Model):
     course = models.ForeignKey(
-        Course, on_delete=models.CASCADE, related_name='course_lesson', null=True)
+        Course, on_delete=models.CASCADE, related_name='course_lesson', null=True, blank=True)
     name = models.CharField(max_length=50)
     description = models.TextField(blank=True)
     create_at = models.DateTimeField(auto_now_add=True)
