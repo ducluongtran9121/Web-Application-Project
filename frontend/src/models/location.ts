@@ -1,4 +1,4 @@
-interface LocationResponse {
+interface LocationPayload {
   id: number
   name: string
   file_upload: string
@@ -43,5 +43,5 @@ class Folder implements LocationItem {
   }
 }
 
-export type { LocationResponse, LocationItem }
 export { File, Folder }
+export type { LocationPayload, LocationItem }

@@ -1,56 +1,57 @@
-import { mode, SystemStyleFunction } from '@chakra-ui/theme-tools'
+import { mode } from '@chakra-ui/theme-tools'
+import type { SystemStyleObject, SystemStyleFunction, StyleFunctionProps } from '@chakra-ui/theme-tools'
 
-const sizeSm: SystemStyleFunction = () => ({
-  p: '5px 11px 6px',
-  fontWeight: 'normal',
-  border: '1px solid',
-  borderRadius: '4px',
-})
+const baseStyle: SystemStyleObject = {
+  border: '1px solid'
+}
 
-const variantSolid: SystemStyleFunction = (props) => ({
+const variantSolid: SystemStyleFunction = (props: StyleFunctionProps) => ({
   bg: mode('light.control.default', 'dark.control.default')(props),
-  color: 'inherit',
-  borderColor: mode('light.border.default', 'dark.border.default')(props),
-  boxShadow: 'sm',
+  borderColor: mode('light.border.control', 'dark.border.control')(props),
+  shadow: 'sm',
 
   _hover: {
-    bg: mode('light.control.secondary', 'dark.control.secondary')(props),
+    bg: mode('light.control.secondary', 'dark.control.secondary')(props)
   },
 
   _active: {
-    bg: mode('light.control.ternary', 'dark.control.ternary')(props),
-    boxShadow: 'none',
+    bg: mode('light.control.ternary', 'dark.control.ternary')(props)
   },
+
+  _disabled: {
+    bg: mode('light.control.disabled', 'dark.control.disabled')(props)
+  }
 })
 
-const variantAccent: SystemStyleFunction = (props) => ({
+const variantAccent: SystemStyleFunction = (props: StyleFunctionProps) => ({
   bg: mode('light.accent.default', 'dark.accent.default')(props),
   color: mode('light.text.inverse', 'dark.text.inverse')(props),
-  borderColor: mode('light.border.accent', 'dark.border.accent')(props),
-  boxShadow: 'sm',
+  borderColor: mode('light.border.control', 'dark.border.control')(props),
+  shadow: 'sm',
 
   _hover: {
     bg: mode('light.accent.secondary', 'dark.accent.secondary')(props),
+
+    _disabled: {
+      bg: mode('light.accent.disabled', 'dark.accent.disabled')(props)
+    }
   },
 
   _active: {
-    bg: mode('light.accent.ternary', 'dark.accent.ternary')(props),
-    boxShadow: 'none',
+    bg: mode('light.accent.ternary', 'dark.accent.ternary')(props)
   },
+
+  _disabled: {
+    bg: mode('light.accent.disabled', 'dark.accent.disabled')(props)
+  }
 })
 
 const Button = {
-  baseStyles: {},
-  sizes: {
-    sm: sizeSm,
-  },
+  baseStyle,
   variants: {
     solid: variantSolid,
-    accent: variantAccent,
-  },
-  defaultProps: {
-    size: 'sm',
-  },
+    accent: variantAccent
+  }
 }
 
 export default Button

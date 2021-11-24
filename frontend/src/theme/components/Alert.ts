@@ -1,39 +1,27 @@
 import { alertAnatomy as parts } from '@chakra-ui/anatomy'
 import { mode } from '@chakra-ui/theme-tools'
-import { PartsStyleFunction } from '@chakra-ui/theme-tools'
+import type { PartsStyleFunction, StyleFunctionProps } from '@chakra-ui/theme-tools'
 
-const variantSubtle: PartsStyleFunction<typeof parts> = (props) => {
+const variantSubtle: PartsStyleFunction<typeof parts> = (props: StyleFunctionProps) => {
   const { colorScheme: c } = props
 
   let bgContainer, colorIcon
   switch (c) {
     case 'orange':
-      bgContainer = mode(
-        'light.status.cautionBase',
-        'dark.status.cautionBase',
-      )(props)
+      bgContainer = mode('light.status.cautionBase', 'dark.status.cautionBase')(props)
       colorIcon = mode('light.status.caution', 'dark.status.caution')(props)
       break
     case 'green':
-      bgContainer = mode(
-        'light.status.successBase',
-        'dark.status.successBase',
-      )(props)
+      bgContainer = mode('light.status.successBase', 'dark.status.successBase')(props)
       colorIcon = mode('light.status.success', 'dark.status.success')(props)
       break
     case 'red':
-      bgContainer = mode(
-        'light.status.criticalBase',
-        'dark.status.criticalBase',
-      )(props)
+      bgContainer = mode('light.status.criticalBase', 'dark.status.criticalBase')(props)
       colorIcon = mode('light.status.critical', 'dark.status.critical')(props)
       break
     case 'blue':
     default:
-      bgContainer = mode(
-        'light.status.attentionBase',
-        'dark.status.attentionBase',
-      )(props)
+      bgContainer = mode('light.status.attentionBase', 'dark.status.attentionBase')(props)
       colorIcon = mode('light.status.attention', 'dark.status.attention')(props)
       break
   }
@@ -44,9 +32,9 @@ const variantSubtle: PartsStyleFunction<typeof parts> = (props) => {
       border: '1px',
       borderStyle: 'solid',
       borderColor: mode('light.border.card', 'dark.border.card')(props),
-      borderRadius: '4px',
+      borderRadius: '8px'
     },
-    icon: { color: colorIcon },
+    icon: { color: colorIcon }
   }
 }
 
@@ -54,8 +42,8 @@ const Alert = {
   parts: parts.keys,
   baseStyle: {},
   variants: {
-    subtle: variantSubtle,
-  },
+    subtle: variantSubtle
+  }
 }
 
 export default Alert

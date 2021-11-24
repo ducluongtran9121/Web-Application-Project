@@ -1,38 +1,33 @@
 import * as React from 'react'
-import { useTranslation } from 'react-i18next'
-
-import { Container, Flex, Text } from '@chakra-ui/react'
-
-import { Lesson } from '../../models'
-
-import CardSkeleton from '../../components/CardSkeleton'
-import LocationTreeView from '../../components/LocationTreeView'
 import { useAuth } from '../../contexts/AuthContext'
+import { useParams } from 'react-router-dom'
+import { I18nContext } from '../../i18n/i18n-react'
+import { Flex, Text } from '@chakra-ui/react'
+import CardSkeleton from '../../components/CardSkeleton'
+import LessonItem from '../../components/LessonItem'
+import type { Lesson } from '../../models'
 
-interface Props {
-  courseId: number
-}
-
-function CourseLessons({ courseId }: Props): JSX.Element {
+function CourseLessons(): JSX.Element {
   const { getCourseLessons } = useAuth()
-  const { t } = useTranslation()
+  const { LL } = React.useContext(I18nContext)
+  const { courseId } = useParams()
   const [isLoading, setLoading] = React.useState<boolean>(true)
   const [lessons, setLessons] = React.useState<Lesson[]>()
 
-  React.useEffect(
-    () => {
-      async function getData() {
-        setLoading(true)
-        try {
-          const ls = await getCourseLessons(courseId)
-          setLessons(ls)
-        } catch (err) {}
-        setLoading(false)
-      }
-      getData()
-    }, // eslint-disable-next-line
-    [],
-  )
+  React.useEffect(() => {
+    async function getData() {
+      setLoading(true)
+
+      try {
+        const data = await getCourseLessons(Number(courseId))
+        setLessons(data)
+        // eslint-disable-next-line no-empty
+      } catch {}
+
+      setLoading(false)
+    }
+    getData()
+  }, [])
 
   if (isLoading) {
     return <CardSkeleton cardNumber="4" />
@@ -41,16 +36,8 @@ function CourseLessons({ courseId }: Props): JSX.Element {
   if (lessons) {
     return (
       <Flex direction="column" gridGap="0.5rem">
-        {lessons.map(({ id, name, description, items }) => (
-          <Container key={id} variant="card">
-            <Flex direction="column" gridGap="0.25rem">
-              <Text fontWeight="semibold" fontSize="1.5rem">
-                {name}
-              </Text>
-              <Text>{description}</Text>
-              <LocationTreeView pt="0.5rem" items={items} />
-            </Flex>
-          </Container>
+        {lessons.map((lesson) => (
+          <LessonItem key={lesson.id} lesson={lesson} />
         ))}
       </Flex>
     )
@@ -62,7 +49,7 @@ function CourseLessons({ courseId }: Props): JSX.Element {
         ≡(▔﹏▔)≡
       </Text>
       <Text textAlign="center" fontSize="2rem">
-        {t('course.noLessons')}
+        {LL.courses.noLessons()}
       </Text>
     </Flex>
   )

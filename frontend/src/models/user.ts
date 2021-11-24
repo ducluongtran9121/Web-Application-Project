@@ -1,4 +1,8 @@
-interface UserResponse {
+type UserGender = 'man' | 'woman'
+
+type UserRole = 'student' | 'lecturer'
+
+interface UserPayload {
   id: number
   code: string
   name: string
@@ -12,8 +16,8 @@ interface User {
   id: number
   code: string
   name: string
-  role: 'student' | 'lecturer'
-  gender: 'man' | 'woman'
+  role: UserRole
+  gender: UserGender
   email: string
   imageUrl: string
 }
@@ -22,19 +26,12 @@ class Student implements User {
   id: number
   code: string
   name: string
-  role: 'student' | 'lecturer'
-  gender: 'man' | 'woman'
+  role: UserRole
+  gender: UserGender
   email: string
   imageUrl: string
 
-  constructor(
-    id: number,
-    code: string,
-    name: string,
-    gender: 'man' | 'woman',
-    email: string,
-    imageUrl: string,
-  ) {
+  constructor(id: number, code: string, name: string, gender: UserGender, email: string, imageUrl: string) {
     this.id = id
     this.code = code
     this.name = name
@@ -49,19 +46,12 @@ class Lecturer implements User {
   id: number
   code: string
   name: string
-  role: 'student' | 'lecturer'
-  gender: 'man' | 'woman'
+  role: UserRole
+  gender: UserGender
   email: string
   imageUrl: string
 
-  constructor(
-    id: number,
-    code: string,
-    name: string,
-    gender: 'man' | 'woman',
-    email: string,
-    imageUrl: string,
-  ) {
+  constructor(id: number, code: string, name: string, gender: UserGender, email: string, imageUrl: string) {
     this.id = id
     this.code = code
     this.name = name
@@ -73,4 +63,4 @@ class Lecturer implements User {
 }
 
 export { Lecturer, Student }
-export type { User, UserResponse }
+export type { User, UserPayload, UserGender, UserRole }

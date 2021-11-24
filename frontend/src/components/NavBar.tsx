@@ -1,6 +1,8 @@
-import { useTranslation } from 'react-i18next'
+/* eslint-disable react/no-children-prop */
+import * as React from 'react'
 import { Link as RouteLink } from 'react-router-dom'
-
+import { I18nContext } from '../i18n/i18n-react'
+import { useAuth } from '../contexts/AuthContext'
 import {
   Avatar,
   Box,
@@ -23,44 +25,32 @@ import {
   useBreakpointValue,
   useColorMode,
   useColorModeValue,
-  useDisclosure,
+  useDisclosure
 } from '@chakra-ui/react'
-import {
-  IoCloseOutline,
-  IoGlobeOutline,
-  IoLogOutOutline,
-  IoMenuOutline,
-  IoNotificationsOutline,
-  IoSearchOutline,
-} from 'react-icons/io5'
-
-import logo from '../assets/svgs/logo.svg'
-
+import { FiX, FiLogOut, FiMenu, FiBell, FiSearch } from 'react-icons/fi'
+import { ReactComponent as Logo } from '../assets/svg/logo.svg'
 import type { User } from '../models'
+import type { Locales } from '../i18n/i18n-types'
 
-import { useAuth } from '../contexts/AuthContext'
-
-interface Props {
+interface NavBarProps {
   user: User
 }
 
-function NavBar({ user: { id, name, imageUrl } }: Props): JSX.Element {
+function NavBar({ user: { id, name, imageUrl } }: NavBarProps): JSX.Element {
   const { signOut } = useAuth()
-  const { t, i18n } = useTranslation()
+  const { LL, locale, setLocale } = React.useContext(I18nContext)
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { colorMode, toggleColorMode } = useColorMode()
   const isMd = useBreakpointValue({ base: false, md: true })
 
-  const baseBg = useColorModeValue('light.card.default', 'dark.card.default')
-
-  function handleChangeLanguage(e: React.MouseEvent<HTMLButtonElement>) {
-    if (e.currentTarget.value !== i18n.language) {
-      i18n.changeLanguage(e.currentTarget.value)
-    }
+  async function handleSignOut(): Promise<void> {
+    await signOut()
   }
 
-  async function handleSignOut() {
-    await signOut()
+  function handleChangeLanguage(e: React.MouseEvent<HTMLButtonElement>): void {
+    if (e.currentTarget.value !== locale) {
+      setLocale(e.currentTarget.value as Locales)
+    }
   }
 
   return (
@@ -71,23 +61,21 @@ function NavBar({ user: { id, name, imageUrl } }: Props): JSX.Element {
       gridGap="0.75rem"
       px="1.5rem"
       py="0.75rem"
-      bg={baseBg}
       boxShadow="sm"
       position="relative"
+      bg={useColorModeValue('light.card.default', 'dark.card.default')}
     >
       <IconButton
         display={{ base: 'inline-block', md: 'none' }}
-        aria-label=""
+        aria-label="nav toggle button"
         bg="transparent"
-        icon={
-          <Icon as={isOpen ? IoCloseOutline : IoMenuOutline} fontSize="xl" />
-        }
+        icon={<Icon as={isOpen ? FiX : FiMenu} fontSize="xl" />}
         onClick={() => (isOpen ? onClose() : onOpen())}
         border="none"
         alignContent="center"
       />
       <Link as={RouteLink} to="/" textColor="transparent">
-        <Image src={logo} alt={t('logoAlt')} w="3rem" />
+        <Image as={Logo} alt={LL.common.logoAlt()} w="3rem" />
       </Link>
       {(isOpen || isMd) && (
         <Flex
@@ -99,69 +87,45 @@ function NavBar({ user: { id, name, imageUrl } }: Props): JSX.Element {
           fontWeight="semibold"
         >
           <InputGroup w={{ base: 'full', md: '20rem' }}>
-            <InputLeftElement children={<Icon as={IoSearchOutline} />} />
-            <Input
-              type="search"
-              placeholder={t('navBar.searchBoxPlaceHolder')}
-            />
+            <InputLeftElement children={<Icon as={FiSearch} />} />
+            <Input type="search" placeholder={LL.navbar.searchBoxPlaceHolder()} />
           </InputGroup>
-          <Flex
-            direction="column"
-            justifyContent="stretch"
-            gridGap="0.75rem"
-            display={{ base: 'flex', md: 'none' }}
-            w="full"
-          >
-            <Link
-              variant="menu"
-              as={RouteLink}
-              to={`/users/${id}`}
-              display="flex"
-              gridGap="0.5rem"
-              alignItems="center"
-            >
+          <Flex direction="column" justifyContent="stretch" gridGap="0.75rem" display={{ base: 'flex', md: 'none' }} w="full">
+            <Link variant="menu" as={RouteLink} to={`/users/${id}`} display="flex" gridGap="0.5rem" alignItems="center">
               <Avatar src={imageUrl} boxSize="1.25rem" bg="white" />
               <Text>{name}</Text>
             </Link>
-            <Link
-              variant="menu"
-              onClick={handleSignOut}
-              display="flex"
-              gridGap="0.5rem"
-              alignItems="center"
-            >
-              <Icon fontSize="1.25rem" as={IoLogOutOutline} />
-              <Text>{t('navBar.signOut')}</Text>
+            <Link variant="menu" onClick={handleSignOut} display="flex" gridGap="0.5rem" alignItems="center">
+              <Icon fontSize="1.25rem" as={FiLogOut} />
+              <Text>{LL.navbar.signOut()}</Text>
             </Link>
           </Flex>
         </Flex>
       )}
 
       <Flex alignItems="center" gridGap="0.75rem">
-        <IconButton
-          aria-label=""
-          bg="transparent"
-          icon={<Icon as={IoNotificationsOutline} fontSize="large" />}
-          border="none"
-          alignContent="center"
-        />
-        <Box pr="0.75rem" display={{ base: 'none', md: 'block' }}>
-          <Menu closeOnSelect={false}>
+        <IconButton aria-label="" bg="transparent" icon={<Icon as={FiBell} fontSize="large" />} border="none" alignContent="center" />
+        <Box display={{ base: 'none', md: 'block' }}>
+          <Menu>
             <MenuButton>
-              <IconButton
-                aria-label=""
-                bg="transparent"
-                icon={<Icon as={IoGlobeOutline} fontSize="large" />}
-                border="none"
-                alignContent="center"
-              />
+              <Avatar display={{ base: 'none', md: 'inline-block' }} bg="white" boxSize="2rem" src={imageUrl} />
             </MenuButton>
             <MenuList>
-              <MenuOptionGroup
-                defaultValue={i18n.language}
-                title={t('navBar.languages')}
-                type="radio"
-              >
+              <MenuItem as={RouteLink} to={`users/${id}`}>
+                {name}
+              </MenuItem>
+              <MenuDivider />
+              <MenuItem as={RouteLink} to={`users/${id}`}>
+                {LL.navbar.yourProfile()}
+              </MenuItem>
+              <MenuItem as={RouteLink} to={`users/${id}/courses`}>
+                {LL.navbar.yourCourses()}
+              </MenuItem>
+              <MenuItem as={RouteLink} to={`users/${id}/deadlines`}>
+                {LL.navbar.yourDeadlines()}
+              </MenuItem>
+              <MenuDivider />
+              <MenuOptionGroup defaultValue={locale} title={LL.navbar.languages()} type="radio">
                 <MenuItemOption onClick={handleChangeLanguage} value="en">
                   English
                 </MenuItemOption>
@@ -169,41 +133,14 @@ function NavBar({ user: { id, name, imageUrl } }: Props): JSX.Element {
                   Tiếng Việt
                 </MenuItemOption>
               </MenuOptionGroup>
-            </MenuList>
-          </Menu>
-        </Box>
-        <Box display={{ base: 'none', md: 'block' }}>
-          <Menu>
-            <MenuButton>
-              <Avatar
-                display={{ base: 'none', md: 'inline-block' }}
-                bg="white"
-                boxSize="2rem"
-                src={imageUrl}
-              />
-            </MenuButton>
-            <MenuList>
-              <MenuItem as={RouteLink} to={`/users/${id}`}>
-                {name}
-              </MenuItem>
               <MenuDivider />
-              <MenuItem as={RouteLink} to={`/users/${id}`}>
-                {t('navBar.yourProfile')}
-              </MenuItem>
-              <MenuItem as={RouteLink} to={`/users/${id}/courses`}>
-                {t('navBar.yourCourses')}
-              </MenuItem>
-              <MenuItem as={RouteLink} to={`/users/${id}/deadlines`}>
-                {t('navBar.yourDeadlines')}
-              </MenuItem>
+              <MenuOptionGroup defaultValue={colorMode === 'dark' ? 'darkMode' : undefined} title={LL.navbar.appearance()} type="checkbox">
+                <MenuItemOption value="darkMode" onClick={toggleColorMode}>
+                  {LL.navbar.darkMode()}
+                </MenuItemOption>
+              </MenuOptionGroup>
               <MenuDivider />
-              <MenuItem onClick={toggleColorMode}>
-                {t(
-                  `navBar.turn${colorMode === 'light' ? 'On' : 'Off'}DarkMode`,
-                )}
-              </MenuItem>
-              <MenuDivider />
-              <MenuItem onClick={handleSignOut}>{t('navBar.signOut')}</MenuItem>
+              <MenuItem onClick={handleSignOut}>{LL.navbar.signOut()}</MenuItem>
             </MenuList>
           </Menu>
         </Box>

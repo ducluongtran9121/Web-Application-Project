@@ -1,144 +1,93 @@
-import axios from 'axios'
 import * as React from 'react'
-import { useTranslation } from 'react-i18next'
-import { useHistory } from 'react-router-dom'
-
-import {
-  Alert,
-  AlertIcon,
-  AlertTitle,
-  Box,
-  Button,
-  CloseButton,
-  Container,
-  Flex,
-  FormControl,
-  FormLabel,
-  Heading,
-  Image,
-  Input,
-  Link,
-} from '@chakra-ui/react'
-import { IoCloseCircle } from 'react-icons/io5'
-
-import logo from '../assets/svgs/logo.svg'
-
-import Footer from '../components/Footer'
+import axios from 'axios'
 import { useAuth } from '../contexts/AuthContext'
+import { I18nContext } from '../i18n/i18n-react'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { Box, Button, Flex, FormControl, FormLabel, Heading, Link, Image, Input, Alert, AlertIcon, AlertTitle, CloseButton } from '@chakra-ui/react'
+import { ReactComponent as Logo } from '../assets/svg/logo.svg'
+import Card from '../components/Card'
+import Footer from '../components/Footer'
+import type { LocalizedString } from 'typesafe-i18n'
 
 function SignIn(): JSX.Element {
-  const history = useHistory()
-  const { signIn, checkTokenExpired } = useAuth()
-  const { t } = useTranslation()
-  const [errorMessage, setErrorMessage] = React.useState<string>('')
-  const [isLoading, setLoading] = React.useState<boolean>(false)
+  const { signIn } = useAuth()
+  const { LL } = React.useContext(I18nContext)
+  const location = useLocation()
+  const navigate = useNavigate()
   const emailRef = React.useRef<HTMLInputElement>(null)
   const passwordRef = React.useRef<HTMLInputElement>(null)
+  const [isLoading, setLoading] = React.useState<boolean>(false)
+  const [error, setError] = React.useState<string>('')
 
-  React.useEffect(
-    () => {
-      async function checkToken() {
-        if (!(await checkTokenExpired())) history.push('/')
+  // location user try to visit before authentication
+  const fromLocation = location.state?.from?.pathname || '/'
+
+  function errorMessage(err: unknown): LocalizedString {
+    if (axios.isAxiosError(err)) {
+      if (!err.response) return LL.error.network()
+      else {
+        const errorStatus = err.response.status
+
+        switch (errorStatus) {
+          case 400:
+          case 401:
+            return LL.error.incorrectEmailPassword()
+          default:
+            return LL.error.default()
+        }
       }
-      checkToken()
-    }, // eslint-disable-next-line
-    [],
-  )
+    }
 
-  function handleCloseErrorBar() {
-    setErrorMessage('')
+    return LL.error.default()
   }
 
-  async function handleSignIn(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent): Promise<void> {
     e.preventDefault()
+
     setLoading(true)
 
     try {
-      await signIn({
-        email: emailRef.current?.value,
-        password: passwordRef.current?.value,
-      })
-      setLoading(false)
-      history.push('/')
+      await signIn({ email: emailRef.current?.value, password: passwordRef.current?.value })
+      navigate(fromLocation, { replace: true })
     } catch (err) {
-      if (axios.isAxiosError(err)) {
-        if (!err.response) {
-          setErrorMessage(t('error.network'))
-        } else if (
-          err.response?.status === 400 ||
-          err.response?.status === 401
-        ) {
-          setErrorMessage(t('error.incorrectEmailPassword'))
-        } else setErrorMessage(t('error.default'))
-      } else setErrorMessage(t('error.default'))
-
+      setError(errorMessage(err))
       setLoading(false)
     }
   }
 
+  function handleCloseErrorBadge(): void {
+    setError('')
+  }
+
   return (
     <Box>
-      <Box
-        minW="100%"
-        maxW="100vw"
-        minH="100vh"
-        px={{ base: '0.75rem', md: '1.5rem' }}
-        py="3rem"
-      >
-        <Flex direction="column" alignItems="center" gridGap="0.5rem">
-          <Image src={logo} alt={t('logoAlt')} w="8rem" />
-          <Heading as="h1" textAlign="center" fontSize="3rem">
-            {t('signIn.hero')}
-          </Heading>
+      <Box p="3rem 1rem" minW="100%" maxW="100vw" minH="100vh">
+        <Flex direction="column" alignItems="center" gridGap="0.75rem">
+          <Image as={Logo} w="10rem" alt={LL.common.logoAlt()} />
+          <Heading fontSize="3rem">{LL.signIn.heading()}</Heading>
         </Flex>
-        <Box minW="10rem" maxW="35rem" mx="auto" mt="3rem">
-          {errorMessage && (
+        <Box minW="10rem" maxW="40rem" mx="auto" mt="2rem">
+          {error && (
             <Alert status="error">
-              <AlertIcon as={IoCloseCircle} />
-              <AlertTitle>{errorMessage}</AlertTitle>
-              <CloseButton
-                position="absolute"
-                top="0.5rem"
-                right="0.75rem"
-                onClick={() => handleCloseErrorBar()}
-              />
+              <AlertIcon />
+              <AlertTitle>{error}</AlertTitle>
+              <CloseButton position="absolute" top="0.5rem" right="0.75rem" onClick={() => handleCloseErrorBadge()} />
             </Alert>
           )}
-          <Container as="form" variant="card" mt="0.5rem">
-            <Flex direction="column" gridGap="0.5rem">
-              <FormControl>
-                <FormLabel htmlFor="email_field">{t('signIn.email')}</FormLabel>
-                <Input
-                  disabled={isLoading}
-                  ref={emailRef}
-                  type="email"
-                  id="email_field"
-                />
-              </FormControl>
-              <FormControl>
-                <FormLabel htmlFor="password_field">
-                  {t('signIn.password')}
-                </FormLabel>
-                <Input
-                  disabled={isLoading}
-                  ref={passwordRef}
-                  type="password"
-                  id="password_field"
-                />
-              </FormControl>
-              <Button
-                onClick={handleSignIn}
-                disabled={isLoading}
-                type="submit"
-                variant="accent"
-                fontWeight="semibold"
-                mt="0.75rem"
-              >
-                {t('signIn.signIn')}
-              </Button>
-              <Link>{t('signIn.forgotPassword')}</Link>
-            </Flex>
-          </Container>
+          <Card as="form" display="flex" flexDirection="column" gridGap="1.5rem" mt="0.75rem" px="2.5rem" onSubmit={handleSubmit}>
+            <FormControl>
+              <FormLabel htmlFor="email_field">{LL.signIn.email()}</FormLabel>
+              <Input type="text" spellCheck={false} id="email_field" ref={emailRef} />
+            </FormControl>
+            <FormControl>
+              <FormLabel htmlFor="password_field">{LL.signIn.password()}</FormLabel>
+              <Input type="password" id="password_field" ref={passwordRef} />
+            </FormControl>
+            <Button type="submit" mt="0.5rem" variant="accent" isLoading={isLoading} loadingText="Signing you in...">
+              {LL.signIn.signIn()}
+            </Button>
+            <Link href="#">{LL.signIn.forgotPassword()}</Link>
+          </Card>
         </Box>
       </Box>
       <Footer />
