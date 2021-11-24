@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { TokenStorage } from '../helpers'
-import Constants from '../contants'
+import Constants from '../constants'
 import type { AxiosError } from 'axios'
 import type { RefreshSessionPayLoad, ErrorResponsePayload } from '../models/payload'
 
@@ -19,6 +19,7 @@ axiosInstance.interceptors.response.use(
     return response
   },
   async (error: AxiosError<ErrorResponsePayload>) => {
+    // Not token expired error then reject
     if (
       error.response?.status !== 401 ||
       error.config.url === Constants.Api.RefreshToken ||
@@ -28,11 +29,14 @@ axiosInstance.interceptors.response.use(
     }
 
     try {
-      const accessToken = TokenStorage.getToken('refresh')
-      const { data } = await axios.post<RefreshSessionPayLoad>(`${Constants.Api.Base}${Constants.Api.RefreshToken}`, { refresh: accessToken })
+      // Get new access token
+      const refreshToken = TokenStorage.getToken('refresh')
+      const { data } = await axios.post<RefreshSessionPayLoad>(`${Constants.Api.Base}${Constants.Api.RefreshToken}`, { refresh: refreshToken })
 
-      const config = error.config
       TokenStorage.storeToken('access', data.access)
+
+      // Resend request
+      const config = error.config
       if (config.headers) config.headers['Authorization'] = `Bearer ${data.access}`
 
       return new Promise((resolve, reject) => {

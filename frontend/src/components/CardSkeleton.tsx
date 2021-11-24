@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { Flex, Skeleton } from '@chakra-ui/react'
 import Card from './Card'
-
 import type { StackProps } from '@chakra-ui/react'
 
 interface CardSkeletonProps extends StackProps {

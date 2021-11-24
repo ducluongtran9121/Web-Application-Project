@@ -2,7 +2,6 @@ import * as React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import { Box } from '@chakra-ui/react'
-
 import NavBar from '../components/NavBar'
 import Home from './Home'
 import CourseContainer from './CourseContainer/CourseContainer'

@@ -28,17 +28,15 @@ import {
   useDisclosure
 } from '@chakra-ui/react'
 import { FiX, FiLogOut, FiMenu, FiBell, FiSearch } from 'react-icons/fi'
-
 import { ReactComponent as Logo } from '../assets/svg/logo.svg'
-
 import type { User } from '../models'
 import type { Locales } from '../i18n/i18n-types'
 
-interface Props {
+interface NavBarProps {
   user: User
 }
 
-function NavBar({ user: { id, name, code, imageUrl } }: Props): JSX.Element {
+function NavBar({ user: { id, name, imageUrl } }: NavBarProps): JSX.Element {
   const { signOut } = useAuth()
   const { LL, locale, setLocale } = React.useContext(I18nContext)
   const { isOpen, onOpen, onClose } = useDisclosure()

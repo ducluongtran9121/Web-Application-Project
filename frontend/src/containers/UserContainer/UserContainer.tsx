@@ -1,17 +1,16 @@
 import * as React from 'react'
 import { I18nContext } from '../../i18n/i18n-react'
+import { useAuth } from '../../contexts/AuthContext'
 import { Link as RouterLink, Outlet, useLocation } from 'react-router-dom'
 import { Avatar, Box, Flex, Heading, Icon, Link, Tab, TabList, Tabs, Text, useColorMode } from '@chakra-ui/react'
-import { IoAlbumsOutline, IoBookOutline, IoCalendarOutline, IoMailOutline, IoPersonOutline } from 'react-icons/io5'
-
+import { FiBookOpen, FiCalendar, FiBriefcase, FiMail, FiUser } from 'react-icons/fi'
 import Footer from '../../components/Footer'
-import { useAuth } from '../../contexts/AuthContext'
 
 function UserContainer(): JSX.Element {
   const { user } = useAuth()
-  const { colorMode } = useColorMode()
   const { LL } = React.useContext(I18nContext)
   const location = useLocation()
+  const { colorMode } = useColorMode()
   const [tabIndex, setTabIndex] = React.useState<number>(0)
 
   React.useEffect(() => {
@@ -40,11 +39,11 @@ function UserContainer(): JSX.Element {
           </Flex>
           <Flex direction="column" gridGap="0.5rem">
             <Link display="flex" alignItems="center" gridGap="0.5rem" variant="text">
-              <Icon as={IoMailOutline} />
+              <Icon as={FiMail} />
               <Text>{user?.email}</Text>
             </Link>
             <Flex alignItems="center" gridGap="0.5rem">
-              <Icon as={IoPersonOutline} />
+              <Icon as={FiUser} />
               <Text>{user?.role === 'lecturer' ? LL.user.lecturer() : LL.user.student()}</Text>
             </Flex>
           </Flex>
@@ -53,15 +52,15 @@ function UserContainer(): JSX.Element {
           <Tabs overflowX="auto" alignSelf={{ base: 'center', md: 'start' }} variant="solid" index={tabIndex}>
             <TabList>
               <Tab as={RouterLink} to="" gridGap="0.5rem" display="flex">
-                <Icon as={IoBookOutline} />
+                <Icon as={FiBookOpen} />
                 <Text>{LL.user.overview()}</Text>
               </Tab>
               <Tab as={RouterLink} to="courses" gridGap="0.5rem" display="flex">
-                <Icon as={IoAlbumsOutline} />
+                <Icon as={FiBriefcase} />
                 <Text>{LL.user.courses()}</Text>
               </Tab>
               <Tab as={RouterLink} to="deadlines" gridGap="0.5rem" display="flex">
-                <Icon as={IoCalendarOutline} />
+                <Icon as={FiCalendar} />
                 <Text>{LL.user.deadlines()}</Text>
               </Tab>
             </TabList>

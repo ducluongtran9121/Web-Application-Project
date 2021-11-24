@@ -3,27 +3,27 @@ import { useAuth } from '../../contexts/AuthContext'
 import { useParams } from 'react-router-dom'
 import { I18nContext } from '../../i18n/i18n-react'
 import { Avatar, Flex, Link, Text } from '@chakra-ui/react'
-
 import Card from '../../components/Card'
 import CardSkeleton from '../../components/CardSkeleton'
-
 import type { Student } from '../../models'
 
 function CourseStudents(): JSX.Element {
   const { getCourseStudents } = useAuth()
-  const { courseId } = useParams()
   const { LL } = React.useContext(I18nContext)
+  const { courseId } = useParams()
   const [isLoading, setLoading] = React.useState<boolean>(true)
   const [students, setStudents] = React.useState<Student[]>()
 
   React.useEffect(() => {
     async function getData() {
       setLoading(true)
+
       try {
-        const stds = await getCourseStudents(Number(courseId))
-        setStudents(stds)
+        const data = await getCourseStudents(Number(courseId))
+        setStudents(data)
         // eslint-disable-next-line no-empty
       } catch {}
+
       setLoading(false)
     }
     getData()

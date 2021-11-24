@@ -1,19 +1,17 @@
 import * as React from 'react'
 import { Avatar, Flex, Link, Text } from '@chakra-ui/react'
 import { Link as RouterLink } from 'react-router-dom'
-
 import Card from './Card'
-
 import type { To } from 'react-router-dom'
 import type { Course } from '../models'
 
-interface Props {
+interface CourseItemProps {
   course: Course
   to: To
   state?: object
 }
 
-function CourseItem({ course: { name, code, lecturers }, to, state }: Props): JSX.Element {
+function CourseItem({ course: { name, code, lecturers }, to, state }: CourseItemProps): JSX.Element {
   return (
     <Card variant="hoverable">
       <Link variant="text" as={RouterLink} to={to} state={state} fontSize="1.5rem" fontWeight="semibold">

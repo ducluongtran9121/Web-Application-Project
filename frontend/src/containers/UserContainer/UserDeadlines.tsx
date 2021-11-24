@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { I18nContext } from '../../i18n/i18n-react'
-
 import { Flex, Text } from '@chakra-ui/react'
 
 function UserDeadlines(): JSX.Element {

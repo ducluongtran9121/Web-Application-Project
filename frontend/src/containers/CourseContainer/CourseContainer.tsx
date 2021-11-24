@@ -3,16 +3,14 @@ import { useAuth } from '../../contexts/AuthContext'
 import { Link as RouterLink, Outlet, useParams } from 'react-router-dom'
 import { I18nContext } from '../../i18n/i18n-react'
 import { Box, Flex, Heading, Icon, Link, Skeleton, Text, useColorModeValue } from '@chakra-ui/react'
-import { IoPeopleOutline, IoPersonOutline } from 'react-icons/io5'
-
+import { FiUser, FiUsers } from 'react-icons/fi'
 import Card from '../../components/Card'
 import CardSkeleton from '../../components/CardSkeleton'
-
 import type { Course } from '../../models'
 
 function CourseContainer(): JSX.Element {
-  const { LL } = React.useContext(I18nContext)
   const { getUserCourse } = useAuth()
+  const { LL } = React.useContext(I18nContext)
   const { courseId } = useParams()
   const [isLoading, setLoading] = React.useState<boolean>(true)
   const [course, setCourse] = React.useState<Course>()
@@ -51,13 +49,13 @@ function CourseContainer(): JSX.Element {
                 <Flex direction="column" alignItems="start" gridGap="0.25rem">
                   {course?.lecturers.map((lecturer) => (
                     <Link as={RouterLink} key={lecturer.id} display="flex" gridGap="0.5rem" pl="1rem" alignItems="center" to="/">
-                      <Icon color={textColorDefault} as={IoPersonOutline} />
+                      <Icon color={textColorDefault} as={FiUser} />
                       <Text>{lecturer.name}</Text>
                     </Link>
                   ))}
                 </Flex>
                 <Link display="flex" gridGap="0.5rem" as={RouterLink} alignItems="center" to="students">
-                  <Icon color={textColorDefault} as={IoPeopleOutline} />
+                  <Icon color={textColorDefault} as={FiUsers} />
                   <Text>{LL.courses.allStudents()}</Text>
                 </Link>
               </Flex>

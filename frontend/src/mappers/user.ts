@@ -1,4 +1,4 @@
-import Constants from '../contants'
+import Constants from '../constants'
 import { Lecturer, Student } from '../models/user'
 import type { User, UserPayload } from '../models/user'
 

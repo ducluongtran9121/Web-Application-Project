@@ -15,7 +15,7 @@ class TokenStorage {
     return token ? token : undefined
   }
 
-  public static storeTokens({ access, refresh }: SignInResponsePayload) {
+  public static storeTokens({ access, refresh }: SignInResponsePayload): void {
     localStorage.setItem(this.AccessTokenKey, access)
     localStorage.setItem(this.RefreshTokenKey, refresh)
   }

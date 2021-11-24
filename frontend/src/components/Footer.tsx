@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { Flex, Link, Text, useColorModeValue } from '@chakra-ui/react'
 import { I18nContext } from '../i18n/i18n-react'
-
 import type { FlexProps } from '@chakra-ui/react'
 
 interface FooterProps extends FlexProps {

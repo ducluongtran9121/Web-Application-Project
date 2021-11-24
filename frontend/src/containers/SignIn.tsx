@@ -1,18 +1,17 @@
 import * as React from 'react'
 import axios from 'axios'
-import { useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import { I18nContext } from '../i18n/i18n-react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { Box, Button, Flex, FormControl, FormLabel, Heading, Link, Image, Input, Alert, AlertIcon, AlertTitle, CloseButton } from '@chakra-ui/react'
-import type { LocalizedString } from 'typesafe-i18n'
-
 import { ReactComponent as Logo } from '../assets/svg/logo.svg'
 import Card from '../components/Card'
 import Footer from '../components/Footer'
+import type { LocalizedString } from 'typesafe-i18n'
 
 function SignIn(): JSX.Element {
-  const { LL } = React.useContext(I18nContext)
   const { signIn } = useAuth()
+  const { LL } = React.useContext(I18nContext)
   const location = useLocation()
   const navigate = useNavigate()
   const emailRef = React.useRef<HTMLInputElement>(null)

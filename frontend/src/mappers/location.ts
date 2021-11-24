@@ -1,5 +1,5 @@
 import lodash from 'lodash'
-import Constants from '../contants'
+import Constants from '../constants'
 import { File, Folder } from '../models/location'
 import type { LocationItem, LocationPayload } from '../models/location'
 

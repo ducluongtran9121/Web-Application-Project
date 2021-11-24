@@ -1,12 +1,11 @@
 import * as React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { localStorageDetector, navigatorDetector } from 'typesafe-i18n/detectors'
+import AuthProvider from '../contexts/AuthContext'
 import { ChakraProvider } from '@chakra-ui/react'
 import TypesafeI18n from '../i18n/i18n-react'
 import { detectLocale } from '../i18n/i18n-util'
-import AuthProvider from '../contexts/AuthContext'
 import theme from '../theme'
-
 import PrivateElement from '../components/PrivateElement'
 import PrivateElementContainer from './PrivateElementContainer'
 import SignIn from './SignIn'
@@ -19,9 +18,9 @@ function App() {
   }
 
   return (
-    <TypesafeI18n initialLocale={detectedLocale}>
+    <Router>
       <ChakraProvider theme={theme}>
-        <Router>
+        <TypesafeI18n initialLocale={detectedLocale}>
           <AuthProvider>
             <Routes>
               <Route path="signin" element={<SignIn />} />
@@ -35,9 +34,9 @@ function App() {
               />
             </Routes>
           </AuthProvider>
-        </Router>
+        </TypesafeI18n>
       </ChakraProvider>
-    </TypesafeI18n>
+    </Router>
   )
 }
 

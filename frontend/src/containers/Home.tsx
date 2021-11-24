@@ -1,11 +1,10 @@
 import * as React from 'react'
 import { useAuth } from '../contexts/AuthContext'
 import { Box, Flex, Text } from '@chakra-ui/react'
-import type { Course } from '../models'
-
 import CardSkeleton from '../components/CardSkeleton'
 import CourseItem from '../components/CourseItem'
 import Footer from '../components/Footer'
+import type { Course } from '../models'
 
 function Home(): JSX.Element {
   const { getUserCourses } = useAuth()

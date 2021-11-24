@@ -43,5 +43,5 @@ class Folder implements LocationItem {
   }
 }
 
-export type { LocationPayload, LocationItem }
 export { File, Folder }
+export type { LocationPayload, LocationItem }

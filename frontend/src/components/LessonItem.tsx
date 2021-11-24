@@ -1,9 +1,7 @@
 import * as React from 'react'
 import { Flex, Text } from '@chakra-ui/react'
-
 import Card from './Card'
 import LocationTreeView from './LocationTreeView'
-
 import type { CardProps } from './Card'
 import type { Lesson } from '../models'
 

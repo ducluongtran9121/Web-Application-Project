@@ -1,11 +1,9 @@
 /* eslint-disable react/no-unescaped-entities */
 import * as React from 'react'
-import { Flex, Text } from '@chakra-ui/react'
 import { useAuth } from '../../contexts/AuthContext'
-
+import { Flex, Text } from '@chakra-ui/react'
 import CardSkeleton from '../../components/CardSkeleton'
 import CourseItem from '../../components/CourseItem'
-
 import type { Course } from '../../models'
 
 function UserCourses(): JSX.Element {
@@ -18,8 +16,8 @@ function UserCourses(): JSX.Element {
       setLoading(true)
 
       try {
-        const cs = await getUserCourses()
-        setCourses(cs)
+        const data = await getUserCourses()
+        setCourses(data)
         // eslint-disable-next-line no-empty
       } catch {}
 

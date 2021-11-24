@@ -1,5 +1,5 @@
 import * as React from 'react'
-import Constants from '../contants'
+import Constants from '../constants'
 import { fromUserPayload, fromCoursePayload, fromLessonPayloads } from '../mappers'
 import { useNavigate } from 'react-router-dom'
 import { axiosInstance } from '../utils'

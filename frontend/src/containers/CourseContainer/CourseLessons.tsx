@@ -3,16 +3,14 @@ import { useAuth } from '../../contexts/AuthContext'
 import { useParams } from 'react-router-dom'
 import { I18nContext } from '../../i18n/i18n-react'
 import { Flex, Text } from '@chakra-ui/react'
-
 import CardSkeleton from '../../components/CardSkeleton'
-
-import type { Lesson } from '../../models'
 import LessonItem from '../../components/LessonItem'
+import type { Lesson } from '../../models'
 
 function CourseLessons(): JSX.Element {
   const { getCourseLessons } = useAuth()
-  const { courseId } = useParams()
   const { LL } = React.useContext(I18nContext)
+  const { courseId } = useParams()
   const [isLoading, setLoading] = React.useState<boolean>(true)
   const [lessons, setLessons] = React.useState<Lesson[]>()
 
@@ -21,8 +19,8 @@ function CourseLessons(): JSX.Element {
       setLoading(true)
 
       try {
-        const ls = await getCourseLessons(Number(courseId))
-        setLessons(ls)
+        const data = await getCourseLessons(Number(courseId))
+        setLessons(data)
         // eslint-disable-next-line no-empty
       } catch {}
 

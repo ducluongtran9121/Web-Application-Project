@@ -2,12 +2,10 @@ import * as React from 'react'
 import { Box, Flex, Grid, Icon, Link, Text } from '@chakra-ui/react'
 import { motion } from 'framer-motion'
 import { IoChevronForward } from 'react-icons/io5'
-
 import { ReactComponent as DocumentIcon } from '../assets/svg/document.svg'
 import { ReactComponent as FileIcon } from '../assets/svg/file.svg'
 import { ReactComponent as FolderIcon } from '../assets/svg/folder.svg'
 import { ReactComponent as PdfIcon } from '../assets/svg/pdf.svg'
-
 import type { FlexProps, IconProps } from '@chakra-ui/react'
 import type { LocationItem } from '../models'
 
