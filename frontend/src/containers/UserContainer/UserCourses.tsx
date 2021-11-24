@@ -34,7 +34,7 @@ function UserCourses(): JSX.Element {
     return (
       <Flex direction="column" gridGap="0.5rem">
         {courses.map((course) => (
-          <CourseItem key={course.id} course={course} to={''} />
+          <CourseItem key={course.id} course={course} to={`/courses/${course.id}`} />
         ))}
       </Flex>
     )

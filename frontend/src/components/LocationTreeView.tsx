@@ -66,7 +66,7 @@ function LocationTreeItem({ item: { name, type, children, fileUrl } }: LocationT
                 rotate: [90, 0]
               }
             }}
-            transition={{ ease: 'easeInOut', duration: 0.15, delay: 0.15 }}
+            transition={{ ease: 'easeInOut', duration: 0.12, delay: 0.12 }}
           >
             <IoChevronForward />
           </motion.div>
@@ -102,7 +102,7 @@ function LocationTreeView({ items, ...rest }: LocationTreeViewProps): JSX.Elemen
   return (
     <Flex direction="column" alignItems="start" gridGap="0.5rem" {...rest}>
       {items.map((item) => (
-        <LocationTreeItem key={item.fileUrl} item={item} />
+        <LocationTreeItem key={item.id} item={item} />
       ))}
     </Flex>
   )

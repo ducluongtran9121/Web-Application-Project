@@ -145,6 +145,23 @@ export type Translation = {
      */
     students: string
   }
+  lesson: {
+    /**
+     * Overdue
+     */
+    overdue: string
+    /**
+     * {day} day {hour} hour remain
+     * @param {unknown} day
+     * @param {unknown} hour
+     */
+    timeRemainWithDay: RequiredParams2<'day', 'hour'>
+    /**
+     * {hour} hour remain
+     * @param {unknown} hour
+     */
+    timeRemainWithHour: RequiredParams1<'hour'>
+  }
   user: {
     /**
      * Overview
@@ -318,6 +335,20 @@ export type TranslationFunctions = {
      */
     students: () => LocalizedString
   }
+  lesson: {
+    /**
+     * Overdue
+     */
+    overdue: () => LocalizedString
+    /**
+     * {day} day {hour} hour remain
+     */
+    timeRemainWithDay: (arg: { day: unknown; hour: unknown }) => LocalizedString
+    /**
+     * {hour} hour remain
+     */
+    timeRemainWithHour: (arg: { hour: unknown }) => LocalizedString
+  }
   user: {
     /**
      * Overview
@@ -355,3 +386,13 @@ export type TranslationFunctions = {
 }
 
 export type Formatters = {}
+
+type Param<P extends string> = `{${P}}`
+
+type Params1<P1 extends string> = `${string}${Param<P1>}${string}`
+
+type Params2<P1 extends string, P2 extends string> = `${string}${Param<P1>}${string}${Param<P2>}${string}`
+
+type RequiredParams1<P1 extends string> = Params1<P1>
+
+type RequiredParams2<P1 extends string, P2 extends string> = Params2<P1, P2> | Params2<P2, P1>

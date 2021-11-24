@@ -24,4 +24,8 @@ function fromUserPayload(userResponse: UserPayload): User {
   )
 }
 
-export { fromUserPayload }
+function fromUserPayloads(userResponses: UserPayload[]): User[] {
+  return userResponses.map((userResponse) => fromUserPayload(userResponse))
+}
+
+export { fromUserPayload, fromUserPayloads }

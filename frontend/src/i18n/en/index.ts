@@ -44,6 +44,11 @@ const en: BaseTranslation = {
     noStudents: "This course doesn't have any lessons",
     students: 'Students'
   },
+  lesson: {
+    overdue: 'Overdue',
+    timeRemainWithDay: '{day} day {hour} hour remain',
+    timeRemainWithHour: '{hour} hour remain'
+  },
   user: {
     overview: 'Overview',
     courses: 'Courses',

@@ -44,6 +44,11 @@ const vi: Translation = {
     noStudents: 'Khoá học này không có học sinh nào cả',
     students: 'Danh sách học sinh'
   },
+  lesson: {
+    overdue: 'Quá hạn',
+    timeRemainWithDay: 'Còn lại {day} ngày {hour} giờ',
+    timeRemainWithHour: 'Còn lại {hour} giờ'
+  },
   user: {
     overview: 'Tổng quan',
     courses: 'Khoá học',

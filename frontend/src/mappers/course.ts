@@ -1,13 +1,13 @@
-import { fromUserPayload } from './user'
+import { fromUserPayloads } from './user'
 import type { Course, CoursePayload } from '../models/course'
 
-function fromCoursePayload(courseResponse: CoursePayload): Course {
+function fromCoursePayload({ id, mskh, name, description, course_lecturer }: CoursePayload): Course {
   return {
-    id: courseResponse.id,
-    code: courseResponse.mskh,
-    name: courseResponse.name,
-    description: courseResponse.description,
-    lecturers: courseResponse.course_lecturer.map((user) => fromUserPayload(user))
+    id,
+    name,
+    description,
+    code: mskh,
+    lecturers: fromUserPayloads(course_lecturer)
   }
 }
 

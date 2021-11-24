@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { Avatar, Flex, Link, Text } from '@chakra-ui/react'
 import { Link as RouterLink } from 'react-router-dom'
+import { Avatar, Flex, Link, Text } from '@chakra-ui/react'
 import Card from './Card'
 import type { To } from 'react-router-dom'
 import type { Course } from '../models'
