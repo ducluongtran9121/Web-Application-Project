@@ -30,7 +30,7 @@ class DeadlineSubmit(models.Model):
     deadline = models.ForeignKey(
         Deadline, on_delete=models.CASCADE, related_name="deadline_submit", null=True, blank=True)
     is_finished = models.BooleanField(default=False)
-    finish_at = models.DateTimeField()
+    finish_at = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return "%s - %s" % (self.member, self.deadline)

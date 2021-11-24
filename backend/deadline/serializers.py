@@ -1,9 +1,10 @@
 from rest_framework import serializers
 from .models import *
+from resource.models import File
 from resource.serializers import FileSerializer
 
 
-class DeadlineSubmitSerializer(serializers.ModelSerializer):
+class DeadlineStatusSerializer(serializers.ModelSerializer):
     file_deadlineSubmit_lesson = FileSerializer(read_only=True, many=True)
 
     class Meta:

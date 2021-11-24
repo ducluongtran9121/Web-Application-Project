@@ -15,6 +15,8 @@ urlpatterns = [
     path('', DeadlineApiStructure.as_view()),
     path('<int:lesson_pk>/', include(deadline_router.urls)),
     path('<int:lesson_pk>/', include(deadlineSubmit_router.urls)),
-    path('myDeadline/', StudentDeadlineStatusApiView.as_view())
+    path('myDeadline/', StudentDeadlineStatusApiView.as_view()),
+    # path('<int:lesson_pk>/studentDeadlines/<int:pk>/submit/',
+    #      DeadlineSubmitAPIView.as_view())
     #path('<int:lesson_pk>', LessonMemberDeadlineApiView.as_view())
 ]
