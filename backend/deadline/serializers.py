@@ -19,3 +19,4 @@ class DeadlineSerializer(serializers.ModelSerializer):
     class Meta:
         model = Deadline
         fields = '__all__'
+        read_only_fields = ['create_by', 'lesson']

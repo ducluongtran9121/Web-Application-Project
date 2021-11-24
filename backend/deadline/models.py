@@ -7,7 +7,7 @@ from account.models import Member
 
 class Deadline(models.Model):
     lesson = models.ForeignKey(
-        Lesson, on_delete=models.CASCADE, related_name='deadline_lesson')
+        Lesson, on_delete=models.CASCADE, related_name='deadline_lesson', null=True, blank=True)
 
     name = models.CharField(max_length=500)
     description = models.TextField(blank=True)
@@ -26,9 +26,9 @@ class Deadline(models.Model):
 
 class DeadlineSubmit(models.Model):
     member = models.ForeignKey(
-        Member, on_delete=models.CASCADE, related_name='member_deadline')
+        Member, on_delete=models.CASCADE, related_name='member_deadline', null=True, blank=True)
     deadline = models.ForeignKey(
-        Deadline, on_delete=models.CASCADE, related_name="deadline_submit", null=True)
+        Deadline, on_delete=models.CASCADE, related_name="deadline_submit", null=True, blank=True)
     is_finished = models.BooleanField(default=False)
     finish_at = models.DateTimeField()
 
