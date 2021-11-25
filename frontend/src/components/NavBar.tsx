@@ -50,6 +50,7 @@ function NavBar({ user: { id, name, imageUrl } }: NavBarProps): JSX.Element {
   function handleChangeLanguage(e: React.MouseEvent<HTMLButtonElement>): void {
     if (e.currentTarget.value !== locale) {
       setLocale(e.currentTarget.value as Locales)
+      localStorage.setItem('lang', e.currentTarget.value)
     }
   }
 
