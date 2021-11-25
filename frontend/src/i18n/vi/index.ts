@@ -3,6 +3,10 @@ import type { Translation } from '../i18n-types'
 const vi: Translation = {
   common: {
     logoAlt: 'Logo của Alunno',
+    online: 'Bạn đang trực tuyến!',
+    onlineDescription: 'Yay 😍😍😍!',
+    offline: 'Bạn đang ngoại tuyến!',
+    offlineDescription: 'Kiểm tra lại kết nối',
     on: 'Bật',
     off: 'Tắt'
   },

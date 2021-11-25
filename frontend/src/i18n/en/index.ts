@@ -3,6 +3,10 @@ import type { BaseTranslation } from '../i18n-types'
 const en: BaseTranslation = {
   common: {
     logoAlt: 'Logo of Alunno',
+    online: 'You are online!',
+    onlineDescription: 'Yay 😍😍😍!',
+    offline: 'You are offline!',
+    offlineDescription: 'Please check your connection!',
     on: 'On',
     off: 'Off'
   },
