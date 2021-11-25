@@ -1,15 +1,17 @@
 import * as React from 'react'
 import { useAuth } from '../../contexts/AuthContext'
+import { useEdit } from '../../contexts/EditContext'
 import { Link as RouterLink, Outlet, useParams } from 'react-router-dom'
 import { I18nContext } from '../../i18n/i18n-react'
-import { Box, Flex, Heading, Icon, Link, Skeleton, Text, useColorModeValue } from '@chakra-ui/react'
+import { Box, Button, Flex, Heading, Icon, Link, Skeleton, Text, useColorModeValue } from '@chakra-ui/react'
 import { FiUser, FiUsers } from 'react-icons/fi'
 import Card from '../../components/Card'
 import CardSkeleton from '../../components/CardSkeleton'
 import type { Course } from '../../models'
 
 function CourseContainer(): JSX.Element {
-  const { getUserCourse } = useAuth()
+  const { user, getUserCourse } = useAuth()
+  const { isInEditingMode, setInEditingMode } = useEdit()
   const { LL } = React.useContext(I18nContext)
   const { courseId } = useParams()
   const [isLoading, setLoading] = React.useState<boolean>(true)
@@ -33,9 +35,27 @@ function CourseContainer(): JSX.Element {
     getData()
   }, [])
 
+  function handleEnterEditMode() {
+    const inEdit = isInEditingMode
+    setInEditingMode(!inEdit)
+  }
+
   return (
     <Box px={{ base: '0.75rem', md: '1.5rem' }} py="1.5rem">
-      {isLoading ? <Skeleton h="3rem" /> : <Heading textAlign={{ base: 'center', md: 'start' }}>{course?.name}</Heading>}
+      {isLoading ? (
+        <Skeleton h="3rem" />
+      ) : (
+        <Flex alignItems="center">
+          <Heading flexGrow={1} textAlign={{ base: 'center', md: 'start' }}>
+            {course?.name}
+          </Heading>
+          {user?.role === 'lecturer' && (
+            <Button variant="accent" onClick={handleEnterEditMode}>
+              {isInEditingMode ? 'Exit edit mode' : 'Enter edit mode'}
+            </Button>
+          )}
+        </Flex>
+      )}
       <Flex direction={{ base: 'column', md: 'row' }} gridGap="0.75rem" px={{ base: '0', md: '0.75rem' }}>
         <Box flexGrow={1} pt="2rem" maxW={{ base: 'full', md: '20rem' }}>
           {isLoading ? (

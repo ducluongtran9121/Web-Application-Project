@@ -9,6 +9,7 @@ class Constants {
     public static readonly Course = (courseId: number) => `/courseAPI/courses/${courseId}/`
     public static readonly CourseMembers = (courseId: number) => `/courseAPI/courses/${courseId}/listMember/`
     public static readonly CourseLessons = (courseId: number) => `/courseAPI/courses/${courseId}/lessons/`
+    public static readonly CourseLesson = (courseId: number, lessonId: number) => `/courseAPI/courses/${courseId}/lessons/${lessonId}/`
   }
 
   public static readonly Error = class {

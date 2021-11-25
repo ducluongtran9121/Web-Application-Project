@@ -20,6 +20,7 @@ interface AuthContextProviderProps {
   getUserCourse(courseId: number): Promise<Course>
   getCourseLessons(courseId: number): Promise<Lesson[]>
   getCourseStudents(courseId: number): Promise<Student[]>
+  editCourseLesson(courseId: number, lessonId: number, name: string, description: string): Promise<void>
 }
 
 const [useAuth, AuthContextProvider] = createContext<AuthContextProviderProps>()
@@ -76,6 +77,10 @@ function AuthProvider({ children }: AuthProviderProps): JSX.Element {
     return data.map((student) => fromUserPayload(student))
   }
 
+  async function editCourseLesson(courseId: number, lessonId: number, name: string, description: string): Promise<void> {
+    await axiosInstance.put(Constants.Api.CourseLesson(courseId, lessonId), { name, description })
+  }
+
   const value: AuthContextProviderProps = {
     user,
     signIn,
@@ -84,7 +89,8 @@ function AuthProvider({ children }: AuthProviderProps): JSX.Element {
     getUserCourses,
     getUserCourse,
     getCourseLessons,
-    getCourseStudents
+    getCourseStudents,
+    editCourseLesson
   }
 
   return <AuthContextProvider value={value}>{children}</AuthContextProvider>

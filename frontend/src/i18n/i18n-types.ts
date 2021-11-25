@@ -15,6 +15,22 @@ export type Translation = {
      */
     logoAlt: string
     /**
+     * You are online!
+     */
+    online: string
+    /**
+     * Yay 😍😍😍!
+     */
+    onlineDescription: string
+    /**
+     * You are offline!
+     */
+    offline: string
+    /**
+     * Please check your connection!
+     */
+    offlineDescription: string
+    /**
      * On
      */
     on: string
@@ -204,6 +220,22 @@ export type TranslationFunctions = {
      * Logo of Alunno
      */
     logoAlt: () => LocalizedString
+    /**
+     * You are online!
+     */
+    online: () => LocalizedString
+    /**
+     * Yay 😍😍😍!
+     */
+    onlineDescription: () => LocalizedString
+    /**
+     * You are offline!
+     */
+    offline: () => LocalizedString
+    /**
+     * Please check your connection!
+     */
+    offlineDescription: () => LocalizedString
     /**
      * On
      */
