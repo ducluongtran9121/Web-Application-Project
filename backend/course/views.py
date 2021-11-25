@@ -97,7 +97,7 @@ class CourseViewSet(viewsets.ViewSet, viewsets.GenericViewSet):
 
         member_pk = request.user.id
         queryset = Course.objects.filter(pk=pk, course_member=member_pk)
-        if queryset.exist():
+        if queryset.exists():
             instance = queryset[0]
             serializer = CourseSerializer(instance=instance, data=request.data)
             serializer.is_valid(raise_exception=True)
@@ -111,7 +111,7 @@ class CourseViewSet(viewsets.ViewSet, viewsets.GenericViewSet):
 
         member_pk = request.user.id
         queryset = Course.objects.filter(pk=pk, course_member=member_pk)
-        if queryset.exist():
+        if queryset.exists():
             instance = queryset[0]
             instance.detele()
             return Response(status=204)
