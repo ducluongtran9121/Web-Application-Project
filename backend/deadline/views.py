@@ -24,13 +24,13 @@ class DeadlineApiStructure(APIView):
             "lesson_pk/lectureDeadlines/": "List/Create deadline created by current lecturer in the lesson with id lesson_pk",
             "lesson_pk/lectureDeadlines/pk/": "Retrieve/Update/Destroy deadline with id pk created by current lecturer in the lesson with id lesson_pk",
             "lesson_pk/lectureDeadlines/pk/listStudentDeadlineStatus/": "list all student deadline status in deadline with id pk",
-            "lesson_pk/lectureDeadlines/deadline_pk/files": "list/create deadline file",
-            "lesson_pk/lectureDeadlines/deadline_pk/files/pk/": "Retrieve/Update/Destroy deadline file with id pk",
+            "lesson_pk/lectureDeadlines/deadline_pk/files": "List/Create deadline file in deadline with id deadline_pk",
+            "lesson_pk/lectureDeadlines/deadline_pk/files/pk/": "Retrieve/Update/Destroy deadline file with id pk in deadline with id deadline_pk",
             "lesson_pk/studentDeadlines/": "List deadline status of current student in the lesson with id lesson_pk",
             "lesson_pk/studentDeadlines/pk/": "Retrieve deadline status with id pk of current student in the lesson with id lesson_pk",
             "lesson_pk/studentDeadlines/pk/submit/": "update finish status to True",
-            "lesson_pk/studentDeadlines/pk/unsubmit/": "update finish status to False and delete all deadline file aready submit",
-            "lesson_pk/studentDeadlines/deadlineSubmit_pk/files": "list/create deadline submit file (not update finish status)",
+            "lesson_pk/studentDeadlines/pk/unsubmit/": "update finish status to False and delete all deadline file already submit",
+            "lesson_pk/studentDeadlines/deadlineSubmit_pk/files": "List/Create deadline submit file (not update finish status, Create will update finish time)",
             "lesson_pk/studentDeadlines/eadlineSubmit_pk/files/pk/": "Retrieve/Update/Destroy deadline submit file with id pk (not update finish status, Update and Destroy will update finish time)"
         })
 
@@ -240,6 +240,8 @@ class DeadlineSubmitFileViewSet(viewsets.ViewSet, viewsets.GenericViewSet):
             serializer.is_valid(raise_exception=True)
             instance = serializer.save()
             instance.deadlineSubmit = queryset[0]
+            instance.deadlineSubmit.finish_at = timezone.now()
+            instance.deadlineSubmit.save()
             instance.save()
             return Response(serializer.data, status=201)
         return Response(serializers.errors, status=400)
