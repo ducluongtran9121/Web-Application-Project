@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
+import EditProvider from '../contexts/EditContext'
 import { Box } from '@chakra-ui/react'
 import NavBar from '../components/NavBar'
 import Home from './Home'
@@ -28,7 +29,14 @@ function PrivateElementContainer(): JSX.Element {
       {user && <NavBar user={user} />}
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="courses/:courseId" element={<CourseContainer />}>
+        <Route
+          path="courses/:courseId"
+          element={
+            <EditProvider>
+              <CourseContainer />
+            </EditProvider>
+          }
+        >
           <Route path="" element={<CourseLessons />} />
           <Route path="students" element={<CourseStudents />} />
         </Route>
