@@ -191,7 +191,7 @@ class LessonViewSet(viewsets.ViewSet, viewsets.GenericViewSet):
         return Response({'errors': 'Bad request'}, status=400)
 
 
-class LessonFileViewSet(viewsets.ViewSet, viewsets.GenericViewSet, mixins.DestroyModelMixin):
+class LessonFileViewSet(viewsets.ViewSet, viewsets.GenericViewSet):
     serializer_class = FileSerializer
     queryset = File.objects.all()
     parser_classes = (FormParser, MultiPartParser, JSONParser,)
