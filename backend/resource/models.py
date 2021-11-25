@@ -3,6 +3,8 @@ from course.models import Lesson
 from deadline.models import Deadline, DeadlineSubmit
 # Create your models here.
 
+# comment
+
 
 class File(models.Model):
     lesson = models.ForeignKey(
