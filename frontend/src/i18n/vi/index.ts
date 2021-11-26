@@ -59,7 +59,6 @@ const vi: Translation = {
     overdue: 'Quá hạn',
     timeRemainWithDay: 'Còn lại {day} ngày {hour} giờ',
     timeRemainWithHour: 'Còn lại {hour} giờ',
-
     createNew: 'Tạo một bài học mới',
     name: 'Tên',
     namePlaceholder: 'Tên khoá học của bạn',
@@ -70,7 +69,15 @@ const vi: Translation = {
     deleteConfirm: 'Xoá bài học',
     deleteConfirmDescription: 'Bạn có chắc muốn xoá bài học này?',
     deletedSuccessfully: 'Xoá bài học thành công!',
-    deletedFailed: 'Xoá bài học thất bại!'
+    deletedFailed: 'Xoá bài học thất bại!',
+    file: 'Tập tin',
+    addFile: 'Thêm một tập tin mới',
+    fileNamePlaceHolder: 'Tên tập tin của bạn',
+    fileUpload: 'Tải tập tin lên',
+    folder: 'Thư mục',
+    folderPlaceholder: 'Tập tin sẽ được nằm trong folder có tên này',
+    addedFileSuccessfully: 'Thêm file thành công',
+    addedFileFailed: 'Thêm file thất bại'
   },
   user: {
     overview: 'Tổng quan',

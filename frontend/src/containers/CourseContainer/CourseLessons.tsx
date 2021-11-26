@@ -27,10 +27,11 @@ import { FiPlus } from 'react-icons/fi'
 import CardSkeleton from '../../components/CardSkeleton'
 import LessonItem from '../../components/LessonItem'
 import Card from '../../components/Card'
+import { Folder } from '../../models'
 import type { Lesson } from '../../models'
 
 function CourseLessons(): JSX.Element {
-  const { user, getCourseLessons, createNewLesson, editCourseLesson, deleteCourseLesson } = useAuth()
+  const { user, getCourseLessons, createNewLesson, editCourseLesson, deleteCourseLesson, addCourseLessonFile } = useAuth()
   const { isInEditingMode } = useEdit()
   const { LL } = React.useContext(I18nContext)
   const { courseId } = useParams()
@@ -48,18 +49,20 @@ function CourseLessons(): JSX.Element {
     setNewLessonLoading(true)
 
     try {
-      const data = await createNewLesson(Number(courseId), nameNewLessonInputRef.current?.value, descriptionNewLessonInputRef.current?.value)
-      const currentLessons = lessons
-      currentLessons?.push(data)
-      setLessons(currentLessons)
-      toast({
-        title: LL.lesson.createdSuccessfully(),
-        description: LL.common.success(),
-        status: 'info',
-        position: 'bottom-right',
-        variant: 'subtle',
-        isClosable: true
-      })
+      if (nameNewLessonInputRef.current && descriptionNewLessonInputRef.current) {
+        const data = await createNewLesson(Number(courseId), nameNewLessonInputRef.current?.value, descriptionNewLessonInputRef.current?.value)
+        const currentLessons = lessons
+        currentLessons?.push(data)
+        setLessons(currentLessons)
+        toast({
+          title: LL.lesson.createdSuccessfully(),
+          description: LL.common.success(),
+          status: 'info',
+          position: 'bottom-right',
+          variant: 'subtle',
+          isClosable: true
+        })
+      } else throw 'Invalid Data'
     } catch {
       toast({
         title: LL.lesson.createdFailed(),
@@ -83,20 +86,66 @@ function CourseLessons(): JSX.Element {
 
   async function handleDeleteLesson(lessonId: number): Promise<void> {
     try {
-      await deleteCourseLesson(Number(courseId), lessonId)
-      const newLessons = lessons?.filter((lesson) => lesson.id !== lessonId)
-      setLessons(newLessons)
+      if (lessons) {
+        await deleteCourseLesson(Number(courseId), lessonId)
+        const newLessons = lessons.filter((lesson) => lesson.id !== lessonId)
+        setLessons(newLessons)
+        toast({
+          title: LL.lesson.deletedSuccessfully(),
+          description: LL.common.success(),
+          status: 'info',
+          position: 'bottom-right',
+          variant: 'subtle',
+          isClosable: true
+        })
+      } else throw 'Invalid data'
+    } catch {
       toast({
-        title: LL.lesson.deletedSuccessfully(),
-        description: LL.common.success(),
-        status: 'info',
+        title: LL.lesson.deletedFailed(),
+        description: LL.common.fail(),
+        status: 'error',
         position: 'bottom-right',
         variant: 'subtle',
         isClosable: true
       })
+    }
+  }
+
+  async function handleAddFile(lessonId: number, formData: FormData) {
+    try {
+      if (lessons) {
+        const data = await addCourseLessonFile(Number(courseId), lessonId, formData)
+        const newLessons = lessons
+        const lessonIndex = newLessons.findIndex((lesson) => lesson.id === lessonId)
+
+        if (lessonIndex < 0) throw 'Invalid data'
+
+        if (!data.inFolder) {
+          newLessons[lessonIndex].locationItems.push(data)
+        } else {
+          const folderIndex = newLessons[lessonIndex].locationItems.findIndex((item) => item.type === 'folder' && item.name === data.inFolder)
+          if (folderIndex > -1) {
+            newLessons[lessonIndex].locationItems[folderIndex].children?.push(data)
+          } else {
+            const newFolder = new Folder(newLessons[lessonIndex].locationItems.length, data.inFolder, '', [data])
+            newLessons[lessonIndex].locationItems.push(newFolder)
+          }
+        }
+
+        setLessons(newLessons)
+
+        toast({
+          title: LL.lesson.addedFileSuccessfully(),
+          description: LL.common.success(),
+          status: 'info',
+          position: 'bottom-right',
+          variant: 'subtle',
+          isClosable: true
+        })
+      } else throw 'Invalid Data'
     } catch {
       toast({
-        title: LL.lesson.deletedFailed(),
+        title: LL.lesson.addedFileFailed(),
         description: LL.common.fail(),
         status: 'error',
         position: 'bottom-right',
@@ -155,6 +204,7 @@ function CourseLessons(): JSX.Element {
               isInEditingMode={isInEditingMode}
               onEditSubmit={handleOnEditSubmit}
               onDeleteLesson={handleDeleteLesson}
+              onAddFile={handleAddFile}
             />
           ))}
         </Flex>

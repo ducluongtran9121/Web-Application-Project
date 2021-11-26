@@ -1,11 +1,30 @@
 import * as React from 'react'
 import Constants from '../constants'
-import { fromUserPayload, fromCoursePayload, fromLessonPayload, fromLessonsPayload, fromUserPayloads, fromCoursesPayload } from '../mappers'
+import {
+  fromUserPayload,
+  fromCoursePayload,
+  fromLessonPayload,
+  fromLessonsPayload,
+  fromUserPayloads,
+  fromCoursesPayload,
+  fromLocationPayLoadToFile
+} from '../mappers'
 import { useNavigate } from 'react-router-dom'
 import { axiosInstance } from '../utils'
 import { createContext, TokenStorage } from '../helpers'
 
-import type { Course, CoursePayload, Lesson, LessonPayload, SignInRequestPayload, SignInResponsePayload, Student, User, UserPayload } from '../models'
+import type {
+  Course,
+  CoursePayload,
+  Lesson,
+  LessonPayload,
+  File,
+  SignInRequestPayload,
+  SignInResponsePayload,
+  Student,
+  User,
+  UserPayload
+} from '../models'
 
 interface AuthProviderProps {
   children: JSX.Element
@@ -20,9 +39,10 @@ interface AuthContextProviderProps {
   getUserCourse(courseId: number): Promise<Course>
   getCourseLessons(courseId: number): Promise<Lesson[]>
   getCourseStudents(courseId: number): Promise<Student[]>
-  createNewLesson(courseId: number, name?: string, description?: string): Promise<Lesson>
+  createNewLesson(courseId: number, name: string, description: string): Promise<Lesson>
   editCourseLesson(courseId: number, lessonId: number, name: string, description: string): Promise<void>
   deleteCourseLesson(courseId: number, lessonId: number): Promise<void>
+  addCourseLessonFile(courseId: number, lessonId: number, formData: FormData): Promise<File>
 }
 
 const [useAuth, AuthContextProvider] = createContext<AuthContextProviderProps>()
@@ -92,6 +112,11 @@ function AuthProvider({ children }: AuthProviderProps): JSX.Element {
     await axiosInstance.delete(Constants.Api.CourseLesson(courseId, lessonId))
   }
 
+  async function addCourseLessonFile(courseId: number, lessonId: number, formData: FormData): Promise<File> {
+    const { data } = await axiosInstance.post(Constants.Api.CourseLessonFiles(courseId, lessonId), formData)
+    return fromLocationPayLoadToFile(data)
+  }
+
   const value: AuthContextProviderProps = {
     user,
     signIn,
@@ -103,7 +128,8 @@ function AuthProvider({ children }: AuthProviderProps): JSX.Element {
     getCourseStudents,
     createNewLesson,
     editCourseLesson,
-    deleteCourseLesson
+    deleteCourseLesson,
+    addCourseLessonFile
   }
 
   return <AuthContextProvider value={value}>{children}</AuthContextProvider>

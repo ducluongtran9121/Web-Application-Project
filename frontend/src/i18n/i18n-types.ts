@@ -249,6 +249,38 @@ export type Translation = {
      * Deleted lesson failed
      */
     deletedFailed: string
+    /**
+     * File
+     */
+    file: string
+    /**
+     * Add a new file
+     */
+    addFile: string
+    /**
+     * Your file name
+     */
+    fileNamePlaceHolder: string
+    /**
+     * File upload
+     */
+    fileUpload: string
+    /**
+     * Folder
+     */
+    folder: string
+    /**
+     * This file will in this folder name
+     */
+    folderPlaceholder: string
+    /**
+     * Added file successfully!
+     */
+    addedFileSuccessfully: string
+    /**
+     * Added file failed!
+     */
+    addedFileFailed: string
   }
   user: {
     /**
@@ -524,6 +556,38 @@ export type TranslationFunctions = {
      * Deleted lesson failed
      */
     deletedFailed: () => LocalizedString
+    /**
+     * File
+     */
+    file: () => LocalizedString
+    /**
+     * Add a new file
+     */
+    addFile: () => LocalizedString
+    /**
+     * Your file name
+     */
+    fileNamePlaceHolder: () => LocalizedString
+    /**
+     * File upload
+     */
+    fileUpload: () => LocalizedString
+    /**
+     * Folder
+     */
+    folder: () => LocalizedString
+    /**
+     * This file will in this folder name
+     */
+    folderPlaceholder: () => LocalizedString
+    /**
+     * Added file successfully!
+     */
+    addedFileSuccessfully: () => LocalizedString
+    /**
+     * Added file failed!
+     */
+    addedFileFailed: () => LocalizedString
   }
   user: {
     /**

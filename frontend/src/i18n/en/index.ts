@@ -69,7 +69,15 @@ const en: BaseTranslation = {
     deleteConfirm: 'Delete lesson?',
     deleteConfirmDescription: 'Are you sure to delete this lesson?',
     deletedSuccessfully: 'Deleted lesson successfully!',
-    deletedFailed: 'Deleted lesson failed'
+    deletedFailed: 'Deleted lesson failed',
+    file: 'File',
+    addFile: 'Add a new file',
+    fileNamePlaceHolder: 'Your file name',
+    fileUpload: 'File upload',
+    folder: 'Folder',
+    folderPlaceholder: 'This file will in this folder name',
+    addedFileSuccessfully: 'Added file successfully!',
+    addedFileFailed: 'Added file failed!'
   },
   user: {
     overview: 'Overview',

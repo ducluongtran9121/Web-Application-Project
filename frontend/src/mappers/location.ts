@@ -3,6 +3,12 @@ import Constants from '../constants'
 import { File, Folder } from '../models/location'
 import type { LocationItem, LocationPayload } from '../models/location'
 
+function fromLocationPayLoadToFile({ id, file_upload, name, in_folder }: LocationPayload): File {
+  const fileExtensionPattern = /\.[0-9a-z]+$/i
+  const match = file_upload.match(fileExtensionPattern)
+  return new File(id, name, match ? match[0] : 'binary', Constants.Api.Base + file_upload, in_folder)
+}
+
 function fromLocationPayloads(locationResponses: LocationPayload[]): LocationItem[] {
   const locations: LocationItem[] = []
   const fileExtensionPattern = /\.[0-9a-z]+$/i
@@ -30,4 +36,4 @@ function fromLocationPayloads(locationResponses: LocationPayload[]): LocationIte
   return locations
 }
 
-export { fromLocationPayloads }
+export { fromLocationPayLoadToFile, fromLocationPayloads }

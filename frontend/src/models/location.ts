@@ -18,12 +18,14 @@ class File implements LocationItem {
   name: string
   type: string
   fileUrl: string
+  inFolder?: string
 
-  constructor(id: number, name: string, type: string, fileUrl: string) {
+  constructor(id: number, name: string, type: string, fileUrl: string, inFolder?: string) {
     this.id = id
     this.name = name
     this.type = type
     this.fileUrl = fileUrl
+    this.inFolder = inFolder
   }
 }
 
