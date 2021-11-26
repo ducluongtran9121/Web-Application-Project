@@ -45,7 +45,7 @@ function CourseContainer(): JSX.Element {
       {isLoading ? (
         <Skeleton h="3rem" />
       ) : (
-        <Flex alignItems="center">
+        <Flex direction={{ base: 'column', md: 'row' }} alignItems={{ base: 'stretch', md: 'center' }} gridGap="1.5rem">
           <Heading flexGrow={1} textAlign={{ base: 'center', md: 'start' }}>
             {course?.name}
           </Heading>

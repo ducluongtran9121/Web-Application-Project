@@ -175,7 +175,7 @@ function CourseLessons(): JSX.Element {
               </FormControl>
             </ModalBody>
 
-            <ModalFooter>
+            <ModalFooter as={Flex} gridGap="0.75rem">
               <Button isLoading={isNewLessonLoading} variant="accent" type="submit">
                 {LL.common.create()}
               </Button>

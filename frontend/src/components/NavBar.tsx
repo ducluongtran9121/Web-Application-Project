@@ -2,7 +2,6 @@
 import * as React from 'react'
 import { Link as RouteLink } from 'react-router-dom'
 import { I18nContext } from '../i18n/i18n-react'
-import { useAuth } from '../contexts/AuthContext'
 import {
   Avatar,
   Box,
@@ -34,10 +33,10 @@ import type { Locales } from '../i18n/i18n-types'
 
 interface NavBarProps {
   user: User
+  signOut(): Promise<void>
 }
 
-function NavBar({ user: { id, name, imageUrl } }: NavBarProps): JSX.Element {
-  const { signOut } = useAuth()
+function NavBar({ user: { id, name, imageUrl }, signOut }: NavBarProps): JSX.Element {
   const { LL, locale, setLocale } = React.useContext(I18nContext)
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { colorMode, toggleColorMode } = useColorMode()

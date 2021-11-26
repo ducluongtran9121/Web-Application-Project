@@ -15,7 +15,7 @@ import UserCourses from './UserContainer/UserCourses'
 import UserDeadlines from './UserContainer/UserDeadlines'
 
 function PrivateElementContainer(): JSX.Element {
-  const { user, getUserProfile } = useAuth()
+  const { user, signOut, getUserProfile } = useAuth()
   const { LL, locale } = React.useContext(I18nContext)
   const toast = useToast()
 
@@ -65,7 +65,7 @@ function PrivateElementContainer(): JSX.Element {
 
   return (
     <Box>
-      {user && <NavBar user={user} />}
+      {user && <NavBar user={user} signOut={signOut} />}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route

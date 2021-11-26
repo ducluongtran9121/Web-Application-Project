@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { I18nContext } from '../i18n/i18n-react'
-import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text } from '@chakra-ui/react'
+import { Button, Flex, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text } from '@chakra-ui/react'
 import type { ModalProps } from '@chakra-ui/react'
 
 interface ConfirmDialogProps extends Omit<ModalProps, 'children'> {
@@ -24,7 +24,7 @@ function ConfirmDialog({ heading, description, actionContent, cancelContent, onC
           <ModalBody>
             <Text>{description}</Text>
           </ModalBody>
-          <ModalFooter>
+          <ModalFooter as={Flex} gridGap="0.75rem">
             <Button variant="accent" onClick={onConfirm}>
               {actionContent ? actionContent : LL.common.confirm()}
             </Button>
