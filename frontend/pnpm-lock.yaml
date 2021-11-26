@@ -27,7 +27,7 @@ specifiers:
   react-dom: ^17.0.2
   react-icons: ^4.3.1
   react-router-dom: ^6.0.2
-  typesafe-i18n: ^2.54.2
+  typesafe-i18n: 2.52.2
   typescript: ^4.5.2
   vite: ^2.6.14
   vite-plugin-svgr: ^0.6.0
@@ -47,7 +47,7 @@ dependencies:
   react-dom: 17.0.2_react@17.0.2
   react-icons: 4.3.1_react@17.0.2
   react-router-dom: 6.0.2_react-dom@17.0.2+react@17.0.2
-  typesafe-i18n: 2.54.2_typescript@4.5.2
+  typesafe-i18n: 2.52.2_typescript@4.5.2
 
 devDependencies:
   '@babel/core': 7.16.0
@@ -3406,13 +3406,18 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /typesafe-i18n/2.54.2_typescript@4.5.2:
-    resolution: {integrity: sha512-IEQn7mzchnWRgi62rGq0xCbchqYXckg5DI8iNJUOppjjmcKcLwPUz9yd839Gp70KlnAjqKEsHXZw/ueIh050/g==}
+  /typesafe-i18n/2.52.2_typescript@4.5.2:
+    resolution: {integrity: sha512-A3gzQCwHgJ7OynJb/wUmx7kmdUw+p5rf+iHgcP9raLAjivH/pUeMKq0n8Kh3eFb9336EUC4nHcP2Z67epkvCWQ==}
     hasBin: true
     peerDependencies:
       typescript: '>=3.5.1'
     dependencies:
+      typesafe-utils: 1.16.2
       typescript: 4.5.2
+    dev: false
+
+  /typesafe-utils/1.16.2:
+    resolution: {integrity: sha512-5Ej1sd5V541LPxlJEs4JKpsmF0zvMcwakXJ/s2N9SpdYAEr6CQcgr2COF350nxaO1FSbHYfL+tEKBcMcLDrdOQ==}
     dev: false
 
   /typescript/4.5.2:
