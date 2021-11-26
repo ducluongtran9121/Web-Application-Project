@@ -24,6 +24,24 @@ const global: SystemStyleFunction = (props: StyleFunctionProps) => ({
   },
   '::-webkit-scrollbar-thumb:active': {
     bg: mode('light.scrollBar.ternary', 'dark.scrollBar.ternary')(props)
+  },
+  '::-webkit-file-upload-button': {
+    bg: mode('light.control.default', 'dark.control.default')(props),
+    border: '1px solid',
+    borderColor: mode('light.border.control', 'dark.border.control')(props),
+    borderRadius: '6px',
+    h: 10,
+    minW: 10,
+    fontSize: 'md',
+    px: 4,
+    fontWeight: 'semibold',
+    shadow: 'sm'
+  },
+  '::-webkit-file-upload-button:hover': {
+    bg: mode('light.control.secondary', 'dark.control.secondary')(props)
+  },
+  '::-webkit-file-upload-button:active': {
+    bg: mode('light.control.ternary', 'dark.control.ternary')(props)
   }
 })
 

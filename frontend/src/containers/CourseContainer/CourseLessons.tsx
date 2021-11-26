@@ -213,23 +213,23 @@ function CourseLessons(): JSX.Element {
           <ModalContent as="form" onSubmit={handleNewLessonSubmit}>
             <ModalHeader>{LL.lesson.createNew()}</ModalHeader>
             <ModalCloseButton />
-            <ModalBody>
+            <ModalBody as={Flex} flexDirection="column" gridGap="0.75rem">
               <FormControl isRequired>
                 <FormLabel>{LL.lesson.name()}</FormLabel>
                 <Input placeholder={LL.lesson.namePlaceholder()} ref={nameNewLessonInputRef} />
               </FormControl>
 
-              <FormControl mt={4}>
+              <FormControl>
                 <FormLabel>{LL.lesson.description()}</FormLabel>
                 <Input placeholder={LL.lesson.descriptionPlaceholder()} ref={descriptionNewLessonInputRef} />
               </FormControl>
             </ModalBody>
 
             <ModalFooter as={Flex} gridGap="0.75rem">
+              <Button onClick={onClose}>{LL.common.cancel()}</Button>
               <Button isLoading={isNewLessonLoading} variant="accent" type="submit">
                 {LL.common.create()}
               </Button>
-              <Button onClick={onClose}>{LL.common.cancel()}</Button>
             </ModalFooter>
           </ModalContent>
         </Modal>

@@ -51,6 +51,10 @@ export type Translation = {
      */
     create: string
     /**
+     * Add
+     */
+    add: string
+    /**
      * On
      */
     on: string
@@ -360,6 +364,10 @@ export type TranslationFunctions = {
      * Create
      */
     create: () => LocalizedString
+    /**
+     * Add
+     */
+    add: () => LocalizedString
     /**
      * On
      */

@@ -149,14 +149,14 @@ function LessonItem({
           <ModalContent as="form" onSubmit={handleAddFile}>
             <ModalHeader>{LL.lesson.addFile()}</ModalHeader>
             <ModalCloseButton />
-            <ModalBody>
+            <ModalBody as={Flex} flexDirection="column" gridGap="0.75rem">
               <FormControl isRequired>
                 <FormLabel>{LL.lesson.fileUpload()}</FormLabel>
-                <Input type="file" ref={fileUpLoadFileInputRef} />
+                <Input type="file" border="0" ref={fileUpLoadFileInputRef} />
               </FormControl>
               <FormControl isRequired>
                 <FormLabel>{LL.lesson.name()}</FormLabel>
-                <Input placeholder={LL.lesson.namePlaceholder()} ref={nameFileInputRef} />
+                <Input placeholder={LL.lesson.fileNamePlaceHolder()} ref={nameFileInputRef} />
               </FormControl>
               <FormControl>
                 <FormLabel>{LL.lesson.folder()}</FormLabel>
@@ -164,10 +164,10 @@ function LessonItem({
               </FormControl>
             </ModalBody>
             <ModalFooter as={Flex} gridGap="0.75rem">
-              <Button variant="accent" type="submit" isLoading={isAddingFile}>
-                {LL.common.create()}
-              </Button>
               <Button onClick={onAddClose}>{LL.common.cancel()}</Button>
+              <Button variant="accent" type="submit" isLoading={isAddingFile}>
+                {LL.common.add()}
+              </Button>
             </ModalFooter>
           </ModalContent>
         </Modal>

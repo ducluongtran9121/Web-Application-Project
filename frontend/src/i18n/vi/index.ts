@@ -12,6 +12,7 @@ const vi: Translation = {
     confirm: 'Xác nhận',
     cancel: 'Thoát',
     create: 'Tạo',
+    add: 'Thêm',
     on: 'Bật',
     off: 'Tắt'
   },

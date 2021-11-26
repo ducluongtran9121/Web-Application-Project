@@ -25,10 +25,10 @@ function ConfirmDialog({ heading, description, actionContent, cancelContent, onC
             <Text>{description}</Text>
           </ModalBody>
           <ModalFooter as={Flex} gridGap="0.75rem">
+            <Button onClick={onClose}>{cancelContent ? cancelContent : LL.common.cancel()}</Button>
             <Button variant="accent" onClick={onConfirm}>
               {actionContent ? actionContent : LL.common.confirm()}
             </Button>
-            <Button onClick={onClose}>{cancelContent ? cancelContent : LL.common.cancel()}</Button>
           </ModalFooter>
         </ModalContent>
       </ModalOverlay>

@@ -12,6 +12,7 @@ const en: BaseTranslation = {
     confirm: 'Confirm',
     cancel: 'Cancel',
     create: 'Create',
+    add: 'Add',
     on: 'On',
     off: 'Off'
   },
