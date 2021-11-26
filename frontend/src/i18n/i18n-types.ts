@@ -31,6 +31,26 @@ export type Translation = {
      */
     offlineDescription: string
     /**
+     * Hurray 😊😊😊!
+     */
+    success: string
+    /**
+     * 🥲🥲🥲
+     */
+    fail: string
+    /**
+     * Confirm
+     */
+    confirm: string
+    /**
+     * Cancel
+     */
+    cancel: string
+    /**
+     * Create
+     */
+    create: string
+    /**
      * On
      */
     on: string
@@ -135,7 +155,7 @@ export type Translation = {
      */
     languages: string
   }
-  courses: {
+  course: {
     /**
      * Description
      */
@@ -160,6 +180,14 @@ export type Translation = {
      * Students
      */
     students: string
+    /**
+     * Enter editing mode
+     */
+    enterEditing: string
+    /**
+     * Exit editing mode
+     */
+    finishEditing: string
   }
   lesson: {
     /**
@@ -177,6 +205,50 @@ export type Translation = {
      * @param {unknown} hour
      */
     timeRemainWithHour: RequiredParams1<'hour'>
+    /**
+     * Create a new lesson
+     */
+    createNew: string
+    /**
+     * Name
+     */
+    name: string
+    /**
+     * Your lesson name
+     */
+    namePlaceholder: string
+    /**
+     * Description
+     */
+    description: string
+    /**
+     * Your lesson description
+     */
+    descriptionPlaceholder: string
+    /**
+     * Created lesson successfully!
+     */
+    createdSuccessfully: string
+    /**
+     * Created lesson failed!
+     */
+    createdFailed: string
+    /**
+     * Delete lesson?
+     */
+    deleteConfirm: string
+    /**
+     * Are you sure to delete this lesson?
+     */
+    deleteConfirmDescription: string
+    /**
+     * Deleted lesson successfully!
+     */
+    deletedSuccessfully: string
+    /**
+     * Deleted lesson failed
+     */
+    deletedFailed: string
   }
   user: {
     /**
@@ -236,6 +308,26 @@ export type TranslationFunctions = {
      * Please check your connection!
      */
     offlineDescription: () => LocalizedString
+    /**
+     * Hurray 😊😊😊!
+     */
+    success: () => LocalizedString
+    /**
+     * 🥲🥲🥲
+     */
+    fail: () => LocalizedString
+    /**
+     * Confirm
+     */
+    confirm: () => LocalizedString
+    /**
+     * Cancel
+     */
+    cancel: () => LocalizedString
+    /**
+     * Create
+     */
+    create: () => LocalizedString
     /**
      * On
      */
@@ -341,7 +433,7 @@ export type TranslationFunctions = {
      */
     languages: () => LocalizedString
   }
-  courses: {
+  course: {
     /**
      * Description
      */
@@ -366,6 +458,14 @@ export type TranslationFunctions = {
      * Students
      */
     students: () => LocalizedString
+    /**
+     * Enter editing mode
+     */
+    enterEditing: () => LocalizedString
+    /**
+     * Exit editing mode
+     */
+    finishEditing: () => LocalizedString
   }
   lesson: {
     /**
@@ -380,6 +480,50 @@ export type TranslationFunctions = {
      * {hour} hour remain
      */
     timeRemainWithHour: (arg: { hour: unknown }) => LocalizedString
+    /**
+     * Create a new lesson
+     */
+    createNew: () => LocalizedString
+    /**
+     * Name
+     */
+    name: () => LocalizedString
+    /**
+     * Your lesson name
+     */
+    namePlaceholder: () => LocalizedString
+    /**
+     * Description
+     */
+    description: () => LocalizedString
+    /**
+     * Your lesson description
+     */
+    descriptionPlaceholder: () => LocalizedString
+    /**
+     * Created lesson successfully!
+     */
+    createdSuccessfully: () => LocalizedString
+    /**
+     * Created lesson failed!
+     */
+    createdFailed: () => LocalizedString
+    /**
+     * Delete lesson?
+     */
+    deleteConfirm: () => LocalizedString
+    /**
+     * Are you sure to delete this lesson?
+     */
+    deleteConfirmDescription: () => LocalizedString
+    /**
+     * Deleted lesson successfully!
+     */
+    deletedSuccessfully: () => LocalizedString
+    /**
+     * Deleted lesson failed
+     */
+    deletedFailed: () => LocalizedString
   }
   user: {
     /**

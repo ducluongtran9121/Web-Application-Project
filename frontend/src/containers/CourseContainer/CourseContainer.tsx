@@ -20,7 +20,7 @@ function CourseContainer(): JSX.Element {
   const textColorDefault = useColorModeValue('light.text.default', 'dark.text.default')
 
   React.useEffect(() => {
-    async function getData() {
+    async function getData(): Promise<void> {
       setLoading(true)
 
       try {
@@ -35,7 +35,7 @@ function CourseContainer(): JSX.Element {
     getData()
   }, [])
 
-  function handleEnterEditMode() {
+  function handleEnterEditMode(): void {
     const inEdit = isInEditingMode
     setInEditingMode(!inEdit)
   }
@@ -51,7 +51,7 @@ function CourseContainer(): JSX.Element {
           </Heading>
           {user?.role === 'lecturer' && (
             <Button variant="accent" onClick={handleEnterEditMode}>
-              {isInEditingMode ? 'Exit edit mode' : 'Enter edit mode'}
+              {isInEditingMode ? LL.course.finishEditing() : LL.course.enterEditing()}
             </Button>
           )}
         </Flex>
@@ -63,9 +63,9 @@ function CourseContainer(): JSX.Element {
           ) : (
             <Card>
               <Flex direction="column" alignItems="start" gridGap="0.5rem">
-                <Text fontWeight="semibold">{LL.courses.description()}:</Text>
+                <Text fontWeight="semibold">{LL.course.description()}:</Text>
                 <Text pl="1rem">{course?.description}</Text>
-                <Text fontWeight="semibold">{LL.courses.lecturers()}:</Text>
+                <Text fontWeight="semibold">{LL.course.lecturers()}:</Text>
                 <Flex direction="column" alignItems="start" gridGap="0.25rem">
                   {course?.lecturers.map((lecturer) => (
                     <Link as={RouterLink} key={lecturer.id} display="flex" gridGap="0.5rem" pl="1rem" alignItems="center" to="/">
@@ -76,7 +76,7 @@ function CourseContainer(): JSX.Element {
                 </Flex>
                 <Link display="flex" gridGap="0.5rem" as={RouterLink} alignItems="center" to="students">
                   <Icon color={textColorDefault} as={FiUsers} />
-                  <Text>{LL.courses.allStudents()}</Text>
+                  <Text>{LL.course.allStudents()}</Text>
                 </Link>
               </Flex>
             </Card>

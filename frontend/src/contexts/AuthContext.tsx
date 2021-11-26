@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Constants from '../constants'
-import { fromUserPayload, fromCoursePayload, fromLessonPayloads } from '../mappers'
+import { fromUserPayload, fromCoursePayload, fromLessonPayload, fromLessonsPayload, fromUserPayloads, fromCoursesPayload } from '../mappers'
 import { useNavigate } from 'react-router-dom'
 import { axiosInstance } from '../utils'
 import { createContext, TokenStorage } from '../helpers'
@@ -20,7 +20,9 @@ interface AuthContextProviderProps {
   getUserCourse(courseId: number): Promise<Course>
   getCourseLessons(courseId: number): Promise<Lesson[]>
   getCourseStudents(courseId: number): Promise<Student[]>
+  createNewLesson(courseId: number, name?: string, description?: string): Promise<Lesson>
   editCourseLesson(courseId: number, lessonId: number, name: string, description: string): Promise<void>
+  deleteCourseLesson(courseId: number, lessonId: number): Promise<void>
 }
 
 const [useAuth, AuthContextProvider] = createContext<AuthContextProviderProps>()
@@ -59,7 +61,7 @@ function AuthProvider({ children }: AuthProviderProps): JSX.Element {
 
   async function getUserCourses(): Promise<Course[]> {
     const { data } = await axiosInstance.get<CoursePayload[]>(Constants.Api.Courses)
-    return data.map((courseResponse) => fromCoursePayload(courseResponse))
+    return fromCoursesPayload(data)
   }
 
   async function getUserCourse(courseId: number): Promise<Course> {
@@ -69,16 +71,25 @@ function AuthProvider({ children }: AuthProviderProps): JSX.Element {
 
   async function getCourseLessons(courseId: number): Promise<Lesson[]> {
     const { data } = await axiosInstance.get<LessonPayload[]>(Constants.Api.CourseLessons(courseId))
-    return data.map((lesson) => fromLessonPayloads(lesson))
+    return fromLessonsPayload(data)
   }
 
   async function getCourseStudents(courseId: number): Promise<Student[]> {
     const { data } = await axiosInstance.get<UserPayload[]>(Constants.Api.CourseMembers(courseId))
-    return data.map((student) => fromUserPayload(student))
+    return fromUserPayloads(data)
+  }
+
+  async function createNewLesson(courseId: number, name?: string, description?: string): Promise<Lesson> {
+    const { data } = await axiosInstance.post<LessonPayload>(Constants.Api.CourseLessons(courseId), { name, description })
+    return fromLessonPayload(data)
   }
 
   async function editCourseLesson(courseId: number, lessonId: number, name: string, description: string): Promise<void> {
     await axiosInstance.put(Constants.Api.CourseLesson(courseId, lessonId), { name, description })
+  }
+
+  async function deleteCourseLesson(courseId: number, lessonId: number): Promise<void> {
+    await axiosInstance.delete(Constants.Api.CourseLesson(courseId, lessonId))
   }
 
   const value: AuthContextProviderProps = {
@@ -90,7 +101,9 @@ function AuthProvider({ children }: AuthProviderProps): JSX.Element {
     getUserCourse,
     getCourseLessons,
     getCourseStudents,
-    editCourseLesson
+    createNewLesson,
+    editCourseLesson,
+    deleteCourseLesson
   }
 
   return <AuthContextProvider value={value}>{children}</AuthContextProvider>

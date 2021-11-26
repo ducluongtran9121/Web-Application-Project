@@ -17,7 +17,7 @@ import type { EditableProps } from '@chakra-ui/react'
 interface EditableTextProps extends EditableProps {
   isInEditingMode?: boolean
   isRequired?: boolean
-  onEditSubmit(currentValue: string): Promise<void>
+  onEditSubmit(currentValue: string): void
 }
 
 function EditableButton(): JSX.Element {
@@ -41,18 +41,18 @@ function EditableText({ isInEditingMode = true, isRequired, defaultValue = '', o
   const [saveValue, setSaveValue] = React.useState<string>('')
   const [value, setValue] = React.useState<string>(defaultValue)
 
-  function handleEdit() {
+  function handleEdit(): void {
     if (!isShouldSaveValue) {
       SetShouldSaveValue(true)
       if (editableInputRef.current) setSaveValue(editableInputRef.current.value)
     }
   }
 
-  function handleChange(nextValue: string) {
+  function handleChange(nextValue: string): void {
     setValue(nextValue)
   }
 
-  async function handleSubmit(nextValue: string) {
+  function handleSubmit(nextValue: string): void {
     let tempValue = ''
     if (nextValue === '' && isRequired) {
       tempValue = saveValue
@@ -63,7 +63,7 @@ function EditableText({ isInEditingMode = true, isRequired, defaultValue = '', o
 
     SetShouldSaveValue(false)
 
-    if (onEditSubmit) await onEditSubmit(tempValue)
+    if (onEditSubmit) onEditSubmit(tempValue)
   }
 
   return (

@@ -15,7 +15,7 @@ function CourseStudents(): JSX.Element {
   const [students, setStudents] = React.useState<Student[]>()
 
   React.useEffect(() => {
-    async function getData() {
+    async function getData(): Promise<void> {
       setLoading(true)
 
       try {
@@ -35,7 +35,7 @@ function CourseStudents(): JSX.Element {
     return (
       <Card>
         <Text fontWeight="semibold" fontSize="1.5rem">
-          {LL.courses.students()}:
+          {LL.course.students()}:
         </Text>
         <Flex direction="column" gridGap="0.5rem" mt="0.75rem" pl="1rem" alignItems="stretch">
           {students.map(({ id, name, imageUrl }) => (
@@ -52,7 +52,7 @@ function CourseStudents(): JSX.Element {
   return (
     <Flex direction="column" alignItems="center" gridGap="0.5rem">
       <Text fontSize="5rem">≡(▔﹏▔)≡</Text>
-      <Text fontSize="2rem">{LL.courses.noStudents()}</Text>
+      <Text fontSize="2rem">{LL.course.noStudents()}</Text>
     </Flex>
   )
 }

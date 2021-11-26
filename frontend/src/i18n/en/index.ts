@@ -7,6 +7,11 @@ const en: BaseTranslation = {
     onlineDescription: 'Yay 😍😍😍!',
     offline: 'You are offline!',
     offlineDescription: 'Please check your connection!',
+    success: 'Hurray 😊😊😊!',
+    fail: '🥲🥲🥲',
+    confirm: 'Confirm',
+    cancel: 'Cancel',
+    create: 'Create',
     on: 'On',
     off: 'Off'
   },
@@ -40,18 +45,31 @@ const en: BaseTranslation = {
     darkMode: 'Dark mode',
     languages: 'Languages'
   },
-  courses: {
+  course: {
     description: 'Description',
     lecturers: 'Lecturers',
     allStudents: 'All Students',
     noLessons: "This course don't have any lessons",
     noStudents: "This course doesn't have any lessons",
-    students: 'Students'
+    students: 'Students',
+    enterEditing: 'Enter editing mode',
+    finishEditing: 'Exit editing mode'
   },
   lesson: {
     overdue: 'Overdue',
     timeRemainWithDay: '{day} day {hour} hour remain',
-    timeRemainWithHour: '{hour} hour remain'
+    timeRemainWithHour: '{hour} hour remain',
+    createNew: 'Create a new lesson',
+    name: 'Name',
+    namePlaceholder: 'Your lesson name',
+    description: 'Description',
+    descriptionPlaceholder: 'Your lesson description',
+    createdSuccessfully: 'Created lesson successfully!',
+    createdFailed: 'Created lesson failed!',
+    deleteConfirm: 'Delete lesson?',
+    deleteConfirmDescription: 'Are you sure to delete this lesson?',
+    deletedSuccessfully: 'Deleted lesson successfully!',
+    deletedFailed: 'Deleted lesson failed'
   },
   user: {
     overview: 'Overview',

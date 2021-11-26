@@ -7,6 +7,11 @@ const vi: Translation = {
     onlineDescription: 'Yay 😍😍😍!',
     offline: 'Bạn đang ngoại tuyến!',
     offlineDescription: 'Kiểm tra lại kết nối',
+    success: 'Hurray 😊😊😊!',
+    fail: '🥲🥲🥲',
+    confirm: 'Xác nhận',
+    cancel: 'Thoát',
+    create: 'Tạo',
     on: 'Bật',
     off: 'Tắt'
   },
@@ -40,18 +45,32 @@ const vi: Translation = {
     darkMode: 'Chế độ tối',
     languages: 'Ngôn ngữ'
   },
-  courses: {
+  course: {
     description: 'Mô tả',
     lecturers: 'Giảng viên',
     allStudents: 'Tất cả học sinh',
     noLessons: 'Khoá học này không có bài học nào cả',
     noStudents: 'Khoá học này không có học sinh nào cả',
-    students: 'Danh sách học sinh'
+    students: 'Danh sách học sinh',
+    enterEditing: 'Vào chế độ chỉnh sửa',
+    finishEditing: 'Thoát chế độ chỉnh sửa'
   },
   lesson: {
     overdue: 'Quá hạn',
     timeRemainWithDay: 'Còn lại {day} ngày {hour} giờ',
-    timeRemainWithHour: 'Còn lại {hour} giờ'
+    timeRemainWithHour: 'Còn lại {hour} giờ',
+
+    createNew: 'Tạo một bài học mới',
+    name: 'Tên',
+    namePlaceholder: 'Tên khoá học của bạn',
+    description: 'Mô tả',
+    descriptionPlaceholder: 'Mô tả cho khoá học của bạn',
+    createdSuccessfully: 'Tạo bài học thành công!',
+    createdFailed: 'Tạo bài hoc thất bại!',
+    deleteConfirm: 'Xoá bài học',
+    deleteConfirmDescription: 'Bạn có chắc muốn xoá bài học này?',
+    deletedSuccessfully: 'Xoá bài học thành công!',
+    deletedFailed: 'Xoá bài học thất bại!'
   },
   user: {
     overview: 'Tổng quan',
