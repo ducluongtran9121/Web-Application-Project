@@ -51,6 +51,10 @@ export type Translation = {
      */
     create: string
     /**
+     * Edit
+     */
+    edit: string
+    /**
      * Add
      */
     add: string
@@ -258,10 +262,6 @@ export type Translation = {
      */
     file: string
     /**
-     * Add a new file
-     */
-    addFile: string
-    /**
      * Your file name
      */
     fileNamePlaceHolder: string
@@ -278,6 +278,10 @@ export type Translation = {
      */
     folderPlaceholder: string
     /**
+     * Add a new file
+     */
+    addFile: string
+    /**
      * Added file successfully!
      */
     addedFileSuccessfully: string
@@ -285,6 +289,34 @@ export type Translation = {
      * Added file failed!
      */
     addedFileFailed: string
+    /**
+     * Edit a file
+     */
+    editFile: string
+    /**
+     * Edited file successfully!
+     */
+    editedFileSuccessfully: string
+    /**
+     * Edited file failed!
+     */
+    editedFileFailed: string
+    /**
+     * Delete file?
+     */
+    deleteFileConfirm: string
+    /**
+     * Are you sure to delete this file?
+     */
+    deleteFileConfirmDescription: string
+    /**
+     * Deleted file successfully!
+     */
+    deletedFileSuccessfully: string
+    /**
+     * Deleted file failed!
+     */
+    deletedFileFailed: string
   }
   user: {
     /**
@@ -364,6 +396,10 @@ export type TranslationFunctions = {
      * Create
      */
     create: () => LocalizedString
+    /**
+     * Edit
+     */
+    edit: () => LocalizedString
     /**
      * Add
      */
@@ -569,10 +605,6 @@ export type TranslationFunctions = {
      */
     file: () => LocalizedString
     /**
-     * Add a new file
-     */
-    addFile: () => LocalizedString
-    /**
      * Your file name
      */
     fileNamePlaceHolder: () => LocalizedString
@@ -589,6 +621,10 @@ export type TranslationFunctions = {
      */
     folderPlaceholder: () => LocalizedString
     /**
+     * Add a new file
+     */
+    addFile: () => LocalizedString
+    /**
      * Added file successfully!
      */
     addedFileSuccessfully: () => LocalizedString
@@ -596,6 +632,34 @@ export type TranslationFunctions = {
      * Added file failed!
      */
     addedFileFailed: () => LocalizedString
+    /**
+     * Edit a file
+     */
+    editFile: () => LocalizedString
+    /**
+     * Edited file successfully!
+     */
+    editedFileSuccessfully: () => LocalizedString
+    /**
+     * Edited file failed!
+     */
+    editedFileFailed: () => LocalizedString
+    /**
+     * Delete file?
+     */
+    deleteFileConfirm: () => LocalizedString
+    /**
+     * Are you sure to delete this file?
+     */
+    deleteFileConfirmDescription: () => LocalizedString
+    /**
+     * Deleted file successfully!
+     */
+    deletedFileSuccessfully: () => LocalizedString
+    /**
+     * Deleted file failed!
+     */
+    deletedFileFailed: () => LocalizedString
   }
   user: {
     /**

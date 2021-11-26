@@ -12,6 +12,7 @@ const vi: Translation = {
     confirm: 'Xác nhận',
     cancel: 'Thoát',
     create: 'Tạo',
+    edit: 'Sửa đổi',
     add: 'Thêm',
     on: 'Bật',
     off: 'Tắt'
@@ -72,13 +73,20 @@ const vi: Translation = {
     deletedSuccessfully: 'Xoá bài học thành công!',
     deletedFailed: 'Xoá bài học thất bại!',
     file: 'Tập tin',
-    addFile: 'Thêm một tập tin mới',
     fileNamePlaceHolder: 'Tên tập tin của bạn',
     fileUpload: 'Tải tập tin lên',
     folder: 'Thư mục',
     folderPlaceholder: 'Tập tin sẽ được nằm trong folder có tên này',
-    addedFileSuccessfully: 'Thêm file thành công',
-    addedFileFailed: 'Thêm file thất bại'
+    addFile: 'Thêm một tập tin mới',
+    addedFileSuccessfully: 'Thêm tập tin thành công!',
+    editFile: 'Sửa đổi một tập tin',
+    addedFileFailed: 'Thêm tập tin thất bại!',
+    editedFileSuccessfully: 'Sửa đổi tập tin thành công!',
+    editedFileFailed: 'Sửa đổi tập tin thất bại!',
+    deleteFileConfirm: 'Xoá tập tin?',
+    deleteFileConfirmDescription: 'Bạn có chắc muốn xoá tập này?',
+    deletedFileSuccessfully: 'Xoá tập tin thành công!',
+    deletedFileFailed: 'Xoá tập tin thất bại!'
   },
   user: {
     overview: 'Tổng quan',

@@ -1,5 +1,6 @@
 import lodash from 'lodash'
 import Constants from '../constants'
+import { sortLocationItems } from '../helpers'
 import { File, Folder } from '../models/location'
 import type { LocationItem, LocationPayload } from '../models/location'
 
@@ -20,7 +21,7 @@ function fromLocationPayloads(locationResponses: LocationPayload[]): LocationIte
     if (folderName === '') {
       groupedFolder[folderName].forEach((file) => {
         const match = file.file_upload.match(fileExtensionPattern)
-        locations.push(new File(file.id, file.name, match ? match[0] : 'binary', Constants.Api.Base + file.file_upload))
+        locations.push(new File(file.id, file.name, match ? match[0] : 'binary', Constants.Api.Base + file.file_upload, file.in_folder))
       })
     } else {
       const folder = new Folder(folderId, folderName, '', [])
@@ -28,12 +29,12 @@ function fromLocationPayloads(locationResponses: LocationPayload[]): LocationIte
 
       groupedFolder[folderName].forEach((file) => {
         const match = file.file_upload.match(fileExtensionPattern)
-        folder.children?.push(new File(file.id, file.name, match ? match[0] : 'binary', Constants.Api.Base + file.file_upload))
+        folder.children?.push(new File(file.id, file.name, match ? match[0] : 'binary', Constants.Api.Base + file.file_upload, file.in_folder))
       })
       locations.push(folder)
     }
   }
-  return locations
+  return sortLocationItems(locations)
 }
 
 export { fromLocationPayLoadToFile, fromLocationPayloads }

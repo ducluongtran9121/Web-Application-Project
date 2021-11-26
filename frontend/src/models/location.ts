@@ -11,6 +11,7 @@ interface LocationItem {
   type: string
   fileUrl: string
   children?: LocationItem[]
+  inFolder?: string
 }
 
 class File implements LocationItem {

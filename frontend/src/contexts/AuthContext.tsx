@@ -43,6 +43,8 @@ interface AuthContextProviderProps {
   editCourseLesson(courseId: number, lessonId: number, name: string, description: string): Promise<void>
   deleteCourseLesson(courseId: number, lessonId: number): Promise<void>
   addCourseLessonFile(courseId: number, lessonId: number, formData: FormData): Promise<File>
+  editCourseLessonFile(courseId: number, lessonId: number, fileId: number, formData: FormData): Promise<File>
+  deleteCourseLessonFile(courseId: number, lessonId: number, fileId: number): Promise<void>
 }
 
 const [useAuth, AuthContextProvider] = createContext<AuthContextProviderProps>()
@@ -117,6 +119,15 @@ function AuthProvider({ children }: AuthProviderProps): JSX.Element {
     return fromLocationPayLoadToFile(data)
   }
 
+  async function editCourseLessonFile(courseId: number, lessonId: number, fileId: number, formData: FormData): Promise<File> {
+    const { data } = await axiosInstance.put(Constants.Api.CourseLessonFile(courseId, lessonId, fileId), formData)
+    return fromLocationPayLoadToFile(data)
+  }
+
+  async function deleteCourseLessonFile(courseId: number, lessonId: number, fileId: number): Promise<void> {
+    await axiosInstance.delete(Constants.Api.CourseLessonFile(courseId, lessonId, fileId))
+  }
+
   const value: AuthContextProviderProps = {
     user,
     signIn,
@@ -129,7 +140,9 @@ function AuthProvider({ children }: AuthProviderProps): JSX.Element {
     createNewLesson,
     editCourseLesson,
     deleteCourseLesson,
-    addCourseLessonFile
+    addCourseLessonFile,
+    editCourseLessonFile,
+    deleteCourseLessonFile
   }
 
   return <AuthContextProvider value={value}>{children}</AuthContextProvider>

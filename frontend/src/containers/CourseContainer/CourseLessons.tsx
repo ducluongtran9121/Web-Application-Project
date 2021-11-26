@@ -27,11 +27,20 @@ import { FiPlus } from 'react-icons/fi'
 import CardSkeleton from '../../components/CardSkeleton'
 import LessonItem from '../../components/LessonItem'
 import Card from '../../components/Card'
-import { Folder } from '../../models'
+import { addFileToLessons, deleteLessonsFile } from '../../helpers'
 import type { Lesson } from '../../models'
 
 function CourseLessons(): JSX.Element {
-  const { user, getCourseLessons, createNewLesson, editCourseLesson, deleteCourseLesson, addCourseLessonFile } = useAuth()
+  const {
+    user,
+    getCourseLessons,
+    createNewLesson,
+    editCourseLesson,
+    deleteCourseLesson,
+    addCourseLessonFile,
+    editCourseLessonFile,
+    deleteCourseLessonFile
+  } = useAuth()
   const { isInEditingMode } = useEdit()
   const { LL } = React.useContext(I18nContext)
   const { courseId } = useParams()
@@ -115,24 +124,7 @@ function CourseLessons(): JSX.Element {
     try {
       if (lessons) {
         const data = await addCourseLessonFile(Number(courseId), lessonId, formData)
-        const newLessons = lessons
-        const lessonIndex = newLessons.findIndex((lesson) => lesson.id === lessonId)
-
-        if (lessonIndex < 0) throw 'Invalid data'
-
-        if (!data.inFolder) {
-          newLessons[lessonIndex].locationItems.push(data)
-        } else {
-          const folderIndex = newLessons[lessonIndex].locationItems.findIndex((item) => item.type === 'folder' && item.name === data.inFolder)
-          if (folderIndex > -1) {
-            newLessons[lessonIndex].locationItems[folderIndex].children?.push(data)
-          } else {
-            const newFolder = new Folder(newLessons[lessonIndex].locationItems.length, data.inFolder, '', [data])
-            newLessons[lessonIndex].locationItems.push(newFolder)
-          }
-        }
-
-        setLessons(newLessons)
+        setLessons((previousValue) => addFileToLessons(previousValue, lessonId, data))
 
         toast({
           title: LL.lesson.addedFileSuccessfully(),
@@ -146,6 +138,62 @@ function CourseLessons(): JSX.Element {
     } catch {
       toast({
         title: LL.lesson.addedFileFailed(),
+        description: LL.common.fail(),
+        status: 'error',
+        position: 'bottom-right',
+        variant: 'subtle',
+        isClosable: true
+      })
+    }
+  }
+
+  async function handleEditFile(lessonId: number, fileId: number, formData: FormData): Promise<void> {
+    try {
+      if (lessons) {
+        const data = await editCourseLessonFile(Number(courseId), lessonId, fileId, formData)
+        const newLessons = deleteLessonsFile(lessons, lessonId, fileId, false)
+        setLessons(addFileToLessons(newLessons, lessonId, data))
+
+        toast({
+          title: LL.lesson.editedFileSuccessfully(),
+          description: LL.common.success(),
+          status: 'info',
+          position: 'bottom-right',
+          variant: 'subtle',
+          isClosable: true
+        })
+      }
+    } catch {
+      toast({
+        title: LL.lesson.editedFileFailed(),
+        description: LL.common.fail(),
+        status: 'error',
+        position: 'bottom-right',
+        variant: 'subtle',
+        isClosable: true
+      })
+    }
+  }
+
+  async function handleDeleteFile(lessonId: number, fileId: number): Promise<void> {
+    try {
+      if (lessons) {
+        await deleteCourseLessonFile(Number(courseId), lessonId, fileId)
+        setLessons((previousValue) => deleteLessonsFile(previousValue, lessonId, fileId))
+
+        toast({
+          title: LL.lesson.deletedFileSuccessfully(),
+          description: LL.common.success(),
+          status: 'info',
+          position: 'bottom-right',
+          variant: 'subtle',
+          isClosable: true
+        })
+      } else throw 'Invalid data'
+    } catch (err) {
+      console.log(err)
+      toast({
+        title: LL.lesson.deletedFileFailed(),
         description: LL.common.fail(),
         status: 'error',
         position: 'bottom-right',
@@ -205,6 +253,8 @@ function CourseLessons(): JSX.Element {
               onEditSubmit={handleOnEditSubmit}
               onDeleteLesson={handleDeleteLesson}
               onAddFile={handleAddFile}
+              onEditFile={handleEditFile}
+              onDeleteFile={handleDeleteFile}
             />
           ))}
         </Flex>

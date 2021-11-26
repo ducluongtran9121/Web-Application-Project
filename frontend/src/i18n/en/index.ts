@@ -12,6 +12,7 @@ const en: BaseTranslation = {
     confirm: 'Confirm',
     cancel: 'Cancel',
     create: 'Create',
+    edit: 'Edit',
     add: 'Add',
     on: 'On',
     off: 'Off'
@@ -72,13 +73,20 @@ const en: BaseTranslation = {
     deletedSuccessfully: 'Deleted lesson successfully!',
     deletedFailed: 'Deleted lesson failed',
     file: 'File',
-    addFile: 'Add a new file',
     fileNamePlaceHolder: 'Your file name',
     fileUpload: 'File upload',
     folder: 'Folder',
     folderPlaceholder: 'This file will in this folder name',
+    addFile: 'Add a new file',
     addedFileSuccessfully: 'Added file successfully!',
-    addedFileFailed: 'Added file failed!'
+    addedFileFailed: 'Added file failed!',
+    editFile: 'Edit a file',
+    editedFileSuccessfully: 'Edited file successfully!',
+    editedFileFailed: 'Edited file failed!',
+    deleteFileConfirm: 'Delete file?',
+    deleteFileConfirmDescription: 'Are you sure to delete this file?',
+    deletedFileSuccessfully: 'Deleted file successfully!',
+    deletedFileFailed: 'Deleted file failed!'
   },
   user: {
     overview: 'Overview',
