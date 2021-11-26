@@ -1,18 +1,13 @@
 import * as React from 'react'
-import { Flex, Link, Text, useColorModeValue } from '@chakra-ui/react'
+import { Flex, Link, Text } from '@chakra-ui/react'
 import { I18nContext } from '../i18n/i18n-react'
 import type { FlexProps } from '@chakra-ui/react'
 
-interface FooterProps extends FlexProps {
-  isBackgroundTransparent?: boolean
-}
-
-function Footer({ isBackgroundTransparent }: FooterProps): JSX.Element {
+function Footer({ ...rest }: FlexProps): JSX.Element {
   const { LL } = React.useContext(I18nContext)
-  const baseBg = useColorModeValue('light.base.secondary', 'dark.base.secondary')
 
   return (
-    <Flex bg={isBackgroundTransparent ? 'transparent' : baseBg} direction="column" alignItems="center" p="2rem 1rem" gridGap="0.5rem">
+    <Flex direction="column" alignItems="center" p="2rem 1rem" gridGap="0.5rem" {...rest}>
       <Text>
         &copy;{' '}
         <Text as="span" fontWeight="semibold">

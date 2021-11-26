@@ -4,9 +4,10 @@ import { useEdit } from '../../contexts/EditContext'
 import { Link as RouterLink, Outlet, useParams } from 'react-router-dom'
 import { I18nContext } from '../../i18n/i18n-react'
 import { Box, Button, Flex, Heading, Icon, Link, Skeleton, Text, useColorModeValue } from '@chakra-ui/react'
-import { FiUser, FiUsers } from 'react-icons/fi'
+import { FiBook, FiUser, FiUsers } from 'react-icons/fi'
 import Card from '../../components/Card'
 import CardSkeleton from '../../components/CardSkeleton'
+import Footer from '../../components/Footer'
 import type { Course } from '../../models'
 
 function CourseContainer(): JSX.Element {
@@ -74,6 +75,10 @@ function CourseContainer(): JSX.Element {
                     </Link>
                   ))}
                 </Flex>
+                <Link mt="0.75rem" display="flex" gridGap="0.5rem" as={RouterLink} alignItems="center" to="">
+                  <Icon color={textColorDefault} as={FiBook} />
+                  <Text>{LL.course.allLessons()}</Text>
+                </Link>
                 <Link display="flex" gridGap="0.5rem" as={RouterLink} alignItems="center" to="students">
                   <Icon color={textColorDefault} as={FiUsers} />
                   <Text>{LL.course.allStudents()}</Text>
@@ -86,6 +91,7 @@ function CourseContainer(): JSX.Element {
           <Outlet />
         </Box>
       </Flex>
+      <Footer mt="6rem" />
     </Box>
   )
 }

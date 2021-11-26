@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { I18nContext } from '../i18n/i18n-react'
-import { Box, ButtonGroup, Flex, Grid, Icon, IconButton, Link, Text, useDisclosure } from '@chakra-ui/react'
+import { Box, ButtonGroup, Flex, Grid, Icon, IconButton, Link, Text, Tooltip, useColorModeValue, useDisclosure } from '@chakra-ui/react'
 import { motion } from 'framer-motion'
 import { IoChevronForward } from 'react-icons/io5'
 import { FiEdit, FiX } from 'react-icons/fi'
@@ -59,6 +59,8 @@ function LocationTreeItem({
   onDeleteFile
 }: LocationTreeItemProps): JSX.Element {
   const { LL } = React.useContext(I18nContext)
+  const hoverBg = useColorModeValue('light.locationItem.secondary', 'dark.locationItem.secondary')
+  const activeBg = useColorModeValue('light.locationItem.ternary', 'dark.locationItem.ternary')
   const [isOpen, setOpen] = React.useState<boolean>(false)
   const { isOpen: isEditOpen, onOpen: onEditOpen, onClose: onEditClose } = useDisclosure()
   const { isOpen: isDeleteOpen, onOpen: onDeleteOpen, onClose: onDeleteClose } = useDisclosure()
@@ -80,9 +82,6 @@ function LocationTreeItem({
         onClick={() => {
           isOpen ? setOpen(false) : setOpen(true)
         }}
-        _hover={{
-          cursor: 'pointer'
-        }}
       >
         {children && (
           <motion.div
@@ -101,21 +100,39 @@ function LocationTreeItem({
             <IoChevronForward />
           </motion.div>
         )}
-        <Flex role="group" gridColumn="2" alignItems="center" gridGap="0.5rem">
+        <Flex
+          role="group"
+          gridColumn="2"
+          alignItems="center"
+          p="0.25rem"
+          gridGap="0.5rem"
+          borderRadius="4px"
+          _hover={{
+            cursor: 'pointer',
+            bg: hoverBg
+          }}
+          _active={{
+            bg: activeBg
+          }}
+        >
           <Flex flexGrow={1} alignItems="center" gridGap="0.5rem">
             <LocationItemIcon type={type} />
             {type === 'folder' ? (
               <Text>{name}</Text>
             ) : (
-              <Link href={fileUrl} target="_blank">
+              <Link href={fileUrl} target="_blank" w="100%" textAlign="left">
                 {name}
               </Link>
             )}
           </Flex>
           {isInEditingMode && type !== 'folder' && (
-            <ButtonGroup size="sm" opacity="0" _groupHover={{ opacity: 1 }} isAttached>
-              <IconButton aria-label="Edit file" icon={<FiEdit />} onClick={onEditOpen} />
-              <IconButton aria-label="Delete location item" icon={<FiX />} onClick={onDeleteOpen} />
+            <ButtonGroup size="sm" visibility="hidden" _groupHover={{ visibility: 'visible' }} isAttached>
+              <Tooltip label={LL.lesson.editFile()}>
+                <IconButton aria-label="Edit a file" icon={<FiEdit />} onClick={onEditOpen} />
+              </Tooltip>
+              <Tooltip label={LL.lesson.deleteFile()}>
+                <IconButton variant="criticalOutLine" aria-label="Delete location item" icon={<FiX />} onClick={onDeleteOpen} />
+              </Tooltip>
             </ButtonGroup>
           )}
         </Flex>
@@ -135,8 +152,9 @@ function LocationTreeItem({
         </Flex>
       )}
       <ConfirmDialog
-        heading={LL.lesson.deleteFileConfirm()}
-        description={LL.lesson.deleteConfirmDescription()}
+        heading={LL.lesson.deleteFile()}
+        name={name}
+        description={LL.lesson.deleteFileConfirmDescription()}
         isOpen={isDeleteOpen}
         onClose={onDeleteClose}
         onConfirm={handleDeleteFile}

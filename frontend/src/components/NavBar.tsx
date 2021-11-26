@@ -110,7 +110,7 @@ function NavBar({ user: { id, name, imageUrl }, signOut }: NavBarProps): JSX.Ele
             <MenuButton>
               <Avatar display={{ base: 'none', md: 'inline-block' }} bg="white" boxSize="2rem" src={imageUrl} />
             </MenuButton>
-            <MenuList>
+            <MenuList minW="15rem">
               <MenuItem as={RouteLink} to={`users/${id}`}>
                 {name}
               </MenuItem>

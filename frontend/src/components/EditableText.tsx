@@ -1,5 +1,6 @@
 /* eslint-disable react/no-children-prop */
 import * as React from 'react'
+import { I18nContext } from '../i18n/i18n-react'
 import {
   ButtonGroup,
   Editable,
@@ -9,6 +10,7 @@ import {
   Icon,
   IconButton,
   InputRightElement,
+  Tooltip,
   useEditableControls
 } from '@chakra-ui/react'
 import { FiCheck, FiX, FiEdit } from 'react-icons/fi'
@@ -21,16 +23,23 @@ interface EditableTextProps extends EditableProps {
 }
 
 function EditableButton(): JSX.Element {
+  const { LL } = React.useContext(I18nContext)
   const { isEditing, getSubmitButtonProps, getCancelButtonProps, getEditButtonProps } = useEditableControls()
 
   return isEditing ? (
     <ButtonGroup isAttached justifyContent="center" size="sm">
-      <IconButton aria-label="Finish edit" icon={<Icon as={FiCheck} />} {...getSubmitButtonProps()} />
-      <IconButton aria-label="Cancel edit" icon={<Icon as={FiX} />} {...getCancelButtonProps()} />
+      <Tooltip label={LL.common.complete()}>
+        <IconButton aria-label="Finish edit" icon={<Icon as={FiCheck} />} {...getSubmitButtonProps()} />
+      </Tooltip>
+      <Tooltip label={LL.common.cancel()}>
+        <IconButton aria-label="Cancel edit" icon={<Icon as={FiX} />} {...getCancelButtonProps()} />
+      </Tooltip>
     </ButtonGroup>
   ) : (
-    <Flex opacity="0" _groupHover={{ opacity: 1 }}>
-      <IconButton aria-label="Start edit" size="sm" icon={<Icon as={FiEdit} />} {...getEditButtonProps()} />
+    <Flex visibility="hidden" _groupHover={{ visibility: 'visible' }}>
+      <Tooltip label={LL.common.edit()}>
+        <IconButton aria-label="Start edit" size="sm" icon={<Icon as={FiEdit} />} {...getEditButtonProps()} />
+      </Tooltip>
     </Flex>
   )
 }

@@ -20,7 +20,7 @@ function CourseStudents(): JSX.Element {
 
       try {
         const data = await getCourseStudents(Number(courseId))
-        setStudents(data)
+        setStudents(data.filter((member) => member.role === 'student'))
         // eslint-disable-next-line no-empty
       } catch {}
 
@@ -31,7 +31,7 @@ function CourseStudents(): JSX.Element {
 
   if (isLoading) {
     return <CardSkeleton cardNumber="4" />
-  } else if (students) {
+  } else if (students && students.length !== 0) {
     return (
       <Card>
         <Text fontWeight="semibold" fontSize="1.5rem">
@@ -50,7 +50,7 @@ function CourseStudents(): JSX.Element {
   }
 
   return (
-    <Flex direction="column" alignItems="center" gridGap="0.5rem">
+    <Flex textAlign="center" direction="column" alignItems="center" gridGap="0.5rem">
       <Text fontSize="5rem">≡(▔﹏▔)≡</Text>
       <Text fontSize="2rem">{LL.course.noStudents()}</Text>
     </Flex>

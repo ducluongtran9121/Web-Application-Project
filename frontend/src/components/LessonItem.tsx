@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { I18nContext } from '../i18n/i18n-react'
-import { ButtonGroup, Flex, IconButton, Menu, MenuButton, MenuItem, MenuList, Text, useDisclosure } from '@chakra-ui/react'
+import { ButtonGroup, Flex, IconButton, Menu, MenuButton, MenuItem, MenuList, Text, Tooltip, useDisclosure } from '@chakra-ui/react'
 import { FiPlus, FiX } from 'react-icons/fi'
 import Card from './Card'
 import DeadlineItem from './DeadlineItem'
@@ -93,13 +93,17 @@ function LessonItem({
               {isInEditingMode && (
                 <ButtonGroup isAttached size="sm">
                   <Menu>
-                    <MenuButton aria-label="add lesson item" as={IconButton} icon={<FiPlus />} />
+                    <Tooltip label={`${LL.common.add()}...`}>
+                      <MenuButton aria-label="Add lesson item" as={IconButton} icon={<FiPlus />} />
+                    </Tooltip>
                     <MenuList>
                       <MenuItem onClick={onAddFileOpen}>{LL.lesson.file()}</MenuItem>
                       <MenuItem>Deadline</MenuItem>
                     </MenuList>
                   </Menu>
-                  <IconButton aria-label="delete lesson" icon={<FiX />} onClick={onConfirmOpen} />
+                  <Tooltip label={LL.lesson.delete()}>
+                    <IconButton variant="criticalOutLine" aria-label="Delete lesson" icon={<FiX />} onClick={onConfirmOpen} />
+                  </Tooltip>
                 </ButtonGroup>
               )}
             </Flex>
@@ -126,7 +130,8 @@ function LessonItem({
           </Flex>
         </Card>
         <ConfirmDialog
-          heading={LL.lesson.deleteConfirm()}
+          heading={LL.lesson.delete()}
+          name={name}
           description={LL.lesson.deleteConfirmDescription()}
           isOpen={isConfirmOpen}
           onClose={onConfirmClose}

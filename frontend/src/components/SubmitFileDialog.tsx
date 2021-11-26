@@ -26,18 +26,33 @@ interface SubmitFileDialogProps extends Omit<ModalProps, 'children'> {
 function SubmitFileDialog({ heading, submitButtonContent, onSubmit, onClose, ...rest }: SubmitFileDialogProps): JSX.Element {
   const { LL } = React.useContext(I18nContext)
   const fileUpLoadFileInputRef = React.useRef<HTMLInputElement>(null)
-  const nameFileInputRef = React.useRef<HTMLInputElement>(null)
   const inFolderFileInputRef = React.useRef<HTMLInputElement>(null)
+  const [fileName, setFileName] = React.useState<string>('')
   const [isLoading, setLoading] = React.useState<boolean>(false)
 
-  async function handleSubmit(e: React.FormEvent) {
+  function handleFileNameChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setFileName(e.target.value)
+  }
+
+  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    if (e.target.files) {
+      setFileName(e.target.files[0].name)
+    }
+  }
+
+  function handleClose(): void {
+    setFileName('')
+    onClose()
+  }
+
+  async function handleSubmit(e: React.FormEvent): Promise<void> {
     e.preventDefault()
 
     try {
       setLoading(true)
-      if (onSubmit && nameFileInputRef.current?.value && fileUpLoadFileInputRef.current?.files && inFolderFileInputRef.current) {
+      if (onSubmit && fileUpLoadFileInputRef.current?.files && inFolderFileInputRef.current) {
         const formData = new FormData()
-        formData.append('name', nameFileInputRef.current.value)
+        formData.append('name', fileName)
         formData.append('file_upload', fileUpLoadFileInputRef.current.files[0])
         formData.append('in_folder', inFolderFileInputRef.current.value)
         await onSubmit(formData)
@@ -50,7 +65,7 @@ function SubmitFileDialog({ heading, submitButtonContent, onSubmit, onClose, ...
   }
 
   return (
-    <Modal onClose={onClose} {...rest}>
+    <Modal onClose={handleClose} {...rest}>
       <ModalOverlay />
       <ModalContent as="form" onSubmit={handleSubmit}>
         <ModalHeader>{heading}</ModalHeader>
@@ -58,11 +73,11 @@ function SubmitFileDialog({ heading, submitButtonContent, onSubmit, onClose, ...
         <ModalBody as={Flex} flexDirection="column" gridGap="0.75rem">
           <FormControl isRequired>
             <FormLabel>{LL.lesson.fileUpload()}</FormLabel>
-            <Input type="file" border="0" ref={fileUpLoadFileInputRef} />
+            <Input type="file" border="0" onChange={handleFileChange} ref={fileUpLoadFileInputRef} />
           </FormControl>
           <FormControl isRequired>
             <FormLabel>{LL.lesson.name()}</FormLabel>
-            <Input placeholder={LL.lesson.fileNamePlaceHolder()} ref={nameFileInputRef} />
+            <Input placeholder={LL.lesson.fileNamePlaceHolder()} value={fileName} onChange={handleFileNameChange} />
           </FormControl>
           <FormControl>
             <FormLabel>{LL.lesson.folder()}</FormLabel>
@@ -70,7 +85,7 @@ function SubmitFileDialog({ heading, submitButtonContent, onSubmit, onClose, ...
           </FormControl>
         </ModalBody>
         <ModalFooter as={Flex} gridGap="0.75rem">
-          <Button onClick={onClose}>{LL.common.cancel()}</Button>
+          <Button onClick={handleClose}>{LL.common.cancel()}</Button>
           <Button variant="accent" type="submit" isLoading={isLoading}>
             {submitButtonContent}
           </Button>

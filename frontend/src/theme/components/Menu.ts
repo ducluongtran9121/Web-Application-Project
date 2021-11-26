@@ -6,7 +6,7 @@ const baseStyleList: SystemStyleFunction = () => {
     color: 'inherit',
     minW: '8rem',
     py: '2',
-    zIndex: 1,
+    zIndex: 2,
     borderRadius: 'md',
     borderWidth: '1px'
   }

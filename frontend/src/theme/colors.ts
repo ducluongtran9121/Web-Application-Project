@@ -31,6 +31,10 @@ const colors = {
       default: '#ffffffb3',
       secondary: '#f6f6f680'
     },
+    locationItem: {
+      secondary: '#0000000d',
+      ternary: '#00000012'
+    },
     border: {
       control: '#00000015',
       card: '#00000019',
@@ -74,6 +78,10 @@ const colors = {
       secondary: '#00000015',
       ternary: '#00000008',
       disabled: '#0000009b'
+    },
+    locationItem: {
+      secondary: '#00000015',
+      ternary: '#00000012'
     },
     card: {
       default: '#ffffff0d',

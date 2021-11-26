@@ -5,6 +5,7 @@ import type { ModalProps } from '@chakra-ui/react'
 
 interface ConfirmDialogProps extends Omit<ModalProps, 'children'> {
   heading: string
+  name: string
   description: string
   actionContent?: string
   cancelContent?: string
@@ -12,7 +13,7 @@ interface ConfirmDialogProps extends Omit<ModalProps, 'children'> {
   onConfirm(): void
 }
 
-function ConfirmDialog({ heading, description, actionContent, cancelContent, onConfirm, onClose, ...rest }: ConfirmDialogProps): JSX.Element {
+function ConfirmDialog({ heading, name, description, actionContent, cancelContent, onConfirm, onClose, ...rest }: ConfirmDialogProps): JSX.Element {
   const { LL } = React.useContext(I18nContext)
 
   return (
@@ -22,7 +23,13 @@ function ConfirmDialog({ heading, description, actionContent, cancelContent, onC
           <ModalHeader>{heading}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Text>{description}</Text>
+            <Text>
+              {description}:{' '}
+              <Text as="span" fontWeight="semibold">
+                {name}
+              </Text>
+              ?
+            </Text>
           </ModalBody>
           <ModalFooter as={Flex} gridGap="0.75rem">
             <Button onClick={onClose}>{cancelContent ? cancelContent : LL.common.cancel()}</Button>

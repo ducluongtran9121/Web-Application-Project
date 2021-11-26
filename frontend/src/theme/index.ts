@@ -13,6 +13,7 @@ import Link from './components/Link'
 import Alert from './components/Alert'
 import Tabs from './components/Tabs'
 import Menu from './components/Menu'
+import Tooltip from './components/Tooltip'
 
 const theme = extendTheme({
   config,
@@ -26,7 +27,8 @@ const theme = extendTheme({
     Input,
     Link,
     Menu,
-    Tabs
+    Tabs,
+    Tooltip
   }
 })
 

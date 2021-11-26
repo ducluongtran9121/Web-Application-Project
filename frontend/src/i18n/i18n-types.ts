@@ -59,6 +59,10 @@ export type Translation = {
      */
     add: string
     /**
+     * Complete
+     */
+    complete: string
+    /**
      * On
      */
     on: string
@@ -173,15 +177,19 @@ export type Translation = {
      */
     lecturers: string
     /**
-     * All Students
+     * All lessons
+     */
+    allLessons: string
+    /**
+     * All students
      */
     allStudents: string
     /**
-     * This course don't have any lessons
+     * This course doesn't have any lessons
      */
     noLessons: string
     /**
-     * This course doesn't have any lessons
+     * This course doesn't have any students
      */
     noStudents: string
     /**
@@ -214,10 +222,6 @@ export type Translation = {
      */
     timeRemainWithHour: RequiredParams1<'hour'>
     /**
-     * Create a new lesson
-     */
-    createNew: string
-    /**
      * Name
      */
     name: string
@@ -229,6 +233,10 @@ export type Translation = {
      * Description
      */
     description: string
+    /**
+     * Create a new lesson
+     */
+    createNew: string
     /**
      * Your lesson description
      */
@@ -242,11 +250,11 @@ export type Translation = {
      */
     createdFailed: string
     /**
-     * Delete lesson?
+     * Delete lesson
      */
-    deleteConfirm: string
+    delete: string
     /**
-     * Are you sure to delete this lesson?
+     * Are you sure to delete this lesson
      */
     deleteConfirmDescription: string
     /**
@@ -302,9 +310,9 @@ export type Translation = {
      */
     editedFileFailed: string
     /**
-     * Delete file?
+     * Delete file
      */
-    deleteFileConfirm: string
+    deleteFile: string
     /**
      * Are you sure to delete this file?
      */
@@ -404,6 +412,10 @@ export type TranslationFunctions = {
      * Add
      */
     add: () => LocalizedString
+    /**
+     * Complete
+     */
+    complete: () => LocalizedString
     /**
      * On
      */
@@ -519,15 +531,19 @@ export type TranslationFunctions = {
      */
     lecturers: () => LocalizedString
     /**
-     * All Students
+     * All lessons
+     */
+    allLessons: () => LocalizedString
+    /**
+     * All students
      */
     allStudents: () => LocalizedString
     /**
-     * This course don't have any lessons
+     * This course doesn't have any lessons
      */
     noLessons: () => LocalizedString
     /**
-     * This course doesn't have any lessons
+     * This course doesn't have any students
      */
     noStudents: () => LocalizedString
     /**
@@ -557,10 +573,6 @@ export type TranslationFunctions = {
      */
     timeRemainWithHour: (arg: { hour: unknown }) => LocalizedString
     /**
-     * Create a new lesson
-     */
-    createNew: () => LocalizedString
-    /**
      * Name
      */
     name: () => LocalizedString
@@ -572,6 +584,10 @@ export type TranslationFunctions = {
      * Description
      */
     description: () => LocalizedString
+    /**
+     * Create a new lesson
+     */
+    createNew: () => LocalizedString
     /**
      * Your lesson description
      */
@@ -585,11 +601,11 @@ export type TranslationFunctions = {
      */
     createdFailed: () => LocalizedString
     /**
-     * Delete lesson?
+     * Delete lesson
      */
-    deleteConfirm: () => LocalizedString
+    delete: () => LocalizedString
     /**
-     * Are you sure to delete this lesson?
+     * Are you sure to delete this lesson
      */
     deleteConfirmDescription: () => LocalizedString
     /**
@@ -645,9 +661,9 @@ export type TranslationFunctions = {
      */
     editedFileFailed: () => LocalizedString
     /**
-     * Delete file?
+     * Delete file
      */
-    deleteFileConfirm: () => LocalizedString
+    deleteFile: () => LocalizedString
     /**
      * Are you sure to delete this file?
      */

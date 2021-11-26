@@ -15,10 +15,18 @@ const variantHoverable: SystemStyleFunction = (props: StyleFunctionProps) => ({
   }
 })
 
+const variantClickable: SystemStyleFunction = (props: StyleFunctionProps) => ({
+  _hover: {
+    bg: mode('light.card.secondary', 'dark.card.secondary')(props),
+    cursor: 'pointer'
+  }
+})
+
 const Card = {
   baseStyle,
   variants: {
-    hoverable: variantHoverable
+    hoverable: variantHoverable,
+    clickable: variantClickable
   }
 }
 export default Card

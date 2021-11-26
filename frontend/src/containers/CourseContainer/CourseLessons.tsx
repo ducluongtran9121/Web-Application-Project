@@ -20,6 +20,7 @@ import {
   ModalHeader,
   ModalOverlay,
   Text,
+  Tooltip,
   useDisclosure,
   useToast
 } from '@chakra-ui/react'
@@ -222,7 +223,7 @@ function CourseLessons(): JSX.Element {
     return <CardSkeleton cardNumber="4" />
   }
 
-  if (!lessons) {
+  if (!lessons || (lessons.length === 0 && !isInEditingMode)) {
     return (
       <Flex direction="column" alignItems="center" gridGap="0.5rem">
         <Text textAlign="center" fontSize="5rem">
@@ -240,9 +241,11 @@ function CourseLessons(): JSX.Element {
       <Box>
         <Flex direction="column" gridGap="0.5rem">
           {isInEditingMode && (
-            <Card as={Center} onClick={onOpen} variant="hoverable">
-              <Icon as={FiPlus} />
-            </Card>
+            <Tooltip label={LL.lesson.createNew()}>
+              <Card as={Center} onClick={onOpen} variant="clickable">
+                <Icon as={FiPlus} />
+              </Card>
+            </Tooltip>
           )}
           {lessons.map((lesson) => (
             <LessonItem

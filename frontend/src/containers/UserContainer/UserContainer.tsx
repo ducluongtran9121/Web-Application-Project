@@ -70,7 +70,7 @@ function UserContainer(): JSX.Element {
           </Box>
         </Flex>
       </Flex>
-      <Footer mt="3rem" isBackgroundTransparent={true} />
+      <Footer mt="3rem" />
     </Box>
   )
 }

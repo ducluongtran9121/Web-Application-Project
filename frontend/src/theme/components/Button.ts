@@ -46,11 +46,19 @@ const variantAccent: SystemStyleFunction = (props: StyleFunctionProps) => ({
   }
 })
 
+const variantCriticalOutLine: SystemStyleFunction = (props: StyleFunctionProps) => ({
+  bg: mode('light.status.criticalBase', 'dark.status.criticalBase')(props),
+  color: mode('light.status.critical', 'dark.status.critical')(props),
+  borderColor: mode('light.status.critical', 'dark.status.critical')(props),
+  shadow: 'sm'
+})
+
 const Button = {
   baseStyle,
   variants: {
     solid: variantSolid,
-    accent: variantAccent
+    accent: variantAccent,
+    criticalOutLine: variantCriticalOutLine
   }
 }
 

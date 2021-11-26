@@ -45,7 +45,7 @@ function Home(): JSX.Element {
             </Flex>
           )
         )}
-        <Footer isBackgroundTransparent={true} mt="10rem" />
+        <Footer mt="4rem" />
       </Box>
     </Flex>
   )
