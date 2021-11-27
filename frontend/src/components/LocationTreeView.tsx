@@ -68,8 +68,8 @@ function LocationTreeItem({
   onDeleteDeadlineFile
 }: LocationTreeItemProps): JSX.Element {
   const { LL } = React.useContext(I18nContext)
-  const hoverBg = useColorModeValue('light.locationItem.secondary', 'dark.locationItem.secondary')
-  const activeBg = useColorModeValue('light.locationItem.ternary', 'dark.locationItem.ternary')
+  const hoverBg = useColorModeValue('light.hoverable.secondary', 'dark.hoverable.secondary')
+  const activeBg = useColorModeValue('light.hoverable.ternary', 'dark.hoverable.ternary')
   const [isOpen, setOpen] = React.useState<boolean>(false)
   const { isOpen: isEditOpen, onOpen: onEditOpen, onClose: onEditClose } = useDisclosure()
   const { isOpen: isDeleteOpen, onOpen: onDeleteOpen, onClose: onDeleteClose } = useDisclosure()

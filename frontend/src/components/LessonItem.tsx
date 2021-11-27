@@ -1,6 +1,19 @@
 import * as React from 'react'
 import { I18nContext } from '../i18n/i18n-react'
-import { ButtonGroup, Flex, IconButton, Menu, MenuButton, MenuItem, MenuList, Text, Tooltip, useDisclosure } from '@chakra-ui/react'
+import {
+  Box,
+  ButtonGroup,
+  Flex,
+  IconButton,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Text,
+  Tooltip,
+  useColorModeValue,
+  useDisclosure
+} from '@chakra-ui/react'
 import { FiPlus, FiX } from 'react-icons/fi'
 import Card from './Card'
 import DeadlineItem from './DeadlineItem'
@@ -50,6 +63,7 @@ function LessonItem({
   const { isOpen: isConfirmOpen, onOpen: onConfirmOpen, onClose: onConfirmClose } = useDisclosure()
   const { isOpen: isAddFileOpen, onOpen: onAddFileOpen, onClose: onAddFileClose } = useDisclosure()
   const { isOpen: isAddDeadlineOpen, onOpen: onAddDeadlineOpen, onClose: onAddDeadlineClose } = useDisclosure()
+  const borderControlColor = useColorModeValue('light.border.control', 'dark.border.control')
 
   async function handleNameSubmit(currentValue: string): Promise<void> {
     if (onEditSubmit) {
@@ -156,6 +170,7 @@ function LessonItem({
                 {deadlines.map((deadline) => (
                   <DeadlineItem
                     key={deadline.id}
+                    userRole={userRole}
                     deadline={deadline}
                     isInEditingMode={isInEditingMode}
                     onEdit={handleEditDeadline}
@@ -163,6 +178,8 @@ function LessonItem({
                     onAddFile={handleAddDeadlineFile}
                     onEditFile={handleEditDeadlineFile}
                     onDeleteFile={handleDeleteDeadlineFile}
+                    borderBottom="1px"
+                    borderBottomColor={borderControlColor}
                   />
                 ))}
               </Flex>
@@ -209,8 +226,9 @@ function LessonItem({
             {locationItems && <LocationTreeView childType="deadline" items={locationItems} />}
           </Flex>
           <Flex direction="column" gridGap="0.75rem">
+            {deadlines.length !== 0 && <Box h="0.5px" bg={borderControlColor} />}
             {deadlines.map((deadline) => (
-              <DeadlineItem key={deadline.id} deadline={deadline} />
+              <DeadlineItem key={deadline.id} deadline={deadline} userRole={userRole} borderBottom="1px" borderBottomColor={borderControlColor} />
             ))}
           </Flex>
         </Flex>

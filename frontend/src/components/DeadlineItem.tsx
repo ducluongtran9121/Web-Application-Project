@@ -8,11 +8,13 @@ import LocationTreeView from './LocationTreeView'
 import ConfirmDialog from './ConfirmDialog'
 import SubmitDeadlineDialog from './SubmitDeadlineDialog'
 import SubmitFileDialog from './SubmitFileDialog'
-import type { Deadline } from '../models'
+import type { Deadline, UserRole } from '../models'
 import type { LocalizedString } from 'typesafe-i18n'
+import type { BoxProps } from '@chakra-ui/react'
 
-interface DeadlineItemProps {
+interface DeadlineItemProps extends BoxProps {
   deadline: Deadline
+  userRole?: UserRole
   isInEditingMode?: boolean
   onEdit?(deadlineId: number, name: string, begin: string, end: string, description?: string): Promise<void>
   onDelete?(deadlineId: number): Promise<void>
@@ -23,12 +25,14 @@ interface DeadlineItemProps {
 
 function DeadlineItem({
   deadline: { id, name, description, locationItems, begin, end },
+  userRole = 'student',
   isInEditingMode,
   onEdit,
   onDelete,
   onAddFile,
   onEditFile,
-  onDeleteFile
+  onDeleteFile,
+  ...rest
 }: DeadlineItemProps): JSX.Element {
   const { LL } = React.useContext(I18nContext)
   const { isOpen: isAddFileOpen, onOpen: onAddFileOpen, onClose: onAddFileClose } = useDisclosure()
@@ -39,6 +43,9 @@ function DeadlineItem({
   const attentionColor = useColorModeValue('light.status.attention', 'dark.status.attention')
   const cautionColor = useColorModeValue('light.status.caution', 'dark.status.caution')
   const criticalColor = useColorModeValue('light.status.critical', 'dark.status.critical')
+  const noneColor = useColorModeValue('light.status.none', 'dark.status.none')
+  const hoverBg = useColorModeValue('light.hoverable.secondary', 'dark.hoverable.secondary')
+  const activeBg = useColorModeValue('light.hoverable.ternary', 'dark.hoverable.ternary')
   const hourDivisor = 1000 * 3600
   const dayDivisor = hourDivisor * 24
 
@@ -59,17 +66,22 @@ function DeadlineItem({
   }, [])
 
   function getRemainTimeColor(dayRemain: number, hourRemain: number) {
+    if (new Date() < begin) return noneColor
     if (dayRemain > 0) return attentionColor
     if (hourRemain > 0) return cautionColor
     return criticalColor
   }
 
-  function getRemainTime(dayRemain: number, hourRemain: number): LocalizedString {
+  function getRemainTime(dayRemain: number, hourRemain: number): LocalizedString | string {
+    if (new Date() < begin) return `${LL.lesson.notStart()} - ${LL.common.begin()}: ${begin.toLocaleDateString()} ${begin.toLocaleTimeString()}`
+
     if (dayRemain === 0) {
       if (hourRemain === 0) return LL.lesson.overdue()
       return LL.lesson.timeRemainWithHour({ hour: hourRemain })
     }
-    return LL.lesson.timeRemainWithDay({ day: dayRemain, hour: hourRemain })
+
+    if (hourRemain === 0) return LL.lesson.timeRemainWithDay({ day: dayRemain })
+    return LL.lesson.timeRemainWithDayAndHour({ day: dayRemain, hour: hourRemain })
   }
 
   async function handleEdit(name: string, begin: string, end: string, description?: string): Promise<void> {
@@ -92,8 +104,90 @@ function DeadlineItem({
     if (onDeleteFile) await onDeleteFile(id, fileId)
   }
 
+  if (userRole === 'lecturer') {
+    return (
+      <Box pt="0.75rem" pb="1rem" {...rest}>
+        <Flex
+          role="group"
+          gridGap="0.5rem"
+          alignItems="center"
+          w="100%"
+          p="0.25rem"
+          borderRadius="6px"
+          _hover={{ bg: hoverBg }}
+          _active={{ bg: activeBg }}
+        >
+          <Flex gridGap="0.5rem" alignItems="center" flexGrow="1">
+            <Icon fontSize="1.25rem" as={DeadlineIcon} />
+            <Link as={RouterLink} to="/">
+              {name}
+            </Link>
+            <Text> - </Text>
+            <Text textAlign="center" fontWeight="semibold" color={attentionColor}>
+              {`${begin.toLocaleDateString()} ${begin.toLocaleTimeString()} - ${end.toLocaleDateString()} ${end.toLocaleTimeString()}`}
+            </Text>
+          </Flex>
+          {isInEditingMode && (
+            <ButtonGroup size="sm" visibility="hidden" _groupHover={{ visibility: 'visible' }} isAttached>
+              <Tooltip label={LL.lesson.addDeadlineFile()}>
+                <IconButton onClick={onAddFileOpen} aria-label="Add file to deadline" icon={<FiPlus />} />
+              </Tooltip>
+              <Tooltip label={LL.lesson.editDeadline()}>
+                <IconButton onClick={onEditOpen} aria-label="Edit a deadline" icon={<FiEdit />} />
+              </Tooltip>
+              <Tooltip label={LL.lesson.deleteDeadline()}>
+                <IconButton onClick={onDeleteOpen} variant="criticalOutLine" aria-label="Delete deadline item" icon={<FiX />} />
+              </Tooltip>
+            </ButtonGroup>
+          )}
+        </Flex>
+        {description && <Text>{description}</Text>}
+        <Flex direction="column" pl="0.75rem" mt="0.5rem">
+          {locationItems && (
+            <LocationTreeView
+              childType="deadline"
+              items={locationItems}
+              isInEditingMode={isInEditingMode}
+              onEditDeadlineFile={handleEditFile}
+              onDeleteDeadlineFile={handleDeleteFile}
+            />
+          )}
+        </Flex>
+        <ConfirmDialog
+          heading={LL.lesson.deleteDeadline()}
+          name={name}
+          description={LL.lesson.deleteDeadlineConfirmDescription()}
+          isOpen={isDeleteOpen}
+          onClose={onDeleteClose}
+          onConfirm={handleDelete}
+        />
+        <SubmitDeadlineDialog
+          heading={LL.lesson.editDeadline()}
+          submitButtonContent={LL.common.edit()}
+          isUseUserData={true}
+          isOpen={isEditOpen}
+          onClose={onEditClose}
+          name={name}
+          description={description}
+          begin={`${begin.getHours()}:${begin.getMinutes()}`}
+          end={`${end.getHours()}:${end.getMinutes()}`}
+          startDate={begin}
+          endDate={end}
+          onSubmit={handleEdit}
+        />
+        <SubmitFileDialog
+          heading={LL.lesson.addDeadlineFile()}
+          submitButtonContent={LL.common.add()}
+          isOpen={isAddFileOpen}
+          onClose={onAddFileClose}
+          onSubmit={handleAddFile}
+        />
+      </Box>
+    )
+  }
+
   return (
-    <Box>
+    <Box py="0.75rem" pb="1rem" {...rest}>
       <Flex role="group" gridGap="0.5rem" alignItems="center" w="100%">
         <Flex gridGap="0.5rem" alignItems="center" flexGrow="1">
           <Icon fontSize="1.25rem" as={DeadlineIcon} />
@@ -102,66 +196,14 @@ function DeadlineItem({
           </Link>
           <Text> - </Text>
           <Text textAlign="center" fontWeight="semibold" color={getRemainTimeColor(dayRemain, hourRemain)}>
-            {isInEditingMode
-              ? `${begin.toLocaleDateString()} ${begin.toLocaleTimeString()} - ${end.toLocaleDateString()} ${end.toLocaleTimeString()}`
-              : getRemainTime(dayRemain, hourRemain)}
+            {getRemainTime(dayRemain, hourRemain)}
           </Text>
         </Flex>
-        {isInEditingMode && (
-          <ButtonGroup size="sm" visibility="hidden" _groupHover={{ visibility: 'visible' }} isAttached>
-            <Tooltip label={LL.lesson.addDeadlineFile()}>
-              <IconButton onClick={onAddFileOpen} aria-label="Add file to deadline" icon={<FiPlus />} />
-            </Tooltip>
-            <Tooltip label={LL.lesson.editDeadline()}>
-              <IconButton onClick={onEditOpen} aria-label="Edit a deadline" icon={<FiEdit />} />
-            </Tooltip>
-            <Tooltip label={LL.lesson.deleteDeadline()}>
-              <IconButton onClick={onDeleteOpen} variant="criticalOutLine" aria-label="Delete deadline item" icon={<FiX />} />
-            </Tooltip>
-          </ButtonGroup>
-        )}
       </Flex>
       {description && <Text>{description}</Text>}
       <Flex direction="column" pl="0.75rem" mt="0.5rem">
-        {locationItems && (
-          <LocationTreeView
-            childType="deadline"
-            items={locationItems}
-            isInEditingMode={isInEditingMode}
-            onEditDeadlineFile={handleEditFile}
-            onDeleteDeadlineFile={handleDeleteFile}
-          />
-        )}
+        {locationItems && <LocationTreeView childType="deadline" items={locationItems} />}
       </Flex>
-      <ConfirmDialog
-        heading={LL.lesson.deleteDeadline()}
-        name={name}
-        description={LL.lesson.deleteDeadlineConfirmDescription()}
-        isOpen={isDeleteOpen}
-        onClose={onDeleteClose}
-        onConfirm={handleDelete}
-      />
-      <SubmitDeadlineDialog
-        heading={LL.lesson.editDeadline()}
-        submitButtonContent={LL.common.edit()}
-        isUseUserData={true}
-        isOpen={isEditOpen}
-        onClose={onEditClose}
-        name={name}
-        description={description}
-        begin={`${begin.getHours()}:${begin.getMinutes()}`}
-        end={`${end.getHours()}:${end.getMinutes()}`}
-        startDate={begin}
-        endDate={end}
-        onSubmit={handleEdit}
-      />
-      <SubmitFileDialog
-        heading={LL.lesson.addDeadlineFile()}
-        submitButtonContent={LL.common.add()}
-        isOpen={isAddFileOpen}
-        onClose={onAddFileClose}
-        onSubmit={handleAddFile}
-      />
     </Box>
   )
 }

@@ -31,7 +31,7 @@ export type Translation = {
      */
     offlineDescription: string
     /**
-     * Hurray 😊😊😊!
+     * Hurray 🥰🥰🥰!
      */
     success: string
     /**
@@ -58,6 +58,10 @@ export type Translation = {
      * Add
      */
     add: string
+    /**
+     * Begin
+     */
+    begin: string
     /**
      * Complete
      */
@@ -211,11 +215,20 @@ export type Translation = {
      */
     overdue: string
     /**
+     * Not started yet
+     */
+    notStart: string
+    /**
      * {day} day {hour} hour remain
      * @param {unknown} day
      * @param {unknown} hour
      */
-    timeRemainWithDay: RequiredParams2<'day', 'hour'>
+    timeRemainWithDayAndHour: RequiredParams2<'day', 'hour'>
+    /**
+     * {day} day remain
+     * @param {unknown} day
+     */
+    timeRemainWithDay: RequiredParams1<'day'>
     /**
      * {hour} hour remain
      * @param {unknown} hour
@@ -485,7 +498,7 @@ export type TranslationFunctions = {
      */
     offlineDescription: () => LocalizedString
     /**
-     * Hurray 😊😊😊!
+     * Hurray 🥰🥰🥰!
      */
     success: () => LocalizedString
     /**
@@ -512,6 +525,10 @@ export type TranslationFunctions = {
      * Add
      */
     add: () => LocalizedString
+    /**
+     * Begin
+     */
+    begin: () => LocalizedString
     /**
      * Complete
      */
@@ -665,9 +682,17 @@ export type TranslationFunctions = {
      */
     overdue: () => LocalizedString
     /**
+     * Not started yet
+     */
+    notStart: () => LocalizedString
+    /**
      * {day} day {hour} hour remain
      */
-    timeRemainWithDay: (arg: { day: unknown; hour: unknown }) => LocalizedString
+    timeRemainWithDayAndHour: (arg: { day: unknown; hour: unknown }) => LocalizedString
+    /**
+     * {day} day remain
+     */
+    timeRemainWithDay: (arg: { day: unknown }) => LocalizedString
     /**
      * {hour} hour remain
      */
