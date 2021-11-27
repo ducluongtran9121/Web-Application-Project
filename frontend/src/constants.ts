@@ -13,6 +13,13 @@ class Constants {
     public static readonly CourseLessonFiles = (courseId: number, lessonId: number) => `/courseAPI/courses/${courseId}/lessons/${lessonId}/files/`
     public static readonly CourseLessonFile = (courseId: number, lessonId: number, fileId: number) =>
       `/courseAPI/courses/${courseId}/lessons/${lessonId}/files/${fileId}/`
+    public static readonly studentDeadlines = '/deadlineAPI/myDeadlines/'
+    public static readonly lecturerDeadlines = (lessonId: number) => `/deadlineAPI/${lessonId}/lecturerDeadlines/`
+    public static readonly lecturerDeadline = (lessonId: number, deadlineId: number) => `/deadlineAPI/${lessonId}/lecturerDeadlines/${deadlineId}/`
+    public static readonly lecturerDeadlineFiles = (lessonId: number, deadlineId: number) =>
+      `/deadlineAPI/${lessonId}/lecturerDeadlines/${deadlineId}/files/`
+    public static readonly lecturerDeadlineFile = (lessonId: number, deadlineId: number, fileId: number) =>
+      `/deadlineAPI/${lessonId}/lecturerDeadlines/${deadlineId}/files/${fileId}/`
   }
 
   public static readonly Error = class {

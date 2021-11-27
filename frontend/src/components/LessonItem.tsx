@@ -8,6 +8,7 @@ import LocationTreeView from './LocationTreeView'
 import EditableText from './EditableText'
 import ConfirmDialog from './ConfirmDialog'
 import SubmitFileDialog from './SubmitFileDialog'
+import SubmitDeadlineDialog from './SubmitDeadlineDialog'
 import type { CardProps } from './Card'
 import type { Lesson, UserRole } from '../models'
 
@@ -20,6 +21,12 @@ interface LessonItemProps extends CardProps {
   onAddFile?(lessonId: number, formData: FormData): Promise<void>
   onEditFile?(lessonId: number, folderId: number, formData: FormData): Promise<void>
   onDeleteFile?(lessonId: number, folderId: number): Promise<void>
+  onCreateDeadline?(lessonId: number, name: string, begin: string, end: string, description?: string): Promise<void>
+  onEditDeadline?(lessonId: number, deadlineId: number, name: string, begin: string, end: string, description?: string): Promise<void>
+  onDeleteDeadline?(lessonId: number, deadlineId: number): Promise<void>
+  onAddDeadlineFile?(lessonId: number, deadlineId: number, formData: FormData): Promise<void>
+  onEditDeadlineFile?(lessonId: number, deadlineId: number, fileId: number, formData: FormData): Promise<void>
+  onDeleteDeadlineFile?(lessonId: number, deadlineId: number, fileId: number): Promise<void>
 }
 
 function LessonItem({
@@ -31,11 +38,18 @@ function LessonItem({
   onAddFile,
   onEditFile,
   onDeleteFile,
+  onCreateDeadline,
+  onEditDeadline,
+  onDeleteDeadline,
+  onAddDeadlineFile,
+  onEditDeadlineFile,
+  onDeleteDeadlineFile,
   ...rest
 }: LessonItemProps): JSX.Element {
   const { LL } = React.useContext(I18nContext)
   const { isOpen: isConfirmOpen, onOpen: onConfirmOpen, onClose: onConfirmClose } = useDisclosure()
   const { isOpen: isAddFileOpen, onOpen: onAddFileOpen, onClose: onAddFileClose } = useDisclosure()
+  const { isOpen: isAddDeadlineOpen, onOpen: onAddDeadlineOpen, onClose: onAddDeadlineClose } = useDisclosure()
 
   async function handleNameSubmit(currentValue: string): Promise<void> {
     if (onEditSubmit) {
@@ -52,27 +66,43 @@ function LessonItem({
   }
 
   async function handleDeleteLesson(): Promise<void> {
-    if (onDeleteLesson) {
-      await onDeleteLesson(id)
-    }
+    if (onDeleteLesson) await onDeleteLesson(id)
   }
 
   async function handleAddFile(formData: FormData) {
-    if (onAddFile) {
-      await onAddFile(id, formData)
-    }
+    if (onAddFile) await onAddFile(id, formData)
   }
 
   async function handleEditFile(fileId: number, formData: FormData) {
-    if (onEditFile) {
-      await onEditFile(id, fileId, formData)
-    }
+    if (onEditFile) await onEditFile(id, fileId, formData)
   }
 
   async function handleDeleteFile(fileId: number): Promise<void> {
-    if (onDeleteFile) {
-      await onDeleteFile(id, fileId)
-    }
+    if (onDeleteFile) await onDeleteFile(id, fileId)
+  }
+
+  async function handleCreateDeadline(name: string, begin: string, end: string, description?: string): Promise<void> {
+    if (onCreateDeadline) await onCreateDeadline(id, name, begin, end, description)
+  }
+
+  async function handleEditDeadline(deadlineId: number, name: string, begin: string, end: string, description?: string): Promise<void> {
+    if (onEditDeadline) await onEditDeadline(id, deadlineId, name, begin, end, description)
+  }
+
+  async function handleDeleteDeadline(deadlineId: number): Promise<void> {
+    if (onDeleteDeadline) await onDeleteDeadline(id, deadlineId)
+  }
+
+  async function handleAddDeadlineFile(deadlineId: number, formData: FormData): Promise<void> {
+    if (onAddDeadlineFile) await onAddDeadlineFile(id, deadlineId, formData)
+  }
+
+  async function handleEditDeadlineFile(deadlineId: number, fileId: number, formData: FormData): Promise<void> {
+    if (onEditDeadlineFile) await onEditDeadlineFile(id, deadlineId, fileId, formData)
+  }
+
+  async function handleDeleteDeadlineFile(deadlineId: number, fileId: number): Promise<void> {
+    if (onDeleteDeadlineFile) await onDeleteDeadlineFile(id, deadlineId, fileId)
   }
 
   if (userRole === 'lecturer') {
@@ -98,7 +128,7 @@ function LessonItem({
                     </Tooltip>
                     <MenuList>
                       <MenuItem onClick={onAddFileOpen}>{LL.lesson.file()}</MenuItem>
-                      <MenuItem>Deadline</MenuItem>
+                      <MenuItem onClick={onAddDeadlineOpen}>Deadline</MenuItem>
                     </MenuList>
                   </Menu>
                   <Tooltip label={LL.lesson.delete()}>
@@ -114,6 +144,7 @@ function LessonItem({
               <Flex direction="column" gridGap="0.25rem" mt="0.25rem">
                 {locationItems && (
                   <LocationTreeView
+                    childType="lesson"
                     items={locationItems}
                     isInEditingMode={isInEditingMode}
                     onEditFile={handleEditFile}
@@ -123,7 +154,16 @@ function LessonItem({
               </Flex>
               <Flex direction="column" gridGap="0.75rem">
                 {deadlines.map((deadline) => (
-                  <DeadlineItem key={deadline.id} deadline={deadline} />
+                  <DeadlineItem
+                    key={deadline.id}
+                    deadline={deadline}
+                    isInEditingMode={isInEditingMode}
+                    onEdit={handleEditDeadline}
+                    onDelete={handleDeleteDeadline}
+                    onAddFile={handleAddDeadlineFile}
+                    onEditFile={handleEditDeadlineFile}
+                    onDeleteFile={handleDeleteDeadlineFile}
+                  />
                 ))}
               </Flex>
             </Flex>
@@ -145,6 +185,14 @@ function LessonItem({
           onClose={onAddFileClose}
           onSubmit={handleAddFile}
         />
+        <SubmitDeadlineDialog
+          heading={LL.lesson.createNewDeadline()}
+          submitButtonContent={LL.common.create()}
+          closeOnOverlayClick={false}
+          isOpen={isAddDeadlineOpen}
+          onClose={onAddDeadlineClose}
+          onSubmit={handleCreateDeadline}
+        />
       </>
     )
   }
@@ -158,7 +206,7 @@ function LessonItem({
         {description && <Text>{description}</Text>}
         <Flex direction="column" gridGap="0.75rem" pl="0.75rem">
           <Flex direction="column" gridGap="0.25rem" mt="0.25rem">
-            {locationItems && <LocationTreeView items={locationItems} />}
+            {locationItems && <LocationTreeView childType="deadline" items={locationItems} />}
           </Flex>
           <Flex direction="column" gridGap="0.75rem">
             {deadlines.map((deadline) => (

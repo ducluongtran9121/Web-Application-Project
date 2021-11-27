@@ -16,6 +16,9 @@ specifiers:
   '@typescript-eslint/parser': ^5.4.0
   '@vitejs/plugin-react': ^1.1.0
   axios: ^0.24.0
+  chakra-dayzed-datepicker: ^0.1.4
+  date-fns: ^2.26.0
+  dayzed: ^3.2.2
   eslint: ^8.3.0
   eslint-config-prettier: ^8.3.0
   eslint-plugin-react: ^7.27.1
@@ -23,6 +26,7 @@ specifiers:
   framer-motion: ^5.3.3
   lodash: ^4.17.21
   prettier: ^2.5.0
+  prop-types: ^15.7.2
   react: ^17.0.2
   react-dom: ^17.0.2
   react-icons: ^4.3.1
@@ -40,6 +44,9 @@ dependencies:
   '@emotion/react': 11.7.0_e71557cadea3156a1191812ec2caaaff
   '@emotion/styled': 11.6.0_972360c6fb1a99a79d517e1157925c9a
   axios: 0.24.0
+  chakra-dayzed-datepicker: 0.1.4_react@17.0.2
+  date-fns: 2.26.0
+  dayzed: 3.2.2_prop-types@15.7.2+react@17.0.2
   focus-visible: 5.2.0
   framer-motion: 5.3.3_react-dom@17.0.2+react@17.0.2
   lodash: 4.17.21
@@ -62,6 +69,7 @@ devDependencies:
   eslint-config-prettier: 8.3.0_eslint@8.3.0
   eslint-plugin-react: 7.27.1_eslint@8.3.0
   prettier: 2.5.0
+  prop-types: 15.7.2
   typescript: 4.5.2
   vite: 2.6.14
   vite-plugin-svgr: 0.6.0_vite@2.6.14
@@ -1756,6 +1764,10 @@ packages:
       es-abstract: 1.19.1
     dev: true
 
+  /arrow-keys-react/1.0.6:
+    resolution: {integrity: sha512-WoFOU/4kTGGFOELMsMUi3zjTz8pk21zdc76tOHBZtPgEwac4+4fFatEoyM5oozqpZ59xP7Mj/ltI+l0QMLzbDQ==}
+    dev: false
+
   /axios/0.24.0:
     resolution: {integrity: sha512-Q6cWsys88HoPgAaFAVUb0WpPk0O8iTeisR9IMqy9G8AbO4NlpVknrnQS03zzF9PGAWgO3cgletO3VjV/P7VztA==}
     dependencies:
@@ -1821,6 +1833,16 @@ packages:
   /caniuse-lite/1.0.30001283:
     resolution: {integrity: sha512-9RoKo841j1GQFSJz/nCXOj0sD7tHBtlowjYlrqIUS812x9/emfBLBt6IyMz1zIaYc/eRL8Cs6HPUVi2Hzq4sIg==}
     dev: true
+
+  /chakra-dayzed-datepicker/0.1.4_react@17.0.2:
+    resolution: {integrity: sha512-irf+CPrxpisx6DyVhdMYwTCyUuKrBmUmp6XWg1gtaaJ3ippxfy9x6BUw5K8ig0AROKiZIqDSl5gLE8lK8uVsUg==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: '>=16'
+    dependencies:
+      arrow-keys-react: 1.0.6
+      react: 17.0.2
+    dev: false
 
   /chalk/2.4.2:
     resolution: {integrity: sha512-Mti+f9lpJNcwF4tWV8/OrTTtF1gZi+f8FqlyAdouralcFWFQWF2+NgCHShjkCb+IFBLq9buZwE1xckQU4peSuQ==}
@@ -1915,6 +1937,23 @@ packages:
 
   /csstype/3.0.10:
     resolution: {integrity: sha512-2u44ZG2OcNUO9HDp/Jl8C07x6pU/eTR3ncV91SiK3dhG9TWvRVsCoJw14Ckx5DgWkzGA3waZWO3d7pgqpUI/XA==}
+
+  /date-fns/2.26.0:
+    resolution: {integrity: sha512-VQI812dRi3cusdY/fhoBKvc6l2W8BPWU1FNVnFH9Nttjx4AFBRzfSVb/Eyc7jBT6e9sg1XtAGsYpBQ6c/jygbg==}
+    engines: {node: '>=0.11'}
+    dev: false
+
+  /dayzed/3.2.2_prop-types@15.7.2+react@17.0.2:
+    resolution: {integrity: sha512-BzNoj+6+er5DPQ0F82Yh1U8MU/jyOo7R+jIlK9FsSjfk4ZIISalygzMcsXTGTFedm5UfTddQnELMVBQUXZDv9Q==}
+    peerDependencies:
+      prop-types: ^15
+      react: ^16.8 || ^17.0
+    dependencies:
+      '@babel/runtime': 7.16.3
+      date-fns: 2.26.0
+      prop-types: 15.7.2
+      react: 17.0.2
+    dev: false
 
   /debug/4.3.2:
     resolution: {integrity: sha512-mOp8wKcvj7XxC78zLgw/ZA+6TSgkoE2C/ienthhRD298T7UNwAg9diBpLRxC0mOezLl4B0xV7M0cCO6P/O0Xhw==}

@@ -13,8 +13,8 @@ function fromDeadlinePayload({ id, name, description, begin, end, lesson, file_d
   }
 }
 
-function fromDeadlinePayloads(deadlineResponses: DeadlinePayload[]): Deadline[] {
+function fromDeadlinesPayload(deadlineResponses: DeadlinePayload[]): Deadline[] {
   return deadlineResponses.map((deadlineResponse) => fromDeadlinePayload(deadlineResponse))
 }
 
-export { fromDeadlinePayload, fromDeadlinePayloads }
+export { fromDeadlinePayload, fromDeadlinesPayload }

@@ -57,6 +57,7 @@ function SubmitFileDialog({ heading, submitButtonContent, onSubmit, onClose, ...
         formData.append('in_folder', inFolderFileInputRef.current.value)
         await onSubmit(formData)
         setLoading(false)
+        handleClose()
       }
     } catch (err) {
       setLoading(false)

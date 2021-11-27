@@ -20,15 +20,21 @@ interface LocationItemIconProps extends IconProps {
 interface LocationTreeItemProps {
   item: LocationItem
   isInEditingMode: boolean
+  childType: 'lesson' | 'deadline'
   onEditFile?(fileId: number, formData: FormData): Promise<void>
   onDeleteFile?(fileId: number): Promise<void>
+  onEditDeadlineFile?(fileId: number, formDate: FormData): Promise<void>
+  onDeleteDeadlineFile?(fileId: number): Promise<void>
 }
 
 interface LocationTreeViewProps extends FlexProps {
   items: LocationItem[]
   isInEditingMode?: boolean
+  childType: 'lesson' | 'deadline'
   onEditFile?(fileId: number, formData: FormData): Promise<void>
   onDeleteFile?(fileId: number): Promise<void>
+  onEditDeadlineFile?(fileId: number, formDate: FormData): Promise<void>
+  onDeleteDeadlineFile?(fileId: number): Promise<void>
 }
 
 function LocationItemIcon({ type, ...rest }: LocationItemIconProps): JSX.Element {
@@ -55,8 +61,11 @@ function LocationItemIcon({ type, ...rest }: LocationItemIconProps): JSX.Element
 function LocationTreeItem({
   item: { id, name, type, children, fileUrl },
   isInEditingMode,
+  childType,
   onEditFile,
-  onDeleteFile
+  onDeleteFile,
+  onEditDeadlineFile,
+  onDeleteDeadlineFile
 }: LocationTreeItemProps): JSX.Element {
   const { LL } = React.useContext(I18nContext)
   const hoverBg = useColorModeValue('light.locationItem.secondary', 'dark.locationItem.secondary')
@@ -64,6 +73,8 @@ function LocationTreeItem({
   const [isOpen, setOpen] = React.useState<boolean>(false)
   const { isOpen: isEditOpen, onOpen: onEditOpen, onClose: onEditClose } = useDisclosure()
   const { isOpen: isDeleteOpen, onOpen: onDeleteOpen, onClose: onDeleteClose } = useDisclosure()
+  const { isOpen: isEditDeadlineOpen, onOpen: onEditDeadlineOpen, onClose: onEditDeadlineClose } = useDisclosure()
+  const { isOpen: isDeleteDeadlineOpen, onOpen: onDeleteDeadlineOpen, onClose: onDeleteDeadlineClose } = useDisclosure()
 
   async function handleEditFile(formData: FormData): Promise<void> {
     if (onEditFile) await onEditFile(id, formData)
@@ -71,6 +82,14 @@ function LocationTreeItem({
 
   async function handleDeleteFile(): Promise<void> {
     if (onDeleteFile) await onDeleteFile(id)
+  }
+
+  async function handleEditDeadlineFile(formData: FormData): Promise<void> {
+    if (onEditDeadlineFile) await onEditDeadlineFile(id, formData)
+  }
+
+  async function handleDeleteDeadlineFile(): Promise<void> {
+    if (onDeleteDeadlineFile) await onDeleteDeadlineFile(id)
   }
 
   return (
@@ -106,7 +125,7 @@ function LocationTreeItem({
           alignItems="center"
           p="0.25rem"
           gridGap="0.5rem"
-          borderRadius="4px"
+          borderRadius="6px"
           _hover={{
             cursor: 'pointer',
             bg: hoverBg
@@ -127,12 +146,25 @@ function LocationTreeItem({
           </Flex>
           {isInEditingMode && type !== 'folder' && (
             <ButtonGroup size="sm" visibility="hidden" _groupHover={{ visibility: 'visible' }} isAttached>
-              <Tooltip label={LL.lesson.editFile()}>
-                <IconButton aria-label="Edit a file" icon={<FiEdit />} onClick={onEditOpen} />
-              </Tooltip>
-              <Tooltip label={LL.lesson.deleteFile()}>
-                <IconButton variant="criticalOutLine" aria-label="Delete location item" icon={<FiX />} onClick={onDeleteOpen} />
-              </Tooltip>
+              {childType === 'lesson' ? (
+                <>
+                  <Tooltip label={LL.lesson.editFile()}>
+                    <IconButton aria-label="Edit a file" icon={<FiEdit />} onClick={onEditOpen} />
+                  </Tooltip>
+                  <Tooltip label={LL.lesson.deleteFile()}>
+                    <IconButton variant="criticalOutLine" aria-label="Delete location item" icon={<FiX />} onClick={onDeleteOpen} />
+                  </Tooltip>
+                </>
+              ) : (
+                <>
+                  <Tooltip label={LL.lesson.editDeadlineFile()}>
+                    <IconButton aria-label="Edit a deadline file" icon={<FiEdit />} onClick={onEditDeadlineOpen} />
+                  </Tooltip>
+                  <Tooltip label={LL.lesson.deleteDeadlineFile()}>
+                    <IconButton variant="criticalOutLine" aria-label="Delete location item" icon={<FiX />} onClick={onDeleteDeadlineOpen} />
+                  </Tooltip>
+                </>
+              )}
             </ButtonGroup>
           )}
         </Flex>
@@ -144,37 +176,80 @@ function LocationTreeItem({
             <LocationTreeItem
               key={child.fileUrl}
               item={child}
+              childType={childType}
               isInEditingMode={isInEditingMode}
               onEditFile={onEditFile}
               onDeleteFile={onDeleteFile}
+              onEditDeadlineFile={onEditDeadlineFile}
+              onDeleteDeadlineFile={onDeleteDeadlineFile}
             />
           ))}
         </Flex>
       )}
-      <ConfirmDialog
-        heading={LL.lesson.deleteFile()}
-        name={name}
-        description={LL.lesson.deleteFileConfirmDescription()}
-        isOpen={isDeleteOpen}
-        onClose={onDeleteClose}
-        onConfirm={handleDeleteFile}
-      />
-      <SubmitFileDialog
-        heading={LL.lesson.editFile()}
-        submitButtonContent={LL.common.edit()}
-        isOpen={isEditOpen}
-        onClose={onEditClose}
-        onSubmit={handleEditFile}
-      />
+      {childType === 'lesson' ? (
+        <>
+          <SubmitFileDialog
+            heading={LL.lesson.editFile()}
+            submitButtonContent={LL.common.edit()}
+            isOpen={isEditOpen}
+            onClose={onEditClose}
+            onSubmit={handleEditFile}
+          />
+          <ConfirmDialog
+            heading={LL.lesson.deleteFile()}
+            name={name}
+            description={LL.lesson.deleteFileConfirmDescription()}
+            isOpen={isDeleteOpen}
+            onClose={onDeleteClose}
+            onConfirm={handleDeleteFile}
+          />
+        </>
+      ) : (
+        <>
+          <SubmitFileDialog
+            heading={LL.lesson.editDeadlineFile()}
+            submitButtonContent={LL.common.edit()}
+            isOpen={isEditDeadlineOpen}
+            onClose={onEditDeadlineClose}
+            onSubmit={handleEditDeadlineFile}
+          />
+          <ConfirmDialog
+            heading={LL.lesson.deleteDeadlineFile()}
+            name={name}
+            description={LL.lesson.deleteFileConfirmDescription()}
+            isOpen={isDeleteDeadlineOpen}
+            onClose={onDeleteDeadlineClose}
+            onConfirm={handleDeleteDeadlineFile}
+          />
+        </>
+      )}
     </Box>
   )
 }
 
-function LocationTreeView({ items, isInEditingMode = false, onEditFile, onDeleteFile, ...rest }: LocationTreeViewProps): JSX.Element {
+function LocationTreeView({
+  items,
+  isInEditingMode = false,
+  childType,
+  onEditFile,
+  onDeleteFile,
+  onEditDeadlineFile,
+  onDeleteDeadlineFile,
+  ...rest
+}: LocationTreeViewProps): JSX.Element {
   return (
     <Flex direction="column" alignItems="start" gridGap="0.5rem" {...rest}>
       {items.map((item) => (
-        <LocationTreeItem key={item.id} item={item} isInEditingMode={isInEditingMode} onEditFile={onEditFile} onDeleteFile={onDeleteFile} />
+        <LocationTreeItem
+          key={item.id}
+          item={item}
+          childType={childType}
+          isInEditingMode={isInEditingMode}
+          onEditFile={onEditFile}
+          onDeleteFile={onDeleteFile}
+          onEditDeadlineFile={onEditDeadlineFile}
+          onDeleteDeadlineFile={onDeleteDeadlineFile}
+        />
       ))}
     </Flex>
   )

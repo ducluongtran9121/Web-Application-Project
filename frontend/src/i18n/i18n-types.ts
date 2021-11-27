@@ -222,6 +222,10 @@ export type Translation = {
      */
     timeRemainWithHour: RequiredParams1<'hour'>
     /**
+     * Create a new lesson
+     */
+    createNew: string
+    /**
      * Name
      */
     name: string
@@ -233,10 +237,6 @@ export type Translation = {
      * Description
      */
     description: string
-    /**
-     * Create a new lesson
-     */
-    createNew: string
     /**
      * Your lesson description
      */
@@ -258,11 +258,11 @@ export type Translation = {
      */
     deleteConfirmDescription: string
     /**
-     * Deleted lesson successfully!
+     * Deleted a lesson successfully!
      */
     deletedSuccessfully: string
     /**
-     * Deleted lesson failed
+     * Deleted a lesson failed
      */
     deletedFailed: string
     /**
@@ -290,11 +290,11 @@ export type Translation = {
      */
     addFile: string
     /**
-     * Added file successfully!
+     * Added a file successfully!
      */
     addedFileSuccessfully: string
     /**
-     * Added file failed!
+     * Added a file failed!
      */
     addedFileFailed: string
     /**
@@ -302,15 +302,15 @@ export type Translation = {
      */
     editFile: string
     /**
-     * Edited file successfully!
+     * Edited a file successfully!
      */
     editedFileSuccessfully: string
     /**
-     * Edited file failed!
+     * Edited a file failed!
      */
     editedFileFailed: string
     /**
-     * Delete file
+     * Delete a file
      */
     deleteFile: string
     /**
@@ -318,13 +318,113 @@ export type Translation = {
      */
     deleteFileConfirmDescription: string
     /**
-     * Deleted file successfully!
+     * Deleted a file successfully!
      */
     deletedFileSuccessfully: string
     /**
-     * Deleted file failed!
+     * Deleted a file failed!
      */
     deletedFileFailed: string
+    /**
+     * Create a new deadline
+     */
+    createNewDeadline: string
+    /**
+     * Your deadline name
+     */
+    deadlineNamePlaceholder: string
+    /**
+     * Your deadline description
+     */
+    deadlineDescriptionPlaceholder: string
+    /**
+     * Start date
+     */
+    startDate: string
+    /**
+     * Start time
+     */
+    startTime: string
+    /**
+     * End date
+     */
+    endDate: string
+    /**
+     * End time
+     */
+    endTime: string
+    /**
+     * Created a deadline successfully!
+     */
+    createdDeadlineSuccessfully: string
+    /**
+     * Created a deadline failed!
+     */
+    createdDeadlineFailed: string
+    /**
+     * Edit a deadline
+     */
+    editDeadline: string
+    /**
+     * Edited a deadline successfully!
+     */
+    editedDeadlineSuccessfully: string
+    /**
+     * Edited a deadline failed!
+     */
+    editedDeadlineFailed: string
+    /**
+     * Delete a deadline
+     */
+    deleteDeadline: string
+    /**
+     * Are you sure to delete this deadline
+     */
+    deleteDeadlineConfirmDescription: string
+    /**
+     * Deleted a deadline successfully!
+     */
+    deletedDeadlineSuccessfully: string
+    /**
+     * Deleted a deadline failed
+     */
+    deletedDeadlineFailed: string
+    /**
+     * Add a file to deadline
+     */
+    addDeadlineFile: string
+    /**
+     * Added a file to deadline successfully!
+     */
+    addedDeadlineFileSuccessfully: string
+    /**
+     * Added a file to deadline failed!
+     */
+    addedDeadlineFileFailed: string
+    /**
+     * Edit a deadline file
+     */
+    editDeadlineFile: string
+    /**
+     * Edited a file of deadline successfully!
+     */
+    editedDeadlineFileSuccessfully: string
+    /**
+     * Edited a file of deadline failed!
+     */
+    editedDeadlineFileFailed: string
+    /**
+     * Delete a deadline file
+     */
+    deleteDeadlineFile: string
+    /**
+     * Deleted a file of deadline successfully!
+     */
+    deletedDeadlineFileSuccessfully: string
+    /**
+     * Deleted a file of deadline failed!
+     */
+    deletedDeadlineFileFailed: string
   }
   user: {
     /**
@@ -573,6 +673,10 @@ export type TranslationFunctions = {
      */
     timeRemainWithHour: (arg: { hour: unknown }) => LocalizedString
     /**
+     * Create a new lesson
+     */
+    createNew: () => LocalizedString
+    /**
      * Name
      */
     name: () => LocalizedString
@@ -584,10 +688,6 @@ export type TranslationFunctions = {
      * Description
      */
     description: () => LocalizedString
-    /**
-     * Create a new lesson
-     */
-    createNew: () => LocalizedString
     /**
      * Your lesson description
      */
@@ -609,11 +709,11 @@ export type TranslationFunctions = {
      */
     deleteConfirmDescription: () => LocalizedString
     /**
-     * Deleted lesson successfully!
+     * Deleted a lesson successfully!
      */
     deletedSuccessfully: () => LocalizedString
     /**
-     * Deleted lesson failed
+     * Deleted a lesson failed
      */
     deletedFailed: () => LocalizedString
     /**
@@ -641,11 +741,11 @@ export type TranslationFunctions = {
      */
     addFile: () => LocalizedString
     /**
-     * Added file successfully!
+     * Added a file successfully!
      */
     addedFileSuccessfully: () => LocalizedString
     /**
-     * Added file failed!
+     * Added a file failed!
      */
     addedFileFailed: () => LocalizedString
     /**
@@ -653,15 +753,15 @@ export type TranslationFunctions = {
      */
     editFile: () => LocalizedString
     /**
-     * Edited file successfully!
+     * Edited a file successfully!
      */
     editedFileSuccessfully: () => LocalizedString
     /**
-     * Edited file failed!
+     * Edited a file failed!
      */
     editedFileFailed: () => LocalizedString
     /**
-     * Delete file
+     * Delete a file
      */
     deleteFile: () => LocalizedString
     /**
@@ -669,13 +769,113 @@ export type TranslationFunctions = {
      */
     deleteFileConfirmDescription: () => LocalizedString
     /**
-     * Deleted file successfully!
+     * Deleted a file successfully!
      */
     deletedFileSuccessfully: () => LocalizedString
     /**
-     * Deleted file failed!
+     * Deleted a file failed!
      */
     deletedFileFailed: () => LocalizedString
+    /**
+     * Create a new deadline
+     */
+    createNewDeadline: () => LocalizedString
+    /**
+     * Your deadline name
+     */
+    deadlineNamePlaceholder: () => LocalizedString
+    /**
+     * Your deadline description
+     */
+    deadlineDescriptionPlaceholder: () => LocalizedString
+    /**
+     * Start date
+     */
+    startDate: () => LocalizedString
+    /**
+     * Start time
+     */
+    startTime: () => LocalizedString
+    /**
+     * End date
+     */
+    endDate: () => LocalizedString
+    /**
+     * End time
+     */
+    endTime: () => LocalizedString
+    /**
+     * Created a deadline successfully!
+     */
+    createdDeadlineSuccessfully: () => LocalizedString
+    /**
+     * Created a deadline failed!
+     */
+    createdDeadlineFailed: () => LocalizedString
+    /**
+     * Edit a deadline
+     */
+    editDeadline: () => LocalizedString
+    /**
+     * Edited a deadline successfully!
+     */
+    editedDeadlineSuccessfully: () => LocalizedString
+    /**
+     * Edited a deadline failed!
+     */
+    editedDeadlineFailed: () => LocalizedString
+    /**
+     * Delete a deadline
+     */
+    deleteDeadline: () => LocalizedString
+    /**
+     * Are you sure to delete this deadline
+     */
+    deleteDeadlineConfirmDescription: () => LocalizedString
+    /**
+     * Deleted a deadline successfully!
+     */
+    deletedDeadlineSuccessfully: () => LocalizedString
+    /**
+     * Deleted a deadline failed
+     */
+    deletedDeadlineFailed: () => LocalizedString
+    /**
+     * Add a file to deadline
+     */
+    addDeadlineFile: () => LocalizedString
+    /**
+     * Added a file to deadline successfully!
+     */
+    addedDeadlineFileSuccessfully: () => LocalizedString
+    /**
+     * Added a file to deadline failed!
+     */
+    addedDeadlineFileFailed: () => LocalizedString
+    /**
+     * Edit a deadline file
+     */
+    editDeadlineFile: () => LocalizedString
+    /**
+     * Edited a file of deadline successfully!
+     */
+    editedDeadlineFileSuccessfully: () => LocalizedString
+    /**
+     * Edited a file of deadline failed!
+     */
+    editedDeadlineFileFailed: () => LocalizedString
+    /**
+     * Delete a deadline file
+     */
+    deleteDeadlineFile: () => LocalizedString
+    /**
+     * Deleted a file of deadline successfully!
+     */
+    deletedDeadlineFileSuccessfully: () => LocalizedString
+    /**
+     * Deleted a file of deadline failed!
+     */
+    deletedDeadlineFileFailed: () => LocalizedString
   }
   user: {
     /**
