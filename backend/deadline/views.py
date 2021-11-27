@@ -21,11 +21,11 @@ class DeadlineApiStructure(APIView):
     def get(self, request):
         return Response({
             "myDeadlines/": "List all deadline of current student",
-            "lesson_pk/lectureDeadlines/": "List/Create deadline created by current lecturer in the lesson with id lesson_pk",
-            "lesson_pk/lectureDeadlines/pk/": "Retrieve/Update/Destroy deadline with id pk created by current lecturer in the lesson with id lesson_pk",
-            "lesson_pk/lectureDeadlines/pk/listStudentDeadlineStatus/": "list all student deadline status in deadline with id pk",
-            "lesson_pk/lectureDeadlines/deadline_pk/files": "List/Create deadline file in deadline with id deadline_pk",
-            "lesson_pk/lectureDeadlines/deadline_pk/files/pk/": "Retrieve/Update/Destroy deadline file with id pk in deadline with id deadline_pk",
+            "lesson_pk/lecturerDeadlines/": "List/Create deadline created by current lecturer in the lesson with id lesson_pk",
+            "lesson_pk/lecturerDeadlines/pk/": "Retrieve/Update/Destroy deadline with id pk created by current lecturer in the lesson with id lesson_pk",
+            "lesson_pk/lecturerDeadlines/pk/listStudentDeadlineStatus/": "list all student deadline status in deadline with id pk",
+            "lesson_pk/lecturerDeadlines/deadline_pk/files": "List/Create deadline file in deadline with id deadline_pk",
+            "lesson_pk/lecturerDeadlines/deadline_pk/files/pk/": "Retrieve/Update/Destroy deadline file with id pk in deadline with id deadline_pk",
             "lesson_pk/studentDeadlines/": "List deadline status of current student in the lesson with id lesson_pk",
             "lesson_pk/studentDeadlines/pk/": "Retrieve deadline status with id pk of current student in the lesson with id lesson_pk",
             "lesson_pk/studentDeadlines/pk/submit/": "update finish status to True",
