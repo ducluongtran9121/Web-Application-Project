@@ -167,6 +167,7 @@ function LessonItem({
                 )}
               </Flex>
               <Flex direction="column" gridGap="0.75rem">
+                {deadlines.length !== 0 && <Box h="0.5px" bg={borderControlColor} />}
                 {deadlines.map((deadline) => (
                   <DeadlineItem
                     key={deadline.id}
