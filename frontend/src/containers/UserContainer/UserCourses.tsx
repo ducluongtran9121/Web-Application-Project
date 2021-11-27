@@ -12,7 +12,7 @@ function UserCourses(): JSX.Element {
   const [courses, setCourses] = React.useState<Course[]>()
 
   React.useEffect(() => {
-    async function getData() {
+    async function getData(): Promise<void> {
       setLoading(true)
 
       try {

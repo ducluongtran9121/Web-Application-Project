@@ -19,7 +19,8 @@ const colors = {
       caution: '#9d5d00ff',
       cautionBase: '#fff4ceff',
       critical: '#c42b1cff',
-      criticalBase: '#fde7e9ff'
+      criticalBase: '#fde7e9ff',
+      none: '#888888'
     },
     control: {
       default: '#ffffffb3',
@@ -30,6 +31,10 @@ const colors = {
     card: {
       default: '#ffffffb3',
       secondary: '#f6f6f680'
+    },
+    hoverable: {
+      secondary: '#0000000d',
+      ternary: '#00000012'
     },
     border: {
       control: '#00000015',
@@ -67,13 +72,18 @@ const colors = {
       caution: '#9d5d00ff',
       cautionBase: '#fff4ceff',
       critical: '#c42b1cff',
-      criticalBase: '#fde7e9ff'
+      criticalBase: '#fde7e9ff',
+      none: '#d1d1d1'
     },
     control: {
       default: '#0000000f',
       secondary: '#00000015',
       ternary: '#00000008',
       disabled: '#0000009b'
+    },
+    hoverable: {
+      secondary: '#00000015',
+      ternary: '#00000012'
     },
     card: {
       default: '#ffffff0d',

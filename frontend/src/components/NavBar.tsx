@@ -2,7 +2,6 @@
 import * as React from 'react'
 import { Link as RouteLink } from 'react-router-dom'
 import { I18nContext } from '../i18n/i18n-react'
-import { useAuth } from '../contexts/AuthContext'
 import {
   Avatar,
   Box,
@@ -34,10 +33,10 @@ import type { Locales } from '../i18n/i18n-types'
 
 interface NavBarProps {
   user: User
+  signOut(): Promise<void>
 }
 
-function NavBar({ user: { id, name, imageUrl } }: NavBarProps): JSX.Element {
-  const { signOut } = useAuth()
+function NavBar({ user: { id, name, imageUrl }, signOut }: NavBarProps): JSX.Element {
   const { LL, locale, setLocale } = React.useContext(I18nContext)
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { colorMode, toggleColorMode } = useColorMode()
@@ -111,7 +110,7 @@ function NavBar({ user: { id, name, imageUrl } }: NavBarProps): JSX.Element {
             <MenuButton>
               <Avatar display={{ base: 'none', md: 'inline-block' }} bg="white" boxSize="2rem" src={imageUrl} />
             </MenuButton>
-            <MenuList>
+            <MenuList minW="15rem">
               <MenuItem as={RouteLink} to={`users/${id}`}>
                 {name}
               </MenuItem>

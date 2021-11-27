@@ -1,11 +1,34 @@
 import * as React from 'react'
 import Constants from '../constants'
-import { fromUserPayload, fromCoursePayload, fromLessonPayloads } from '../mappers'
+import {
+  fromUserPayload,
+  fromCoursePayload,
+  fromLessonPayload,
+  fromLessonsPayload,
+  fromUserPayloads,
+  fromCoursesPayload,
+  fromLocationPayLoadToFile,
+  fromDeadlinesPayload,
+  fromDeadlinePayload
+} from '../mappers'
 import { useNavigate } from 'react-router-dom'
 import { axiosInstance } from '../utils'
 import { createContext, TokenStorage } from '../helpers'
 
-import type { Course, CoursePayload, Lesson, LessonPayload, SignInRequestPayload, SignInResponsePayload, Student, User, UserPayload } from '../models'
+import type {
+  Course,
+  CoursePayload,
+  Lesson,
+  LessonPayload,
+  File,
+  SignInRequestPayload,
+  SignInResponsePayload,
+  Student,
+  User,
+  UserPayload,
+  Deadline,
+  DeadlinePayload
+} from '../models'
 
 interface AuthProviderProps {
   children: JSX.Element
@@ -20,7 +43,19 @@ interface AuthContextProviderProps {
   getUserCourse(courseId: number): Promise<Course>
   getCourseLessons(courseId: number): Promise<Lesson[]>
   getCourseStudents(courseId: number): Promise<Student[]>
+  createNewLesson(courseId: number, name: string, description: string): Promise<Lesson>
   editCourseLesson(courseId: number, lessonId: number, name: string, description: string): Promise<void>
+  deleteCourseLesson(courseId: number, lessonId: number): Promise<void>
+  addCourseLessonFile(courseId: number, lessonId: number, formData: FormData): Promise<File>
+  editCourseLessonFile(courseId: number, lessonId: number, fileId: number, formData: FormData): Promise<File>
+  deleteCourseLessonFile(courseId: number, lessonId: number, fileId: number): Promise<void>
+  getStudentDeadlines(): Promise<Deadline[]>
+  createNewLessonDeadline(lessonId: number, name: string, begin: string, end: string, description?: string): Promise<Deadline>
+  editLessonDeadline(lessonId: number, deadlineId: number, name: string, begin: string, end: string, description?: string): Promise<Deadline>
+  deleteLessonDeadline(lessonId: number, deadlineId: number): Promise<void>
+  addLessonDeadlineFile(lessonId: number, deadlineId: number, formData: FormData): Promise<File>
+  editLessonDeadlineFile(lessonId: number, deadlineId: number, fileId: number, formData: FormData): Promise<File>
+  deleteLessonDeadlineFile(lessonId: number, deadlineId: number, fileId: number): Promise<void>
 }
 
 const [useAuth, AuthContextProvider] = createContext<AuthContextProviderProps>()
@@ -59,7 +94,7 @@ function AuthProvider({ children }: AuthProviderProps): JSX.Element {
 
   async function getUserCourses(): Promise<Course[]> {
     const { data } = await axiosInstance.get<CoursePayload[]>(Constants.Api.Courses)
-    return data.map((courseResponse) => fromCoursePayload(courseResponse))
+    return fromCoursesPayload(data)
   }
 
   async function getUserCourse(courseId: number): Promise<Course> {
@@ -69,16 +104,79 @@ function AuthProvider({ children }: AuthProviderProps): JSX.Element {
 
   async function getCourseLessons(courseId: number): Promise<Lesson[]> {
     const { data } = await axiosInstance.get<LessonPayload[]>(Constants.Api.CourseLessons(courseId))
-    return data.map((lesson) => fromLessonPayloads(lesson))
+    return fromLessonsPayload(data)
   }
 
   async function getCourseStudents(courseId: number): Promise<Student[]> {
     const { data } = await axiosInstance.get<UserPayload[]>(Constants.Api.CourseMembers(courseId))
-    return data.map((student) => fromUserPayload(student))
+    return fromUserPayloads(data)
+  }
+
+  async function createNewLesson(courseId: number, name?: string, description?: string): Promise<Lesson> {
+    const { data } = await axiosInstance.post<LessonPayload>(Constants.Api.CourseLessons(courseId), { name, description })
+    return fromLessonPayload(data)
   }
 
   async function editCourseLesson(courseId: number, lessonId: number, name: string, description: string): Promise<void> {
     await axiosInstance.put(Constants.Api.CourseLesson(courseId, lessonId), { name, description })
+  }
+
+  async function deleteCourseLesson(courseId: number, lessonId: number): Promise<void> {
+    await axiosInstance.delete(Constants.Api.CourseLesson(courseId, lessonId))
+  }
+
+  async function addCourseLessonFile(courseId: number, lessonId: number, formData: FormData): Promise<File> {
+    const { data } = await axiosInstance.post(Constants.Api.CourseLessonFiles(courseId, lessonId), formData)
+    return fromLocationPayLoadToFile(data)
+  }
+
+  async function editCourseLessonFile(courseId: number, lessonId: number, fileId: number, formData: FormData): Promise<File> {
+    const { data } = await axiosInstance.put(Constants.Api.CourseLessonFile(courseId, lessonId, fileId), formData)
+    return fromLocationPayLoadToFile(data)
+  }
+
+  async function deleteCourseLessonFile(courseId: number, lessonId: number, fileId: number): Promise<void> {
+    await axiosInstance.delete(Constants.Api.CourseLessonFile(courseId, lessonId, fileId))
+  }
+
+  async function getStudentDeadlines(): Promise<Deadline[]> {
+    const { data } = await axiosInstance.get<DeadlinePayload[]>(Constants.Api.studentDeadlines)
+    return fromDeadlinesPayload(data)
+  }
+
+  async function createNewLessonDeadline(lessonId: number, name: string, begin: string, end: string, description?: string): Promise<Deadline> {
+    const { data } = await axiosInstance.post<DeadlinePayload>(Constants.Api.lecturerDeadlines(lessonId), { name, description, begin, end })
+    return fromDeadlinePayload(data)
+  }
+
+  async function editLessonDeadline(
+    lessonId: number,
+    deadlineId: number,
+    name: string,
+    begin: string,
+    end: string,
+    description?: string
+  ): Promise<Deadline> {
+    const { data } = await axiosInstance.put<DeadlinePayload>(Constants.Api.lecturerDeadline(lessonId, deadlineId), { name, description, begin, end })
+    return fromDeadlinePayload(data)
+  }
+
+  async function deleteLessonDeadline(lessonId: number, deadlineId: number): Promise<void> {
+    await axiosInstance.delete(Constants.Api.lecturerDeadline(lessonId, deadlineId))
+  }
+
+  async function addLessonDeadlineFile(lessonId: number, deadlineId: number, formData: FormData): Promise<File> {
+    const { data } = await axiosInstance.post(Constants.Api.lecturerDeadlineFiles(lessonId, deadlineId), formData)
+    return fromLocationPayLoadToFile(data)
+  }
+
+  async function editLessonDeadlineFile(lessonId: number, deadlineId: number, fileId: number, formData: FormData): Promise<File> {
+    const { data } = await axiosInstance.put(Constants.Api.lecturerDeadlineFile(lessonId, deadlineId, fileId), formData)
+    return fromLocationPayLoadToFile(data)
+  }
+
+  async function deleteLessonDeadlineFile(lessonId: number, deadlineId: number, fileId: number): Promise<void> {
+    await axiosInstance.delete(Constants.Api.lecturerDeadlineFile(lessonId, deadlineId, fileId))
   }
 
   const value: AuthContextProviderProps = {
@@ -90,7 +188,19 @@ function AuthProvider({ children }: AuthProviderProps): JSX.Element {
     getUserCourse,
     getCourseLessons,
     getCourseStudents,
-    editCourseLesson
+    createNewLesson,
+    editCourseLesson,
+    deleteCourseLesson,
+    addCourseLessonFile,
+    editCourseLessonFile,
+    deleteCourseLessonFile,
+    getStudentDeadlines,
+    createNewLessonDeadline,
+    editLessonDeadline,
+    deleteLessonDeadline,
+    addLessonDeadlineFile,
+    editLessonDeadlineFile,
+    deleteLessonDeadlineFile
   }
 
   return <AuthContextProvider value={value}>{children}</AuthContextProvider>

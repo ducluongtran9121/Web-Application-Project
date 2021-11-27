@@ -12,6 +12,8 @@ import Input from './components/Input'
 import Link from './components/Link'
 import Alert from './components/Alert'
 import Tabs from './components/Tabs'
+import Menu from './components/Menu'
+import Tooltip from './components/Tooltip'
 
 const theme = extendTheme({
   config,
@@ -24,7 +26,9 @@ const theme = extendTheme({
     Card,
     Input,
     Link,
-    Tabs
+    Menu,
+    Tabs,
+    Tooltip
   }
 })
 

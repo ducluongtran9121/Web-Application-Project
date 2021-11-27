@@ -11,4 +11,8 @@ function fromCoursePayload({ id, mskh, name, description, course_lecturer }: Cou
   }
 }
 
-export { fromCoursePayload }
+function fromCoursesPayload(coursesPayload: CoursePayload[]): Course[] {
+  return coursesPayload.map((coursePayload) => fromCoursePayload(coursePayload))
+}
+
+export { fromCoursePayload, fromCoursesPayload }

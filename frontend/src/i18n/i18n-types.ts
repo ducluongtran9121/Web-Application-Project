@@ -31,6 +31,42 @@ export type Translation = {
      */
     offlineDescription: string
     /**
+     * Hurray 🥰🥰🥰!
+     */
+    success: string
+    /**
+     * 🥲🥲🥲
+     */
+    fail: string
+    /**
+     * Confirm
+     */
+    confirm: string
+    /**
+     * Cancel
+     */
+    cancel: string
+    /**
+     * Create
+     */
+    create: string
+    /**
+     * Edit
+     */
+    edit: string
+    /**
+     * Add
+     */
+    add: string
+    /**
+     * Begin
+     */
+    begin: string
+    /**
+     * Complete
+     */
+    complete: string
+    /**
      * On
      */
     on: string
@@ -135,7 +171,7 @@ export type Translation = {
      */
     languages: string
   }
-  courses: {
+  course: {
     /**
      * Description
      */
@@ -145,21 +181,33 @@ export type Translation = {
      */
     lecturers: string
     /**
-     * All Students
+     * All lessons
+     */
+    allLessons: string
+    /**
+     * All students
      */
     allStudents: string
     /**
-     * This course don't have any lessons
+     * This course doesn't have any lessons
      */
     noLessons: string
     /**
-     * This course doesn't have any lessons
+     * This course doesn't have any students
      */
     noStudents: string
     /**
      * Students
      */
     students: string
+    /**
+     * Enter editing mode
+     */
+    enterEditing: string
+    /**
+     * Exit editing mode
+     */
+    finishEditing: string
   }
   lesson: {
     /**
@@ -167,16 +215,229 @@ export type Translation = {
      */
     overdue: string
     /**
+     * Not started yet
+     */
+    notStart: string
+    /**
      * {day} day {hour} hour remain
      * @param {unknown} day
      * @param {unknown} hour
      */
-    timeRemainWithDay: RequiredParams2<'day', 'hour'>
+    timeRemainWithDayAndHour: RequiredParams2<'day', 'hour'>
+    /**
+     * {day} day remain
+     * @param {unknown} day
+     */
+    timeRemainWithDay: RequiredParams1<'day'>
     /**
      * {hour} hour remain
      * @param {unknown} hour
      */
     timeRemainWithHour: RequiredParams1<'hour'>
+    /**
+     * Create a new lesson
+     */
+    createNew: string
+    /**
+     * Name
+     */
+    name: string
+    /**
+     * Your lesson name
+     */
+    namePlaceholder: string
+    /**
+     * Description
+     */
+    description: string
+    /**
+     * Your lesson description
+     */
+    descriptionPlaceholder: string
+    /**
+     * Created lesson successfully!
+     */
+    createdSuccessfully: string
+    /**
+     * Created lesson failed!
+     */
+    createdFailed: string
+    /**
+     * Delete lesson
+     */
+    delete: string
+    /**
+     * Are you sure to delete this lesson
+     */
+    deleteConfirmDescription: string
+    /**
+     * Deleted a lesson successfully!
+     */
+    deletedSuccessfully: string
+    /**
+     * Deleted a lesson failed
+     */
+    deletedFailed: string
+    /**
+     * File
+     */
+    file: string
+    /**
+     * Your file name
+     */
+    fileNamePlaceHolder: string
+    /**
+     * File upload
+     */
+    fileUpload: string
+    /**
+     * Folder
+     */
+    folder: string
+    /**
+     * This file will in this folder name
+     */
+    folderPlaceholder: string
+    /**
+     * Add a new file
+     */
+    addFile: string
+    /**
+     * Added a file successfully!
+     */
+    addedFileSuccessfully: string
+    /**
+     * Added a file failed!
+     */
+    addedFileFailed: string
+    /**
+     * Edit a file
+     */
+    editFile: string
+    /**
+     * Edited a file successfully!
+     */
+    editedFileSuccessfully: string
+    /**
+     * Edited a file failed!
+     */
+    editedFileFailed: string
+    /**
+     * Delete a file
+     */
+    deleteFile: string
+    /**
+     * Are you sure to delete this file?
+     */
+    deleteFileConfirmDescription: string
+    /**
+     * Deleted a file successfully!
+     */
+    deletedFileSuccessfully: string
+    /**
+     * Deleted a file failed!
+     */
+    deletedFileFailed: string
+    /**
+     * Create a new deadline
+     */
+    createNewDeadline: string
+    /**
+     * Your deadline name
+     */
+    deadlineNamePlaceholder: string
+    /**
+     * Your deadline description
+     */
+    deadlineDescriptionPlaceholder: string
+    /**
+     * Start date
+     */
+    startDate: string
+    /**
+     * Start time
+     */
+    startTime: string
+    /**
+     * End date
+     */
+    endDate: string
+    /**
+     * End time
+     */
+    endTime: string
+    /**
+     * Created a deadline successfully!
+     */
+    createdDeadlineSuccessfully: string
+    /**
+     * Created a deadline failed!
+     */
+    createdDeadlineFailed: string
+    /**
+     * Edit a deadline
+     */
+    editDeadline: string
+    /**
+     * Edited a deadline successfully!
+     */
+    editedDeadlineSuccessfully: string
+    /**
+     * Edited a deadline failed!
+     */
+    editedDeadlineFailed: string
+    /**
+     * Delete a deadline
+     */
+    deleteDeadline: string
+    /**
+     * Are you sure to delete this deadline
+     */
+    deleteDeadlineConfirmDescription: string
+    /**
+     * Deleted a deadline successfully!
+     */
+    deletedDeadlineSuccessfully: string
+    /**
+     * Deleted a deadline failed
+     */
+    deletedDeadlineFailed: string
+    /**
+     * Add a file to deadline
+     */
+    addDeadlineFile: string
+    /**
+     * Added a file to deadline successfully!
+     */
+    addedDeadlineFileSuccessfully: string
+    /**
+     * Added a file to deadline failed!
+     */
+    addedDeadlineFileFailed: string
+    /**
+     * Edit a deadline file
+     */
+    editDeadlineFile: string
+    /**
+     * Edited a file of deadline successfully!
+     */
+    editedDeadlineFileSuccessfully: string
+    /**
+     * Edited a file of deadline failed!
+     */
+    editedDeadlineFileFailed: string
+    /**
+     * Delete a deadline file
+     */
+    deleteDeadlineFile: string
+    /**
+     * Deleted a file of deadline successfully!
+     */
+    deletedDeadlineFileSuccessfully: string
+    /**
+     * Deleted a file of deadline failed!
+     */
+    deletedDeadlineFileFailed: string
   }
   user: {
     /**
@@ -236,6 +497,42 @@ export type TranslationFunctions = {
      * Please check your connection!
      */
     offlineDescription: () => LocalizedString
+    /**
+     * Hurray 🥰🥰🥰!
+     */
+    success: () => LocalizedString
+    /**
+     * 🥲🥲🥲
+     */
+    fail: () => LocalizedString
+    /**
+     * Confirm
+     */
+    confirm: () => LocalizedString
+    /**
+     * Cancel
+     */
+    cancel: () => LocalizedString
+    /**
+     * Create
+     */
+    create: () => LocalizedString
+    /**
+     * Edit
+     */
+    edit: () => LocalizedString
+    /**
+     * Add
+     */
+    add: () => LocalizedString
+    /**
+     * Begin
+     */
+    begin: () => LocalizedString
+    /**
+     * Complete
+     */
+    complete: () => LocalizedString
     /**
      * On
      */
@@ -341,7 +638,7 @@ export type TranslationFunctions = {
      */
     languages: () => LocalizedString
   }
-  courses: {
+  course: {
     /**
      * Description
      */
@@ -351,21 +648,33 @@ export type TranslationFunctions = {
      */
     lecturers: () => LocalizedString
     /**
-     * All Students
+     * All lessons
+     */
+    allLessons: () => LocalizedString
+    /**
+     * All students
      */
     allStudents: () => LocalizedString
     /**
-     * This course don't have any lessons
+     * This course doesn't have any lessons
      */
     noLessons: () => LocalizedString
     /**
-     * This course doesn't have any lessons
+     * This course doesn't have any students
      */
     noStudents: () => LocalizedString
     /**
      * Students
      */
     students: () => LocalizedString
+    /**
+     * Enter editing mode
+     */
+    enterEditing: () => LocalizedString
+    /**
+     * Exit editing mode
+     */
+    finishEditing: () => LocalizedString
   }
   lesson: {
     /**
@@ -373,13 +682,225 @@ export type TranslationFunctions = {
      */
     overdue: () => LocalizedString
     /**
+     * Not started yet
+     */
+    notStart: () => LocalizedString
+    /**
      * {day} day {hour} hour remain
      */
-    timeRemainWithDay: (arg: { day: unknown; hour: unknown }) => LocalizedString
+    timeRemainWithDayAndHour: (arg: { day: unknown; hour: unknown }) => LocalizedString
+    /**
+     * {day} day remain
+     */
+    timeRemainWithDay: (arg: { day: unknown }) => LocalizedString
     /**
      * {hour} hour remain
      */
     timeRemainWithHour: (arg: { hour: unknown }) => LocalizedString
+    /**
+     * Create a new lesson
+     */
+    createNew: () => LocalizedString
+    /**
+     * Name
+     */
+    name: () => LocalizedString
+    /**
+     * Your lesson name
+     */
+    namePlaceholder: () => LocalizedString
+    /**
+     * Description
+     */
+    description: () => LocalizedString
+    /**
+     * Your lesson description
+     */
+    descriptionPlaceholder: () => LocalizedString
+    /**
+     * Created lesson successfully!
+     */
+    createdSuccessfully: () => LocalizedString
+    /**
+     * Created lesson failed!
+     */
+    createdFailed: () => LocalizedString
+    /**
+     * Delete lesson
+     */
+    delete: () => LocalizedString
+    /**
+     * Are you sure to delete this lesson
+     */
+    deleteConfirmDescription: () => LocalizedString
+    /**
+     * Deleted a lesson successfully!
+     */
+    deletedSuccessfully: () => LocalizedString
+    /**
+     * Deleted a lesson failed
+     */
+    deletedFailed: () => LocalizedString
+    /**
+     * File
+     */
+    file: () => LocalizedString
+    /**
+     * Your file name
+     */
+    fileNamePlaceHolder: () => LocalizedString
+    /**
+     * File upload
+     */
+    fileUpload: () => LocalizedString
+    /**
+     * Folder
+     */
+    folder: () => LocalizedString
+    /**
+     * This file will in this folder name
+     */
+    folderPlaceholder: () => LocalizedString
+    /**
+     * Add a new file
+     */
+    addFile: () => LocalizedString
+    /**
+     * Added a file successfully!
+     */
+    addedFileSuccessfully: () => LocalizedString
+    /**
+     * Added a file failed!
+     */
+    addedFileFailed: () => LocalizedString
+    /**
+     * Edit a file
+     */
+    editFile: () => LocalizedString
+    /**
+     * Edited a file successfully!
+     */
+    editedFileSuccessfully: () => LocalizedString
+    /**
+     * Edited a file failed!
+     */
+    editedFileFailed: () => LocalizedString
+    /**
+     * Delete a file
+     */
+    deleteFile: () => LocalizedString
+    /**
+     * Are you sure to delete this file?
+     */
+    deleteFileConfirmDescription: () => LocalizedString
+    /**
+     * Deleted a file successfully!
+     */
+    deletedFileSuccessfully: () => LocalizedString
+    /**
+     * Deleted a file failed!
+     */
+    deletedFileFailed: () => LocalizedString
+    /**
+     * Create a new deadline
+     */
+    createNewDeadline: () => LocalizedString
+    /**
+     * Your deadline name
+     */
+    deadlineNamePlaceholder: () => LocalizedString
+    /**
+     * Your deadline description
+     */
+    deadlineDescriptionPlaceholder: () => LocalizedString
+    /**
+     * Start date
+     */
+    startDate: () => LocalizedString
+    /**
+     * Start time
+     */
+    startTime: () => LocalizedString
+    /**
+     * End date
+     */
+    endDate: () => LocalizedString
+    /**
+     * End time
+     */
+    endTime: () => LocalizedString
+    /**
+     * Created a deadline successfully!
+     */
+    createdDeadlineSuccessfully: () => LocalizedString
+    /**
+     * Created a deadline failed!
+     */
+    createdDeadlineFailed: () => LocalizedString
+    /**
+     * Edit a deadline
+     */
+    editDeadline: () => LocalizedString
+    /**
+     * Edited a deadline successfully!
+     */
+    editedDeadlineSuccessfully: () => LocalizedString
+    /**
+     * Edited a deadline failed!
+     */
+    editedDeadlineFailed: () => LocalizedString
+    /**
+     * Delete a deadline
+     */
+    deleteDeadline: () => LocalizedString
+    /**
+     * Are you sure to delete this deadline
+     */
+    deleteDeadlineConfirmDescription: () => LocalizedString
+    /**
+     * Deleted a deadline successfully!
+     */
+    deletedDeadlineSuccessfully: () => LocalizedString
+    /**
+     * Deleted a deadline failed
+     */
+    deletedDeadlineFailed: () => LocalizedString
+    /**
+     * Add a file to deadline
+     */
+    addDeadlineFile: () => LocalizedString
+    /**
+     * Added a file to deadline successfully!
+     */
+    addedDeadlineFileSuccessfully: () => LocalizedString
+    /**
+     * Added a file to deadline failed!
+     */
+    addedDeadlineFileFailed: () => LocalizedString
+    /**
+     * Edit a deadline file
+     */
+    editDeadlineFile: () => LocalizedString
+    /**
+     * Edited a file of deadline successfully!
+     */
+    editedDeadlineFileSuccessfully: () => LocalizedString
+    /**
+     * Edited a file of deadline failed!
+     */
+    editedDeadlineFileFailed: () => LocalizedString
+    /**
+     * Delete a deadline file
+     */
+    deleteDeadlineFile: () => LocalizedString
+    /**
+     * Deleted a file of deadline successfully!
+     */
+    deletedDeadlineFileSuccessfully: () => LocalizedString
+    /**
+     * Deleted a file of deadline failed!
+     */
+    deletedDeadlineFileFailed: () => LocalizedString
   }
   user: {
     /**

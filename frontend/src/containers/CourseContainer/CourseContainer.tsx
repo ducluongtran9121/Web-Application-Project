@@ -4,9 +4,10 @@ import { useEdit } from '../../contexts/EditContext'
 import { Link as RouterLink, Outlet, useParams } from 'react-router-dom'
 import { I18nContext } from '../../i18n/i18n-react'
 import { Box, Button, Flex, Heading, Icon, Link, Skeleton, Text, useColorModeValue } from '@chakra-ui/react'
-import { FiUser, FiUsers } from 'react-icons/fi'
+import { FiBook, FiUser, FiUsers } from 'react-icons/fi'
 import Card from '../../components/Card'
 import CardSkeleton from '../../components/CardSkeleton'
+import Footer from '../../components/Footer'
 import type { Course } from '../../models'
 
 function CourseContainer(): JSX.Element {
@@ -20,7 +21,7 @@ function CourseContainer(): JSX.Element {
   const textColorDefault = useColorModeValue('light.text.default', 'dark.text.default')
 
   React.useEffect(() => {
-    async function getData() {
+    async function getData(): Promise<void> {
       setLoading(true)
 
       try {
@@ -35,7 +36,7 @@ function CourseContainer(): JSX.Element {
     getData()
   }, [])
 
-  function handleEnterEditMode() {
+  function handleEnterEditMode(): void {
     const inEdit = isInEditingMode
     setInEditingMode(!inEdit)
   }
@@ -45,13 +46,13 @@ function CourseContainer(): JSX.Element {
       {isLoading ? (
         <Skeleton h="3rem" />
       ) : (
-        <Flex alignItems="center">
+        <Flex direction={{ base: 'column', md: 'row' }} alignItems={{ base: 'stretch', md: 'center' }} gridGap="1.5rem">
           <Heading flexGrow={1} textAlign={{ base: 'center', md: 'start' }}>
             {course?.name}
           </Heading>
           {user?.role === 'lecturer' && (
             <Button variant="accent" onClick={handleEnterEditMode}>
-              {isInEditingMode ? 'Exit edit mode' : 'Enter edit mode'}
+              {isInEditingMode ? LL.course.finishEditing() : LL.course.enterEditing()}
             </Button>
           )}
         </Flex>
@@ -63,9 +64,9 @@ function CourseContainer(): JSX.Element {
           ) : (
             <Card>
               <Flex direction="column" alignItems="start" gridGap="0.5rem">
-                <Text fontWeight="semibold">{LL.courses.description()}:</Text>
+                <Text fontWeight="semibold">{LL.course.description()}:</Text>
                 <Text pl="1rem">{course?.description}</Text>
-                <Text fontWeight="semibold">{LL.courses.lecturers()}:</Text>
+                <Text fontWeight="semibold">{LL.course.lecturers()}:</Text>
                 <Flex direction="column" alignItems="start" gridGap="0.25rem">
                   {course?.lecturers.map((lecturer) => (
                     <Link as={RouterLink} key={lecturer.id} display="flex" gridGap="0.5rem" pl="1rem" alignItems="center" to="/">
@@ -74,9 +75,13 @@ function CourseContainer(): JSX.Element {
                     </Link>
                   ))}
                 </Flex>
+                <Link mt="0.75rem" display="flex" gridGap="0.5rem" as={RouterLink} alignItems="center" to="">
+                  <Icon color={textColorDefault} as={FiBook} />
+                  <Text>{LL.course.allLessons()}</Text>
+                </Link>
                 <Link display="flex" gridGap="0.5rem" as={RouterLink} alignItems="center" to="students">
                   <Icon color={textColorDefault} as={FiUsers} />
-                  <Text>{LL.courses.allStudents()}</Text>
+                  <Text>{LL.course.allStudents()}</Text>
                 </Link>
               </Flex>
             </Card>
@@ -86,6 +91,7 @@ function CourseContainer(): JSX.Element {
           <Outlet />
         </Box>
       </Flex>
+      <Footer mt="6rem" />
     </Box>
   )
 }
