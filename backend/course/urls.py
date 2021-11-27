@@ -17,8 +17,12 @@ file_router = routers.NestedSimpleRouter(
 file_router.register(r'files', LessonFileViewSet,  basename='files')
 
 urlpatterns = [
+    path('courses/<int:pk>/addMemberWithEmail/',
+         AddMemberWithEmail.as_view()),
+    path('courses/<int:pk>/removeMemberWithEmail/',
+         RemoveMemberWithEmail.as_view()),
     path('', CourseApiStructure.as_view()),
     path('', include(course_router.urls)),
     path('', include(lesson_router.urls)),
-    path('', include(file_router.urls))
+    path('', include(file_router.urls)),
 ]
