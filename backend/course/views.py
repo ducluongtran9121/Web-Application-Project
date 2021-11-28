@@ -11,6 +11,9 @@ from .models import *
 from resource.models import File
 from resource.serializers import FileSerializer
 from account.serializers import MemberSerializer
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
+import json
 
 
 # Create your views here.
@@ -30,7 +33,9 @@ class CourseApiStructure(APIView):
                 "put": "update course",
                 "delete": "delete course",
             },
-            "courses/pk/listMember/": "return course member list",
+            "courses/pk/listMember/": "list course member",
+            "courses/pk/addMemberWithEmail/": "add(PUT) a member to course using email",
+            "courses/pk/removeMemberWithEmail/": "remove(PUT) a member to course using email",
             "courses/course_pk/lesson/":
             {
                 "get": "return lesson list",
@@ -124,6 +129,70 @@ class CourseViewSet(viewsets.ViewSet, viewsets.GenericViewSet):
         if queryset.exists():
             serializer = MemberSerializer(queryset[0].course_member, many=True)
             return Response(serializer.data)
+
+
+class AddMemberWithEmail(APIView):
+    serializer_class = EmailSerializer
+    #queryset = Member.objects.filter(is_superuser=False)
+    permission_classes = (IsAuthenticated,)
+
+    def put(self, request, pk=None):
+        if not request.user.is_lecturer:
+            return Response({'error': 'You are not a lecturer'}, status=403)
+
+        member_pk = request.user.id
+        courseQueryset = Course.objects.filter(pk=pk, course_member=member_pk)
+        if courseQueryset.exists():
+            serializer = EmailSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            memberQuery = Member.objects.filter(
+                email=serializer.data['email'])
+
+            if not memberQuery.exists():
+                return Response({'errors': 'Bad request'}, status=400)
+
+            if memberQuery[0].is_superuser == True:
+                return Response({'errors': 'You don\'t have permission to add this user'}, status=403)
+
+            instance = courseQueryset[0]
+            instance.course_member.add(memberQuery[0])
+
+            if memberQuery[0].is_lecturer == True:
+                instance.course_lecturer.add(memberQuery[0])
+
+            return Response(serializer.data, status=200)
+        return Response({'errors': 'Bad request'}, status=400)
+
+
+class RemoveMemberWithEmail(APIView):
+    serializer_class = EmailSerializer
+    #queryset = Member.objects.filter(is_superuser=False)
+    permission_classes = (IsAuthenticated,)
+
+    def put(self, request, pk=None):
+        if not request.user.is_lecturer:
+            return Response({'error': 'You are not a lecturer'}, status=403)
+
+        member_pk = request.user.id
+        courseQueryset = Course.objects.filter(pk=pk, course_member=member_pk)
+        if courseQueryset.exists():
+            serializer = EmailSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            memberQuery = courseQueryset.filter(
+                course_member__email=serializer.data['email'])
+
+            if not memberQuery.exists():
+                return Response({'errors': 'Member not found'}, status=400)
+
+            instance = courseQueryset[0]
+            member = Member.objects.get(email=serializer.data['email'])
+            instance.course_member.remove(member)
+
+            if member.is_lecturer == True:
+                instance.course_lecturer.remove(member)
+
+            return Response(serializer.data, status=200)
+        return Response({'errors': 'Bad request'}, status=400)
 
 
 class LessonViewSet(viewsets.ViewSet, viewsets.GenericViewSet):
