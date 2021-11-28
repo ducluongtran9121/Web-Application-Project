@@ -7,6 +7,7 @@ const vi: Translation = {
     onlineDescription: 'Yay 😍😍😍!',
     offline: 'Bạn đang ngoại tuyến!',
     offlineDescription: 'Kiểm tra lại kết nối',
+    tokenExpired: 'Token hết hạn 😖! Vui lòng đăng nhập lại!',
     success: 'Hurray 🥰🥰🥰!',
     fail: '🥲🥲🥲',
     confirm: 'Xác nhận',

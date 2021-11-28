@@ -1,4 +1,7 @@
 import * as React from 'react'
+import axios from 'axios'
+import { useToast } from '@chakra-ui/react'
+import { I18nContext } from '../i18n/i18n-react'
 import Constants from '../constants'
 import {
   fromUserPayload,
@@ -11,10 +14,9 @@ import {
   fromDeadlinesPayload,
   fromDeadlinePayload
 } from '../mappers'
-import { useNavigate } from 'react-router-dom'
-import { axiosInstance } from '../utils'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { createContext, TokenStorage } from '../helpers'
-
+import type { AxiosError } from 'axios'
 import type {
   Course,
   CoursePayload,
@@ -27,7 +29,9 @@ import type {
   User,
   UserPayload,
   Deadline,
-  DeadlinePayload
+  DeadlinePayload,
+  RefreshSessionPayLoad,
+  ErrorResponsePayload
 } from '../models'
 
 interface AuthProviderProps {
@@ -62,7 +66,77 @@ const [useAuth, AuthContextProvider] = createContext<AuthContextProviderProps>()
 
 function AuthProvider({ children }: AuthProviderProps): JSX.Element {
   const [user, setUser] = React.useState<User>()
+  const [isTokenError, setTokenError] = React.useState<boolean>(false)
   const navigate = useNavigate()
+  const location = useLocation()
+  const { LL } = React.useContext(I18nContext)
+  const toast = useToast()
+
+  React.useEffect(() => {
+    if (isTokenError) {
+      toast({
+        title: LL.common.tokenExpired(),
+        description: LL.common.fail(),
+        status: 'error',
+        position: 'bottom-right',
+        variant: 'subtle',
+        isClosable: true
+      })
+    }
+  }, [isTokenError])
+
+  const axiosInstance = axios.create({
+    baseURL: Constants.Api.Base
+  })
+
+  axiosInstance.interceptors.request.use((request) => {
+    const accessToken = TokenStorage.getToken('access')
+    if (request.headers) request.headers['Authorization'] = `Bearer ${accessToken}`
+    return request
+  })
+
+  axiosInstance.interceptors.response.use(
+    (response) => {
+      return response
+    },
+    async (error: AxiosError<ErrorResponsePayload>) => {
+      // Not token expired error then reject
+      if (
+        error.response?.status !== 401 ||
+        error.config.url === Constants.Api.RefreshToken ||
+        error.response?.data.detail === Constants.Error.NoActiveAccount
+      ) {
+        return new Promise((_, reject) => reject(error))
+      }
+
+      try {
+        // Get new access token
+        const refreshToken = TokenStorage.getToken('refresh')
+        const { data } = await axios.post<RefreshSessionPayLoad>(`${Constants.Api.Base}${Constants.Api.RefreshToken}`, { refresh: refreshToken })
+
+        TokenStorage.storeToken('access', data.access)
+
+        // Resend request
+        const config = error.config
+        if (config.headers) config.headers['Authorization'] = `Bearer ${data.access}`
+
+        return new Promise((resolve, reject) => {
+          axios
+            .request(config)
+            .then((response) => resolve(response))
+            .catch((error) => reject(error))
+        })
+      } catch (error) {
+        if (axios.isAxiosError(error) && (error.response?.status === 401 || !TokenStorage.getToken('refresh'))) {
+          // Finding a better way because this makes memory leaks, but refresh token lifetime is about 1 days or more, so this way is useable, i think...
+          // Help me please 😖😖😖😖!
+          setTokenError(true)
+          TokenStorage.removeTokens()
+          navigate('/signin', { state: { from: location }, replace: true })
+        } else Promise.reject(error)
+      }
+    }
+  )
 
   async function signIn({ email, password }: SignInRequestPayload, callback?: VoidFunction): Promise<void> {
     const signInResponse = await axiosInstance.post<SignInResponsePayload>(Constants.Api.SignIn, {
@@ -71,6 +145,7 @@ function AuthProvider({ children }: AuthProviderProps): JSX.Element {
     })
 
     TokenStorage.storeTokens(signInResponse.data)
+    setTokenError(false)
 
     if (callback) callback()
   }
@@ -80,7 +155,7 @@ function AuthProvider({ children }: AuthProviderProps): JSX.Element {
       const refresh = TokenStorage.getToken('refresh')
       await axiosInstance.post(Constants.Api.SignOut, { refresh })
     } catch (err) {
-      Promise.reject(err)
+      //
     } finally {
       navigate('/signin', { replace: true })
       TokenStorage.removeTokens()

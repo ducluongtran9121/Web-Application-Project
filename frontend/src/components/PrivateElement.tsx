@@ -11,7 +11,7 @@ function PrivateElement({ children }: PrivateElementProps): JSX.Element {
 
   if (TokenStorage.getToken('access')) return children
 
-  return <Navigate to="signin" state={{ from: location }} />
+  return <Navigate to="/signin" state={{ from: location }} />
 }
 
 export default PrivateElement

@@ -7,6 +7,7 @@ const en: BaseTranslation = {
     onlineDescription: 'Yay 😍😍😍!',
     offline: 'You are offline!',
     offlineDescription: 'Please check your connection!',
+    tokenExpired: 'Token expired 😖! Please sign in again!',
     success: 'Hurray 🥰🥰🥰!',
     fail: '🥲🥲🥲',
     confirm: 'Confirm',

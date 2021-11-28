@@ -31,6 +31,10 @@ export type Translation = {
      */
     offlineDescription: string
     /**
+     * Token expired 😖! Please sign in again!
+     */
+    tokenExpired: string
+    /**
      * Hurray 🥰🥰🥰!
      */
     success: string
@@ -497,6 +501,10 @@ export type TranslationFunctions = {
      * Please check your connection!
      */
     offlineDescription: () => LocalizedString
+    /**
+     * Token expired 😖! Please sign in again!
+     */
+    tokenExpired: () => LocalizedString
     /**
      * Hurray 🥰🥰🥰!
      */
