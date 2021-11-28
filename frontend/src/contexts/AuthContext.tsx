@@ -128,7 +128,7 @@ function AuthProvider({ children }: AuthProviderProps): JSX.Element {
         })
       } catch (error) {
         if (axios.isAxiosError(error) && (error.response?.status === 401 || !TokenStorage.getToken('refresh'))) {
-          // Finding a better way because this makes memory leaks, but refresh token lifetime is about 1 days or more, so this way is useable, i think...
+          // Finding a better way because this makes memory leaks, but refresh token lifetime is about 1 day or more, so this way is useable, i think...
           // Help me please 😖😖😖😖!
           setTokenError(true)
           TokenStorage.removeTokens()
