@@ -70,11 +70,27 @@ function LocationTreeItem({
   const { LL } = React.useContext(I18nContext)
   const hoverBg = useColorModeValue('light.hoverable.secondary', 'dark.hoverable.secondary')
   const activeBg = useColorModeValue('light.hoverable.ternary', 'dark.hoverable.ternary')
+  const [isMounted, setMounted] = React.useState<boolean>(false)
   const [isOpen, setOpen] = React.useState<boolean>(false)
   const { isOpen: isEditOpen, onOpen: onEditOpen, onClose: onEditClose } = useDisclosure()
   const { isOpen: isDeleteOpen, onOpen: onDeleteOpen, onClose: onDeleteClose } = useDisclosure()
   const { isOpen: isEditDeadlineOpen, onOpen: onEditDeadlineOpen, onClose: onEditDeadlineClose } = useDisclosure()
   const { isOpen: isDeleteDeadlineOpen, onOpen: onDeleteDeadlineOpen, onClose: onDeleteDeadlineClose } = useDisclosure()
+
+  React.useEffect(() => {
+    setMounted(true)
+    return () => {
+      setMounted(false)
+    }
+  }, [])
+
+  function handleEditClose(): void {
+    if (isMounted) onEditClose()
+  }
+
+  function handleEditDeadlineClose(): void {
+    if (isMounted) onEditDeadlineClose()
+  }
 
   async function handleEditFile(formData: FormData): Promise<void> {
     if (onEditFile) await onEditFile(id, formData)
@@ -192,7 +208,7 @@ function LocationTreeItem({
             heading={LL.lesson.editFile()}
             submitButtonContent={LL.common.edit()}
             isOpen={isEditOpen}
-            onClose={onEditClose}
+            onClose={handleEditClose}
             onSubmit={handleEditFile}
           />
           <ConfirmDialog
@@ -210,7 +226,7 @@ function LocationTreeItem({
             heading={LL.lesson.editDeadlineFile()}
             submitButtonContent={LL.common.edit()}
             isOpen={isEditDeadlineOpen}
-            onClose={onEditDeadlineClose}
+            onClose={handleEditDeadlineClose}
             onSubmit={handleEditDeadlineFile}
           />
           <ConfirmDialog

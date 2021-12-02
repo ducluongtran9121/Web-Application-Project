@@ -1,9 +1,10 @@
 import * as React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
+import { useNotification } from '../contexts/NotificationContext'
 import { I18nContext } from '../i18n/i18n-react'
 import EditProvider from '../contexts/EditContext'
-import { Box, useToast } from '@chakra-ui/react'
+import { Box } from '@chakra-ui/react'
 import NavBar from '../components/NavBar'
 import Home from './Home'
 import CourseContainer from './CourseContainer/CourseContainer'
@@ -16,8 +17,8 @@ import UserDeadlines from './UserContainer/UserDeadlines'
 
 function PrivateElementContainer(): JSX.Element {
   const { user, signOut, getUserProfile } = useAuth()
-  const { LL, locale } = React.useContext(I18nContext)
-  const toast = useToast()
+  const { notify } = useNotification()
+  const { locale } = React.useContext(I18nContext)
 
   React.useEffect(() => {
     async function getUserData() {
@@ -28,39 +29,19 @@ function PrivateElementContainer(): JSX.Element {
   }, [])
 
   React.useEffect(() => {
-    function handleNetWorkOffline() {
-      return toast({
-        title: LL.common.offline(),
-        description: LL.common.offlineDescription(),
-        status: 'error',
-        variant: 'subtle',
-        position: 'bottom-right',
-        duration: 30000,
-        isClosable: true
-      })
-    }
+    const handleNetworkOffline = () => notify('error', 'networkOffline', 30000)
 
-    window.addEventListener('offline', handleNetWorkOffline)
+    window.addEventListener('offline', handleNetworkOffline)
 
-    return () => window.removeEventListener('offline', handleNetWorkOffline)
+    return () => window.removeEventListener('offline', handleNetworkOffline)
   }, [locale])
 
   React.useEffect(() => {
-    function handleNetWorkOffline() {
-      return toast({
-        title: LL.common.online(),
-        description: LL.common.onlineDescription(),
-        status: 'info',
-        duration: 30000,
-        position: 'bottom-right',
-        variant: 'subtle',
-        isClosable: true
-      })
-    }
+    const handleNetworkOnline = () => notify('info', 'networkOnline', 30000)
 
-    window.addEventListener('online', handleNetWorkOffline)
+    window.addEventListener('online', handleNetworkOnline)
 
-    return () => window.removeEventListener('online', handleNetWorkOffline)
+    return () => window.removeEventListener('online', handleNetworkOnline)
   }, [locale])
 
   return (

@@ -2,13 +2,14 @@ import * as React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { localStorageDetector, navigatorDetector } from 'typesafe-i18n/detectors'
 import AuthProvider from '../contexts/AuthContext'
+import NotificationProvider from '../contexts/NotificationContext'
 import { ChakraProvider } from '@chakra-ui/react'
 import TypesafeI18n from '../i18n/i18n-react'
 import { detectLocale } from '../i18n/i18n-util'
 import theme from '../theme'
+import SignIn from './SignIn'
 import PrivateElement from '../components/PrivateElement'
 import PrivateElementContainer from './PrivateElementContainer'
-import SignIn from './SignIn'
 
 function App() {
   const detectedLocale = detectLocale(localStorageDetector, navigatorDetector)
@@ -21,19 +22,21 @@ function App() {
     <Router>
       <ChakraProvider theme={theme}>
         <TypesafeI18n initialLocale={detectedLocale}>
-          <AuthProvider>
-            <Routes>
-              <Route path="signin" element={<SignIn />} />
-              <Route
-                path="/*"
-                element={
-                  <PrivateElement>
-                    <PrivateElementContainer />
-                  </PrivateElement>
-                }
-              />
-            </Routes>
-          </AuthProvider>
+          <NotificationProvider>
+            <AuthProvider>
+              <Routes>
+                <Route path="signin" element={<SignIn />} />
+                <Route
+                  path="/*"
+                  element={
+                    <PrivateElement>
+                      <PrivateElementContainer />
+                    </PrivateElement>
+                  }
+                />
+              </Routes>
+            </AuthProvider>
+          </NotificationProvider>
         </TypesafeI18n>
       </ChakraProvider>
     </Router>

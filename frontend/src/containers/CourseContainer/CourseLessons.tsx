@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { useAuth } from '../../contexts/AuthContext'
 import { useEdit } from '../../contexts/EditContext'
+import { useNotification } from '../../contexts/NotificationContext'
 import { useParams } from 'react-router-dom'
 import { I18nContext } from '../../i18n/i18n-react'
 import {
@@ -21,8 +22,7 @@ import {
   ModalOverlay,
   Text,
   Tooltip,
-  useDisclosure,
-  useToast
+  useDisclosure
 } from '@chakra-ui/react'
 import { FiPlus } from 'react-icons/fi'
 import CardSkeleton from '../../components/CardSkeleton'
@@ -60,9 +60,10 @@ function CourseLessons(): JSX.Element {
   const { LL } = React.useContext(I18nContext)
   const { courseId } = useParams()
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const toast = useToast()
+  const { notify } = useNotification()
   const nameNewLessonInputRef = React.useRef<HTMLInputElement>(null)
   const descriptionNewLessonInputRef = React.useRef<HTMLInputElement>(null)
+  const [isMounted, setMounted] = React.useState<boolean>(false)
   const [isLoading, setLoading] = React.useState<boolean>(true)
   const [isNewLessonLoading, setNewLessonLoading] = React.useState<boolean>(false)
   const [lessons, setLessons] = React.useState<Lesson[]>()
@@ -75,33 +76,23 @@ function CourseLessons(): JSX.Element {
     try {
       if (nameNewLessonInputRef.current && descriptionNewLessonInputRef.current) {
         const data = await createNewLesson(Number(courseId), nameNewLessonInputRef.current?.value, descriptionNewLessonInputRef.current?.value)
-        const currentLessons = lessons
-        currentLessons?.push(data)
-        setLessons(currentLessons)
-        toast({
-          title: LL.lesson.createdSuccessfully(),
-          description: LL.common.success(),
-          status: 'info',
-          position: 'bottom-right',
-          variant: 'subtle',
-          isClosable: true
-        })
+
+        if (isMounted)
+          setLessons((previousValue) => {
+            previousValue?.push(data)
+            return previousValue
+          })
+
+        notify('info', 'createLesson')
       } else throw 'Invalid Data'
     } catch {
-      toast({
-        title: LL.lesson.createdFailed(),
-        description: LL.common.fail(),
-        status: 'error',
-        position: 'bottom-right',
-        variant: 'subtle',
-        isClosable: true
-      })
+      notify('error', 'createLesson')
     }
 
     setNewLessonLoading(false)
   }
 
-  async function handleEditSubmit(lessonId: number, name: string, description: string): Promise<void> {
+  async function handleEditLesson(lessonId: number, name: string, description: string): Promise<void> {
     try {
       await editCourseLesson(Number(courseId), lessonId, name, description)
       // eslint-disable-next-line no-empty
@@ -110,135 +101,55 @@ function CourseLessons(): JSX.Element {
 
   async function handleDeleteLesson(lessonId: number): Promise<void> {
     try {
-      if (lessons) {
-        await deleteCourseLesson(Number(courseId), lessonId)
-        const newLessons = lessons.filter((lesson) => lesson.id !== lessonId)
-        setLessons(newLessons)
-        toast({
-          title: LL.lesson.deletedSuccessfully(),
-          description: LL.common.success(),
-          status: 'info',
-          position: 'bottom-right',
-          variant: 'subtle',
-          isClosable: true
-        })
-      } else throw 'Invalid data'
+      await deleteCourseLesson(Number(courseId), lessonId)
+      if (isMounted) setLessons((previousValue) => previousValue?.filter((lesson) => lesson.id !== lessonId))
+      notify('info', 'deleteLesson')
     } catch {
-      toast({
-        title: LL.lesson.deletedFailed(),
-        description: LL.common.fail(),
-        status: 'error',
-        position: 'bottom-right',
-        variant: 'subtle',
-        isClosable: true
-      })
+      notify('error', 'deleteLesson')
     }
   }
 
   async function handleAddFile(lessonId: number, formData: FormData) {
     try {
-      if (lessons) {
-        const data = await addCourseLessonFile(Number(courseId), lessonId, formData)
-        setLessons((previousValue) => addFileToLessons(previousValue, lessonId, data))
-
-        toast({
-          title: LL.lesson.addedFileSuccessfully(),
-          description: LL.common.success(),
-          status: 'info',
-          position: 'bottom-right',
-          variant: 'subtle',
-          isClosable: true
-        })
-      } else throw 'Invalid Data'
+      const data = await addCourseLessonFile(Number(courseId), lessonId, formData)
+      if (isMounted) setLessons((previousValue) => addFileToLessons(previousValue, lessonId, data))
+      notify('info', 'addFile')
     } catch {
-      toast({
-        title: LL.lesson.addedFileFailed(),
-        description: LL.common.fail(),
-        status: 'error',
-        position: 'bottom-right',
-        variant: 'subtle',
-        isClosable: true
-      })
+      notify('error', 'addFile')
     }
   }
 
   async function handleEditFile(lessonId: number, fileId: number, formData: FormData): Promise<void> {
     try {
-      if (lessons) {
-        const data = await editCourseLessonFile(Number(courseId), lessonId, fileId, formData)
-        const newLessons = deleteLessonsFile(lessons, lessonId, fileId, false)
-        setLessons(addFileToLessons(newLessons, lessonId, data))
-
-        toast({
-          title: LL.lesson.editedFileSuccessfully(),
-          description: LL.common.success(),
-          status: 'info',
-          position: 'bottom-right',
-          variant: 'subtle',
-          isClosable: true
+      const data = await editCourseLessonFile(Number(courseId), lessonId, fileId, formData)
+      if (isMounted)
+        setLessons((previousValue) => {
+          const value = deleteLessonsFile(previousValue, lessonId, fileId, false)
+          return addFileToLessons(value, lessonId, data)
         })
-      }
+      notify('info', 'editFile')
     } catch {
-      toast({
-        title: LL.lesson.editedFileFailed(),
-        description: LL.common.fail(),
-        status: 'error',
-        position: 'bottom-right',
-        variant: 'subtle',
-        isClosable: true
-      })
+      notify('error', 'editFile')
     }
   }
 
   async function handleDeleteFile(lessonId: number, fileId: number): Promise<void> {
     try {
-      if (lessons) {
-        await deleteCourseLessonFile(Number(courseId), lessonId, fileId)
-        setLessons((previousValue) => deleteLessonsFile(previousValue, lessonId, fileId))
-
-        toast({
-          title: LL.lesson.deletedFileSuccessfully(),
-          description: LL.common.success(),
-          status: 'info',
-          position: 'bottom-right',
-          variant: 'subtle',
-          isClosable: true
-        })
-      } else throw 'Invalid data'
+      await deleteCourseLessonFile(Number(courseId), lessonId, fileId)
+      if (isMounted) setLessons((previousValue) => deleteLessonsFile(previousValue, lessonId, fileId))
+      notify('info', 'deleteFile')
     } catch {
-      toast({
-        title: LL.lesson.deletedFileFailed(),
-        description: LL.common.fail(),
-        status: 'error',
-        position: 'bottom-right',
-        variant: 'subtle',
-        isClosable: true
-      })
+      notify('error', 'deleteFile')
     }
   }
 
   async function handleCreateDeadline(lessonId: number, name: string, begin: string, end: string, description?: string): Promise<void> {
     try {
       const data = await createNewLessonDeadline(lessonId, name, begin, end, description)
-      setLessons(addDeadlineToLessons(lessons, lessonId, data))
-
-      toast({
-        title: LL.lesson.createdDeadlineSuccessfully(),
-        description: LL.common.success(),
-        status: 'info',
-        position: 'bottom-right',
-        variant: 'subtle',
-        isClosable: true
-      })
+      if (isMounted) setLessons((previousValue) => addDeadlineToLessons(previousValue, lessonId, data))
+      notify('info', 'createDeadline')
     } catch {
-      toast({
-        title: LL.lesson.createdDeadlineFailed(),
-        description: LL.common.fail(),
-        status: 'error',
-        position: 'bottom-right',
-        variant: 'subtle',
-        isClosable: true
-      })
+      notify('error', 'createDeadline')
     }
   }
 
@@ -252,142 +163,79 @@ function CourseLessons(): JSX.Element {
   ): Promise<void> {
     try {
       const data = await editLessonDeadline(lessonId, deadlineId, name, begin, end, description)
-      setLessons(editLessonsDeadline(lessons, lessonId, deadlineId, data))
-
-      toast({
-        title: LL.lesson.editedDeadlineSuccessfully(),
-        description: LL.common.success(),
-        status: 'info',
-        position: 'bottom-right',
-        variant: 'subtle',
-        isClosable: true
-      })
+      if (isMounted) setLessons((previousValue) => editLessonsDeadline(previousValue, lessonId, deadlineId, data))
+      notify('info', 'editDeadline')
     } catch {
-      toast({
-        title: LL.lesson.editedDeadlineFailed(),
-        description: LL.common.fail(),
-        status: 'error',
-        position: 'bottom-right',
-        variant: 'subtle',
-        isClosable: true
-      })
+      notify('error', 'editDeadline')
     }
   }
 
   async function handleDeleteDeadline(lessonId: number, deadlineId: number): Promise<void> {
     try {
       await deleteLessonDeadline(lessonId, deadlineId)
-      setLessons(deleteLessonsDeadline(lessons, lessonId, deadlineId))
-
-      toast({
-        title: LL.lesson.deletedDeadlineSuccessfully(),
-        description: LL.common.success(),
-        status: 'info',
-        position: 'bottom-right',
-        variant: 'subtle',
-        isClosable: true
-      })
+      if (isMounted) setLessons((previousValue) => deleteLessonsDeadline(previousValue, lessonId, deadlineId))
+      notify('info', 'deleteDeadline')
     } catch {
-      toast({
-        title: LL.lesson.deletedDeadlineFailed(),
-        description: LL.common.fail(),
-        status: 'error',
-        position: 'bottom-right',
-        variant: 'subtle',
-        isClosable: true
-      })
+      notify('error', 'deleteDeadline')
     }
   }
 
   async function handleAddDeadlineFile(lessonId: number, deadlineId: number, formData: FormData): Promise<void> {
     try {
       const data = await addLessonDeadlineFile(lessonId, deadlineId, formData)
-      setLessons(addFileToLessonsDeadline(lessons, lessonId, deadlineId, data))
-
-      toast({
-        title: LL.lesson.addedDeadlineFileSuccessfully(),
-        description: LL.common.success(),
-        status: 'info',
-        position: 'bottom-right',
-        variant: 'subtle',
-        isClosable: true
-      })
+      if (isMounted) setLessons((previousValue) => addFileToLessonsDeadline(previousValue, lessonId, deadlineId, data))
+      notify('info', 'addDeadlineFile')
     } catch {
-      toast({
-        title: LL.lesson.addedDeadlineFileFailed(),
-        description: LL.common.fail(),
-        status: 'error',
-        position: 'bottom-right',
-        variant: 'subtle',
-        isClosable: true
-      })
+      notify('error', 'addDeadlineFile')
     }
   }
 
   async function handleEditDeadlineFile(lessonId: number, deadlineId: number, fileId: number, formData: FormData): Promise<void> {
     try {
       const data = await editLessonDeadlineFile(lessonId, deadlineId, fileId, formData)
-      const newLessons = deleteLessonsDeadlineFile(lessons, lessonId, deadlineId, fileId, false)
-      setLessons(addFileToLessonsDeadline(newLessons, lessonId, deadlineId, data))
-
-      toast({
-        title: LL.lesson.editedDeadlineFileSuccessfully(),
-        description: LL.common.success(),
-        status: 'info',
-        position: 'bottom-right',
-        variant: 'subtle',
-        isClosable: true
-      })
+      if (isMounted)
+        setLessons((previousValue) => {
+          const value = deleteLessonsDeadlineFile(previousValue, lessonId, deadlineId, fileId, false)
+          return addFileToLessonsDeadline(value, lessonId, deadlineId, data)
+        })
+      notify('info', 'editDeadlineFile')
     } catch {
-      toast({
-        title: LL.lesson.editedDeadlineFileFailed(),
-        description: LL.common.fail(),
-        status: 'error',
-        position: 'bottom-right',
-        variant: 'subtle',
-        isClosable: true
-      })
+      notify('error', 'editDeadlineFile')
     }
   }
 
   async function handleDeleteDeadlineFile(lessonId: number, deadlineId: number, fileId: number): Promise<void> {
     try {
       await deleteLessonDeadlineFile(lessonId, deadlineId, fileId)
-      setLessons(deleteLessonsDeadlineFile(lessons, lessonId, deadlineId, fileId))
-
-      toast({
-        title: LL.lesson.deletedDeadlineFileSuccessfully(),
-        description: LL.common.success(),
-        status: 'info',
-        position: 'bottom-right',
-        variant: 'subtle',
-        isClosable: true
-      })
+      if (isMounted) setLessons((previousValue) => deleteLessonsDeadlineFile(previousValue, lessonId, deadlineId, fileId))
+      notify('info', 'deleteDeadlineFile')
     } catch {
-      toast({
-        title: LL.lesson.deletedDeadlineFileFailed(),
-        description: LL.common.fail(),
-        status: 'error',
-        position: 'bottom-right',
-        variant: 'subtle',
-        isClosable: true
-      })
+      notify('error', 'deleteDeadlineFile')
     }
   }
 
   React.useEffect(() => {
+    let isCurrentMounted = true
+    setMounted(true)
+
     async function getData(): Promise<void> {
       setLoading(true)
 
       try {
         const data = await getCourseLessons(Number(courseId))
-        setLessons(data)
+        if (isCurrentMounted) setLessons(data)
         // eslint-disable-next-line no-empty
       } catch {}
 
       setLoading(false)
     }
+
     getData()
+
+    return () => {
+      isCurrentMounted = false
+      setMounted(false)
+    }
   }, [])
 
   if (isLoading) {
@@ -424,7 +272,7 @@ function CourseLessons(): JSX.Element {
               lesson={lesson}
               userRole={user?.role}
               isInEditingMode={isInEditingMode}
-              onEditSubmit={handleEditSubmit}
+              onEditSubmit={handleEditLesson}
               onDeleteLesson={handleDeleteLesson}
               onAddFile={handleAddFile}
               onEditFile={handleEditFile}

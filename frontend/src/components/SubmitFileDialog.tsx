@@ -27,8 +27,16 @@ function SubmitFileDialog({ heading, submitButtonContent, onSubmit, onClose, ...
   const { LL } = React.useContext(I18nContext)
   const fileUpLoadFileInputRef = React.useRef<HTMLInputElement>(null)
   const inFolderFileInputRef = React.useRef<HTMLInputElement>(null)
+  const [isMounted, setMounted] = React.useState<boolean>(false)
   const [fileName, setFileName] = React.useState<string>('')
   const [isLoading, setLoading] = React.useState<boolean>(false)
+
+  React.useEffect(() => {
+    setMounted(true)
+    return () => {
+      setMounted(false)
+    }
+  }, [])
 
   function handleFileNameChange(e: React.ChangeEvent<HTMLInputElement>) {
     setFileName(e.target.value)
@@ -56,13 +64,14 @@ function SubmitFileDialog({ heading, submitButtonContent, onSubmit, onClose, ...
         formData.append('file_upload', fileUpLoadFileInputRef.current.files[0])
         formData.append('in_folder', inFolderFileInputRef.current.value)
         await onSubmit(formData)
-        setLoading(false)
+        if (isMounted) setLoading(false)
         handleClose()
       }
     } catch (err) {
-      setLoading(false)
       Promise.reject(err)
     }
+
+    if (isMounted) setLoading(false)
   }
 
   return (

@@ -10,6 +10,7 @@ export type Locales = 'en' | 'vi'
 
 export type Translation = {
   common: {
+    empty: string
     /**
      * Logo of Alunno
      */
@@ -19,27 +20,19 @@ export type Translation = {
      */
     online: string
     /**
-     * Yay 😍😍😍!
-     */
-    onlineDescription: string
-    /**
      * You are offline!
      */
     offline: string
-    /**
-     * Please check your connection!
-     */
-    offlineDescription: string
     /**
      * Token expired 😖! Please sign in again!
      */
     tokenExpired: string
     /**
-     * Hurray 🥰🥰🥰!
+     * Yay 😍😍😍!
      */
     success: string
     /**
-     * 🥲🥲🥲
+     * 😖😖😖
      */
     fail: string
     /**
@@ -78,6 +71,14 @@ export type Translation = {
      * Off
      */
     off: string
+    /**
+     * Successfully
+     */
+    successfully: string
+    /**
+     * Failed
+     */
+    failed: string
   }
   error: {
     /**
@@ -239,9 +240,21 @@ export type Translation = {
      */
     timeRemainWithHour: RequiredParams1<'hour'>
     /**
-     * Create a new lesson
+     * Start date
      */
-    createNew: string
+    startDate: string
+    /**
+     * Start time
+     */
+    startTime: string
+    /**
+     * End date
+     */
+    endDate: string
+    /**
+     * End time
+     */
+    endTime: string
     /**
      * Name
      */
@@ -259,13 +272,14 @@ export type Translation = {
      */
     descriptionPlaceholder: string
     /**
-     * Created lesson successfully!
+     * Create a new lesson
      */
-    createdSuccessfully: string
+    createNew: string
     /**
-     * Created lesson failed!
+     * Created lesson {status}!
+     * @param {unknown} status
      */
-    createdFailed: string
+    createdStatus: RequiredParams1<'status'>
     /**
      * Delete lesson
      */
@@ -275,13 +289,10 @@ export type Translation = {
      */
     deleteConfirmDescription: string
     /**
-     * Deleted a lesson successfully!
+     * Deleted a lesson {status}!
+     * @param {unknown} status
      */
-    deletedSuccessfully: string
-    /**
-     * Deleted a lesson failed
-     */
-    deletedFailed: string
+    deletedStatus: RequiredParams1<'status'>
     /**
      * File
      */
@@ -307,25 +318,19 @@ export type Translation = {
      */
     addFile: string
     /**
-     * Added a file successfully!
+     * Added a file {status}!
+     * @param {unknown} status
      */
-    addedFileSuccessfully: string
-    /**
-     * Added a file failed!
-     */
-    addedFileFailed: string
+    addedFileStatus: RequiredParams1<'status'>
     /**
      * Edit a file
      */
     editFile: string
     /**
-     * Edited a file successfully!
+     * Edited a file {status}!
+     * @param {unknown} status
      */
-    editedFileSuccessfully: string
-    /**
-     * Edited a file failed!
-     */
-    editedFileFailed: string
+    editedFileStatus: RequiredParams1<'status'>
     /**
      * Delete a file
      */
@@ -335,13 +340,10 @@ export type Translation = {
      */
     deleteFileConfirmDescription: string
     /**
-     * Deleted a file successfully!
+     * Deleted a file {status}!
+     * @param {unknown} status
      */
-    deletedFileSuccessfully: string
-    /**
-     * Deleted a file failed!
-     */
-    deletedFileFailed: string
+    deletedFileStatus: RequiredParams1<'status'>
     /**
      * Create a new deadline
      */
@@ -355,41 +357,19 @@ export type Translation = {
      */
     deadlineDescriptionPlaceholder: string
     /**
-     * Start date
+     * Created a deadline {status}!
+     * @param {unknown} status
      */
-    startDate: string
-    /**
-     * Start time
-     */
-    startTime: string
-    /**
-     * End date
-     */
-    endDate: string
-    /**
-     * End time
-     */
-    endTime: string
-    /**
-     * Created a deadline successfully!
-     */
-    createdDeadlineSuccessfully: string
-    /**
-     * Created a deadline failed!
-     */
-    createdDeadlineFailed: string
+    createdDeadlineStatus: RequiredParams1<'status'>
     /**
      * Edit a deadline
      */
     editDeadline: string
     /**
-     * Edited a deadline successfully!
+     * Edited a deadline {status}!
+     * @param {unknown} status
      */
-    editedDeadlineSuccessfully: string
-    /**
-     * Edited a deadline failed!
-     */
-    editedDeadlineFailed: string
+    editedDeadlineStatus: RequiredParams1<'status'>
     /**
      * Delete a deadline
      */
@@ -399,49 +379,37 @@ export type Translation = {
      */
     deleteDeadlineConfirmDescription: string
     /**
-     * Deleted a deadline successfully!
+     * Deleted a deadline {status}!
+     * @param {unknown} status
      */
-    deletedDeadlineSuccessfully: string
-    /**
-     * Deleted a deadline failed
-     */
-    deletedDeadlineFailed: string
+    deletedDeadlineStatus: RequiredParams1<'status'>
     /**
      * Add a file to deadline
      */
     addDeadlineFile: string
     /**
-     * Added a file to deadline successfully!
+     * Added a file to deadline {status}!
+     * @param {unknown} status
      */
-    addedDeadlineFileSuccessfully: string
-    /**
-     * Added a file to deadline failed!
-     */
-    addedDeadlineFileFailed: string
+    addedDeadlineFileStatus: RequiredParams1<'status'>
     /**
      * Edit a deadline file
      */
     editDeadlineFile: string
     /**
-     * Edited a file of deadline successfully!
+     * Edited a file of deadline {status}!
+     * @param {unknown} status
      */
-    editedDeadlineFileSuccessfully: string
-    /**
-     * Edited a file of deadline failed!
-     */
-    editedDeadlineFileFailed: string
+    editedDeadlineFileStatus: RequiredParams1<'status'>
     /**
      * Delete a deadline file
      */
     deleteDeadlineFile: string
     /**
-     * Deleted a file of deadline successfully!
+     * Deleted a file of deadline {status}!
+     * @param {unknown} status
      */
-    deletedDeadlineFileSuccessfully: string
-    /**
-     * Deleted a file of deadline failed!
-     */
-    deletedDeadlineFileFailed: string
+    deletedDeadlineFileStatus: RequiredParams1<'status'>
   }
   user: {
     /**
@@ -481,6 +449,7 @@ export type Translation = {
 
 export type TranslationFunctions = {
   common: {
+    empty: () => LocalizedString
     /**
      * Logo of Alunno
      */
@@ -490,27 +459,19 @@ export type TranslationFunctions = {
      */
     online: () => LocalizedString
     /**
-     * Yay 😍😍😍!
-     */
-    onlineDescription: () => LocalizedString
-    /**
      * You are offline!
      */
     offline: () => LocalizedString
-    /**
-     * Please check your connection!
-     */
-    offlineDescription: () => LocalizedString
     /**
      * Token expired 😖! Please sign in again!
      */
     tokenExpired: () => LocalizedString
     /**
-     * Hurray 🥰🥰🥰!
+     * Yay 😍😍😍!
      */
     success: () => LocalizedString
     /**
-     * 🥲🥲🥲
+     * 😖😖😖
      */
     fail: () => LocalizedString
     /**
@@ -549,6 +510,14 @@ export type TranslationFunctions = {
      * Off
      */
     off: () => LocalizedString
+    /**
+     * Successfully
+     */
+    successfully: () => LocalizedString
+    /**
+     * Failed
+     */
+    failed: () => LocalizedString
   }
   error: {
     /**
@@ -706,9 +675,21 @@ export type TranslationFunctions = {
      */
     timeRemainWithHour: (arg: { hour: unknown }) => LocalizedString
     /**
-     * Create a new lesson
+     * Start date
      */
-    createNew: () => LocalizedString
+    startDate: () => LocalizedString
+    /**
+     * Start time
+     */
+    startTime: () => LocalizedString
+    /**
+     * End date
+     */
+    endDate: () => LocalizedString
+    /**
+     * End time
+     */
+    endTime: () => LocalizedString
     /**
      * Name
      */
@@ -726,13 +707,13 @@ export type TranslationFunctions = {
      */
     descriptionPlaceholder: () => LocalizedString
     /**
-     * Created lesson successfully!
+     * Create a new lesson
      */
-    createdSuccessfully: () => LocalizedString
+    createNew: () => LocalizedString
     /**
-     * Created lesson failed!
+     * Created lesson {status}!
      */
-    createdFailed: () => LocalizedString
+    createdStatus: (arg: { status: unknown }) => LocalizedString
     /**
      * Delete lesson
      */
@@ -742,13 +723,9 @@ export type TranslationFunctions = {
      */
     deleteConfirmDescription: () => LocalizedString
     /**
-     * Deleted a lesson successfully!
+     * Deleted a lesson {status}!
      */
-    deletedSuccessfully: () => LocalizedString
-    /**
-     * Deleted a lesson failed
-     */
-    deletedFailed: () => LocalizedString
+    deletedStatus: (arg: { status: unknown }) => LocalizedString
     /**
      * File
      */
@@ -774,25 +751,17 @@ export type TranslationFunctions = {
      */
     addFile: () => LocalizedString
     /**
-     * Added a file successfully!
+     * Added a file {status}!
      */
-    addedFileSuccessfully: () => LocalizedString
-    /**
-     * Added a file failed!
-     */
-    addedFileFailed: () => LocalizedString
+    addedFileStatus: (arg: { status: unknown }) => LocalizedString
     /**
      * Edit a file
      */
     editFile: () => LocalizedString
     /**
-     * Edited a file successfully!
+     * Edited a file {status}!
      */
-    editedFileSuccessfully: () => LocalizedString
-    /**
-     * Edited a file failed!
-     */
-    editedFileFailed: () => LocalizedString
+    editedFileStatus: (arg: { status: unknown }) => LocalizedString
     /**
      * Delete a file
      */
@@ -802,13 +771,9 @@ export type TranslationFunctions = {
      */
     deleteFileConfirmDescription: () => LocalizedString
     /**
-     * Deleted a file successfully!
+     * Deleted a file {status}!
      */
-    deletedFileSuccessfully: () => LocalizedString
-    /**
-     * Deleted a file failed!
-     */
-    deletedFileFailed: () => LocalizedString
+    deletedFileStatus: (arg: { status: unknown }) => LocalizedString
     /**
      * Create a new deadline
      */
@@ -822,41 +787,17 @@ export type TranslationFunctions = {
      */
     deadlineDescriptionPlaceholder: () => LocalizedString
     /**
-     * Start date
+     * Created a deadline {status}!
      */
-    startDate: () => LocalizedString
-    /**
-     * Start time
-     */
-    startTime: () => LocalizedString
-    /**
-     * End date
-     */
-    endDate: () => LocalizedString
-    /**
-     * End time
-     */
-    endTime: () => LocalizedString
-    /**
-     * Created a deadline successfully!
-     */
-    createdDeadlineSuccessfully: () => LocalizedString
-    /**
-     * Created a deadline failed!
-     */
-    createdDeadlineFailed: () => LocalizedString
+    createdDeadlineStatus: (arg: { status: unknown }) => LocalizedString
     /**
      * Edit a deadline
      */
     editDeadline: () => LocalizedString
     /**
-     * Edited a deadline successfully!
+     * Edited a deadline {status}!
      */
-    editedDeadlineSuccessfully: () => LocalizedString
-    /**
-     * Edited a deadline failed!
-     */
-    editedDeadlineFailed: () => LocalizedString
+    editedDeadlineStatus: (arg: { status: unknown }) => LocalizedString
     /**
      * Delete a deadline
      */
@@ -866,49 +807,33 @@ export type TranslationFunctions = {
      */
     deleteDeadlineConfirmDescription: () => LocalizedString
     /**
-     * Deleted a deadline successfully!
+     * Deleted a deadline {status}!
      */
-    deletedDeadlineSuccessfully: () => LocalizedString
-    /**
-     * Deleted a deadline failed
-     */
-    deletedDeadlineFailed: () => LocalizedString
+    deletedDeadlineStatus: (arg: { status: unknown }) => LocalizedString
     /**
      * Add a file to deadline
      */
     addDeadlineFile: () => LocalizedString
     /**
-     * Added a file to deadline successfully!
+     * Added a file to deadline {status}!
      */
-    addedDeadlineFileSuccessfully: () => LocalizedString
-    /**
-     * Added a file to deadline failed!
-     */
-    addedDeadlineFileFailed: () => LocalizedString
+    addedDeadlineFileStatus: (arg: { status: unknown }) => LocalizedString
     /**
      * Edit a deadline file
      */
     editDeadlineFile: () => LocalizedString
     /**
-     * Edited a file of deadline successfully!
+     * Edited a file of deadline {status}!
      */
-    editedDeadlineFileSuccessfully: () => LocalizedString
-    /**
-     * Edited a file of deadline failed!
-     */
-    editedDeadlineFileFailed: () => LocalizedString
+    editedDeadlineFileStatus: (arg: { status: unknown }) => LocalizedString
     /**
      * Delete a deadline file
      */
     deleteDeadlineFile: () => LocalizedString
     /**
-     * Deleted a file of deadline successfully!
+     * Deleted a file of deadline {status}!
      */
-    deletedDeadlineFileSuccessfully: () => LocalizedString
-    /**
-     * Deleted a file of deadline failed!
-     */
-    deletedDeadlineFileFailed: () => LocalizedString
+    deletedDeadlineFileStatus: (arg: { status: unknown }) => LocalizedString
   }
   user: {
     /**

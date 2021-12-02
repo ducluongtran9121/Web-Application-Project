@@ -12,19 +12,25 @@ function Home(): JSX.Element {
   const [isLoading, setLoading] = React.useState<boolean>(true)
 
   React.useEffect(() => {
+    let isMounted = true
+
     async function getData() {
       setLoading(true)
 
       try {
         const data = await getUserCourses()
-        setCourses(data)
+        if (isMounted) setCourses(data)
         // eslint-disable-next-line no-empty
       } catch {}
 
-      setLoading(false)
+      if (isMounted) setLoading(false)
     }
 
     getData()
+
+    return () => {
+      isMounted = false
+    }
   }, [])
 
   return (

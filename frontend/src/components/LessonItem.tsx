@@ -60,10 +60,26 @@ function LessonItem({
   ...rest
 }: LessonItemProps): JSX.Element {
   const { LL } = React.useContext(I18nContext)
+  const [isMounted, setMounted] = React.useState<boolean>(false)
   const { isOpen: isConfirmOpen, onOpen: onConfirmOpen, onClose: onConfirmClose } = useDisclosure()
   const { isOpen: isAddFileOpen, onOpen: onAddFileOpen, onClose: onAddFileClose } = useDisclosure()
   const { isOpen: isAddDeadlineOpen, onOpen: onAddDeadlineOpen, onClose: onAddDeadlineClose } = useDisclosure()
   const borderControlColor = useColorModeValue('light.border.control', 'dark.border.control')
+
+  React.useEffect(() => {
+    setMounted(true)
+    return () => {
+      setMounted(false)
+    }
+  }, [])
+
+  function handleAddFileClose(): void {
+    if (isMounted) onAddFileClose()
+  }
+
+  function handleAddDeadlineClose(): void {
+    if (isMounted) onAddDeadlineClose()
+  }
 
   async function handleNameSubmit(currentValue: string): Promise<void> {
     if (onEditSubmit) {
@@ -200,7 +216,7 @@ function LessonItem({
           submitButtonContent={LL.common.add()}
           closeOnOverlayClick={false}
           isOpen={isAddFileOpen}
-          onClose={onAddFileClose}
+          onClose={handleAddFileClose}
           onSubmit={handleAddFile}
         />
         <SubmitDeadlineDialog
@@ -208,7 +224,7 @@ function LessonItem({
           submitButtonContent={LL.common.create()}
           closeOnOverlayClick={false}
           isOpen={isAddDeadlineOpen}
-          onClose={onAddDeadlineClose}
+          onClose={handleAddDeadlineClose}
           onSubmit={handleCreateDeadline}
         />
       </>

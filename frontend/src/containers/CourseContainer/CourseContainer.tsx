@@ -15,6 +15,7 @@ function CourseContainer(): JSX.Element {
   const { isInEditingMode, setInEditingMode } = useEdit()
   const { LL } = React.useContext(I18nContext)
   const { courseId } = useParams()
+  const [isMounted, setMounted] = React.useState<boolean>(false)
   const [isLoading, setLoading] = React.useState<boolean>(true)
   const [course, setCourse] = React.useState<Course>()
 
@@ -22,11 +23,12 @@ function CourseContainer(): JSX.Element {
 
   React.useEffect(() => {
     async function getData(): Promise<void> {
+      setMounted(true)
       setLoading(true)
 
       try {
         const data = await getUserCourse(Number(courseId))
-        setCourse(data)
+        if (isMounted) setCourse(data)
         // eslint-disable-next-line no-empty
       } catch {}
 
@@ -34,6 +36,10 @@ function CourseContainer(): JSX.Element {
     }
 
     getData()
+
+    return () => {
+      setMounted(false)
+    }
   }, [])
 
   function handleEnterEditMode(): void {

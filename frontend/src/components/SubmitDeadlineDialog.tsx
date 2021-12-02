@@ -47,6 +47,7 @@ function SubmitDeadlineDialog({
   ...rest
 }: SubmitDeadlineDialogProps): JSX.Element {
   const { LL } = React.useContext(I18nContext)
+  const [isMounted, setMounted] = React.useState<boolean>(false)
   const [nameState, setNameState] = React.useState<string>(name)
   const [descriptionState, setDescriptionState] = React.useState<string>(description)
   const [selectedStartDate, setSelectedStartDate] = React.useState<Date>(startDate)
@@ -56,8 +57,25 @@ function SubmitDeadlineDialog({
   const [isLoading, setLoading] = React.useState<boolean>(false)
 
   React.useEffect(() => {
+    setMounted(true)
+    return () => {
+      setMounted(false)
+    }
+  }, [])
+
+  function getTimeString(date: Date): string {
+    const hours = date.getHours()
+    const minutes = date.getMinutes()
+    let hoursString = hours.toString()
+    let minutesString = minutes.toString()
+    if (hours < 10) hoursString = '0' + hoursString
+    if (minutes < 10) minutesString = '0' + minutesString
+    return `${hoursString}:${minutesString}`
+  }
+
+  React.useEffect(() => {
     if (isOpen && !isUseUserData) {
-      const currentTime = `${new Date().getHours()}:${new Date().getMinutes()}`
+      const currentTime = getTimeString(new Date())
       setStartTime(currentTime)
       setEndTime(currentTime)
     }
@@ -91,12 +109,13 @@ function SubmitDeadlineDialog({
         await onSubmit(nameState, startDate.toISOString(), endDate.toISOString(), descriptionState)
       }
 
-      setLoading(false)
+      if (isMounted) setLoading(false)
       onClose()
     } catch (err) {
-      setLoading(false)
       Promise.reject(err)
     }
+
+    if (isMounted) setLoading(false)
   }
 
   function handleClose(): void {
@@ -111,8 +130,8 @@ function SubmitDeadlineDialog({
       setDescriptionState('')
       setSelectedStartDate(new Date())
       setSelectedEndDate(new Date())
-      setStartTime(`${new Date().getHours()}:${new Date().getMinutes()}`)
-      setEndTime(`${new Date().getHours()}:${new Date().getMinutes()}`)
+      setStartTime(getTimeString(new Date()))
+      setEndTime(getTimeString(new Date()))
     }
     onClose()
   }

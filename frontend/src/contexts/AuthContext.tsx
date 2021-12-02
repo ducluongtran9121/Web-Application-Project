@@ -1,7 +1,6 @@
 import * as React from 'react'
 import axios from 'axios'
-import { useToast } from '@chakra-ui/react'
-import { I18nContext } from '../i18n/i18n-react'
+import { useNotification } from './NotificationContext'
 import Constants from '../constants'
 import {
   fromUserPayload,
@@ -65,24 +64,14 @@ interface AuthContextProviderProps {
 const [useAuth, AuthContextProvider] = createContext<AuthContextProviderProps>()
 
 function AuthProvider({ children }: AuthProviderProps): JSX.Element {
-  const [user, setUser] = React.useState<User>()
-  const [isTokenError, setTokenError] = React.useState<boolean>(false)
+  const { notify } = useNotification()
   const navigate = useNavigate()
   const location = useLocation()
-  const { LL } = React.useContext(I18nContext)
-  const toast = useToast()
+  const [user, setUser] = React.useState<User>()
+  const [isTokenError, setTokenError] = React.useState<boolean>(false)
 
   React.useEffect(() => {
-    if (isTokenError) {
-      toast({
-        title: LL.common.tokenExpired(),
-        description: LL.common.fail(),
-        status: 'error',
-        position: 'bottom-right',
-        variant: 'subtle',
-        isClosable: true
-      })
-    }
+    if (isTokenError) notify('error', 'tokenExpired')
   }, [isTokenError])
 
   const axiosInstance = axios.create({
@@ -128,8 +117,6 @@ function AuthProvider({ children }: AuthProviderProps): JSX.Element {
         })
       } catch (error) {
         if (axios.isAxiosError(error) && (error.response?.status === 401 || !TokenStorage.getToken('refresh'))) {
-          // Finding a better way because this makes memory leaks, but refresh token lifetime is about 1 day or more, so this way is useable, i think...
-          // Help me please 😖😖😖😖!
           setTokenError(true)
           TokenStorage.removeTokens()
           navigate('/signin', { state: { from: location }, replace: true })

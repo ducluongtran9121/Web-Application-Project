@@ -15,18 +15,24 @@ function CourseStudents(): JSX.Element {
   const [students, setStudents] = React.useState<Student[]>()
 
   React.useEffect(() => {
+    let isMounted = true
+
     async function getData(): Promise<void> {
       setLoading(true)
 
       try {
         const data = await getCourseStudents(Number(courseId))
-        setStudents(data.filter((member) => member.role === 'student'))
+        if (isMounted) setStudents(data.filter((member) => member.role === 'student'))
         // eslint-disable-next-line no-empty
       } catch {}
 
-      setLoading(false)
+      if (isMounted) setLoading(false)
     }
     getData()
+
+    return () => {
+      isMounted = false
+    }
   }, [])
 
   if (isLoading) {
