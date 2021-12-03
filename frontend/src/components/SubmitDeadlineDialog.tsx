@@ -26,8 +26,8 @@ interface SubmitDeadlineDialogProps extends Omit<ModalProps, 'children'> {
   description?: string
   startDate?: Date
   endDate?: Date
-  begin?: string
-  end?: string
+  begin?: Date
+  end?: Date
   onSubmit?(name: string, begin: string, end: string, description?: string): Promise<void>
 }
 
@@ -39,8 +39,8 @@ function SubmitDeadlineDialog({
   description = '',
   startDate = new Date(),
   endDate = new Date(),
-  begin = '',
-  end = '',
+  begin = new Date(),
+  end = new Date(),
   isOpen,
   onSubmit,
   onClose,
@@ -52,8 +52,8 @@ function SubmitDeadlineDialog({
   const [descriptionState, setDescriptionState] = React.useState<string>(description)
   const [selectedStartDate, setSelectedStartDate] = React.useState<Date>(startDate)
   const [selectedEndDate, setSelectedEndDate] = React.useState<Date>(endDate)
-  const [startTime, setStartTime] = React.useState<string>(begin)
-  const [endTime, setEndTime] = React.useState<string>(end)
+  const [startTime, setStartTime] = React.useState<string>(getTimeString(begin))
+  const [endTime, setEndTime] = React.useState<string>(getTimeString(end))
   const [isLoading, setLoading] = React.useState<boolean>(false)
 
   React.useEffect(() => {
@@ -123,8 +123,8 @@ function SubmitDeadlineDialog({
       setNameState(name), setDescriptionState(description)
       setSelectedStartDate(startDate)
       setSelectedEndDate(endDate)
-      setStartTime(begin)
-      setEndTime(end)
+      setStartTime(getTimeString(begin))
+      setEndTime(getTimeString(end))
     } else {
       setNameState('')
       setDescriptionState('')

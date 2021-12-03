@@ -169,8 +169,8 @@ function DeadlineItem({
           onClose={onEditClose}
           name={name}
           description={description}
-          begin={`${begin.getHours()}:${begin.getMinutes()}`}
-          end={`${end.getHours()}:${end.getMinutes()}`}
+          begin={begin}
+          end={end}
           startDate={begin}
           endDate={end}
           onSubmit={handleEdit}
