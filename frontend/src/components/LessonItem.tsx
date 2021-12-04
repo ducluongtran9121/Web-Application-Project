@@ -187,8 +187,8 @@ function LessonItem({
                 {deadlines.map((deadline) => (
                   <DeadlineItem
                     key={deadline.id}
-                    userRole={userRole}
                     deadline={deadline}
+                    userRole={userRole}
                     isInEditingMode={isInEditingMode}
                     onEdit={handleEditDeadline}
                     onDelete={handleDeleteDeadline}

@@ -19,7 +19,10 @@ const vi: Translation = {
     on: 'Bật',
     off: 'Tắt',
     successfully: 'Thành công',
-    failed: 'Thất bại'
+    failed: 'Thất bại',
+    error: 'Lỗi',
+    none: 'Không có',
+    submit: 'Nộp bài'
   },
   error: {
     default: 'Có lỗi xảy ra! Vui lòng thử lại!',
@@ -64,6 +67,12 @@ const vi: Translation = {
   },
   lesson: {
     overdue: 'Quá hạn',
+    submitted: 'Đã nộp',
+    notSubmitted: 'Chưa nộp',
+    submissionStatus: 'Tình trạng bài nộp',
+    remainTime: 'Thời gian còn lại',
+    finishedAt: 'Hoàn thành vào lúc',
+    submittedFiles: 'Các tập tin đã nộp',
     notStart: 'Chưa bắt đầu',
     timeRemainWithDayAndHour: 'Còn lại {day} ngày {hour} giờ',
     timeRemainWithDay: 'Còn lại {day} ngày',
@@ -74,6 +83,8 @@ const vi: Translation = {
     endTime: 'Thời gian kết thúc',
     name: 'Tên',
     namePlaceholder: 'Tên khoá học của bạn',
+    addSubmitFile: 'Thêm tập tin để nộp',
+    editSubmittedFiles: 'Sửa các tập tin để nộp',
     description: 'Mô tả',
     descriptionPlaceholder: 'Mô tả cho khoá học của bạn',
     createNew: 'Tạo một bài học mới',
@@ -107,7 +118,13 @@ const vi: Translation = {
     editDeadlineFile: 'Sửa đổi tập tin của deadline',
     editedDeadlineFileStatus: 'Sửa đổi tập tin của deadline {status}!',
     deleteDeadlineFile: 'Xoá tập tin của deadline',
-    deletedDeadlineFileStatus: 'Xoá tập tin của deadline {status}!'
+    deletedDeadlineFileStatus: 'Xoá tập tin của deadline {status}!',
+    addSubmitDeadlineFile: 'Thêm tập tin để nộp vào deadline',
+    addedSubmitDeadlineFileStatus: 'Thêm tập tin để nộp vào deadline {status}!',
+    editSubmittedDeadlineFile: 'Sửa đổi tập tin để nộp của deadline',
+    editedSubmittedDeadlineFileStatus: 'Sửa đổi tập tin để nộp của deadline {status}!',
+    deleteSubmittedDeadlineFile: 'Xoá tập tin để nộp của deadline',
+    deletedSubmittedDeadlineFileStatus: 'Xoá tập tin để nộp của deadline {status}!'
   },
   user: {
     overview: 'Tổng quan',

@@ -24,6 +24,9 @@ type NotificationType =
   | 'addDeadlineFile'
   | 'editDeadlineFile'
   | 'deleteDeadlineFile'
+  | 'addSubmitDeadlineFile'
+  | 'editSubmitDeadlineFile'
+  | 'deleteSubmitDeadlineFile'
 
 interface NotificationContent {
   title: LocalizedString
@@ -114,6 +117,15 @@ function NotificationProvider({ children }: NotificationProviderProps): JSX.Elem
         break
       case 'deleteDeadlineFile':
         title = LL.lesson.deletedDeadlineFileStatus({ status })
+        break
+      case 'addSubmitDeadlineFile':
+        title = LL.lesson.addedSubmitDeadlineFileStatus({ status })
+        break
+      case 'editSubmitDeadlineFile':
+        title = LL.lesson.editedSubmittedDeadlineFileStatus({ status })
+        break
+      case 'deleteSubmitDeadlineFile':
+        title = LL.lesson.deletedSubmittedDeadlineFileStatus({ status })
         break
     }
 

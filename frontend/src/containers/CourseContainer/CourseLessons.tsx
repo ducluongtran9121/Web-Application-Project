@@ -227,7 +227,7 @@ function CourseLessons(): JSX.Element {
         // eslint-disable-next-line no-empty
       } catch {}
 
-      setLoading(false)
+      if (isCurrentMounted) setLoading(false)
     }
 
     getData()

@@ -1,3 +1,4 @@
+import type { User, UserPayload } from './user'
 import type { LocationPayload, LocationItem } from './location'
 
 interface DeadlinePayload {
@@ -10,6 +11,30 @@ interface DeadlinePayload {
   lesson: number
 }
 
+interface DeadlineSubmitPayload {
+  id: number
+  is_finished: boolean
+  finish_at?: string
+  file_deadlineSubmit_lesson: LocationPayload[]
+  deadline: DeadlinePayload
+}
+
+interface DeadlineStatusPayload {
+  id: number
+  is_finished: boolean
+  finish_at?: string
+  file_deadlineSubmit_lesson: LocationPayload[]
+  member: UserPayload
+}
+
+interface DeadlineStatus {
+  id: number
+  isFinished: boolean
+  finishAt?: Date
+  submitItems: LocationItem[]
+  member: User
+}
+
 interface Deadline {
   id: number
   locationItems: LocationItem[]
@@ -17,7 +42,11 @@ interface Deadline {
   description: string
   begin: Date
   end: Date
-  lesson: number
+  lessonId: number
+  isFinished?: boolean
+  submitId?: number
+  submitItems?: LocationItem[]
+  finishAt?: Date
 }
 
-export type { DeadlinePayload, Deadline }
+export type { DeadlinePayload, DeadlineSubmitPayload, DeadlineStatusPayload, Deadline, DeadlineStatus }

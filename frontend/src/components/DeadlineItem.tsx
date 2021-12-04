@@ -9,8 +9,9 @@ import ConfirmDialog from './ConfirmDialog'
 import SubmitDeadlineDialog from './SubmitDeadlineDialog'
 import SubmitFileDialog from './SubmitFileDialog'
 import type { Deadline, UserRole } from '../models'
-import type { LocalizedString } from 'typesafe-i18n'
 import type { BoxProps } from '@chakra-ui/react'
+import RangeDate from './RangeDate'
+import RemainTime from './RemainTime'
 
 interface DeadlineItemProps extends BoxProps {
   deadline: Deadline
@@ -24,7 +25,7 @@ interface DeadlineItemProps extends BoxProps {
 }
 
 function DeadlineItem({
-  deadline: { id, name, description, locationItems, begin, end },
+  deadline: { id, name, description, locationItems, begin, end, lessonId, isFinished, submitId },
   userRole = 'student',
   isInEditingMode,
   onEdit,
@@ -38,51 +39,8 @@ function DeadlineItem({
   const { isOpen: isAddFileOpen, onOpen: onAddFileOpen, onClose: onAddFileClose } = useDisclosure()
   const { isOpen: isEditOpen, onOpen: onEditOpen, onClose: onEditClose } = useDisclosure()
   const { isOpen: isDeleteOpen, onOpen: onDeleteOpen, onClose: onDeleteClose } = useDisclosure()
-  const [dayRemain, setDayRemain] = React.useState<number>(0)
-  const [hourRemain, setHourRemain] = React.useState<number>(0)
-  const attentionColor = useColorModeValue('light.status.attention', 'dark.status.attention')
-  const cautionColor = useColorModeValue('light.status.caution', 'dark.status.caution')
-  const criticalColor = useColorModeValue('light.status.critical', 'dark.status.critical')
-  const noneColor = useColorModeValue('light.status.none', 'dark.status.none')
   const hoverBg = useColorModeValue('light.hoverable.secondary', 'dark.hoverable.secondary')
   const activeBg = useColorModeValue('light.hoverable.ternary', 'dark.hoverable.ternary')
-  const hourDivisor = 1000 * 3600
-  const dayDivisor = hourDivisor * 24
-
-  const calculateTimeRemain = React.useCallback((): void => {
-    const diff = end.getTime() - Date.now()
-    setDayRemain(Math.floor(diff / dayDivisor))
-    setHourRemain(Math.round((diff % dayDivisor) / hourDivisor))
-  }, [])
-
-  React.useEffect(() => {
-    calculateTimeRemain()
-
-    const interval = setInterval(() => {
-      calculateTimeRemain()
-    }, 60000)
-
-    return () => clearInterval(interval)
-  }, [])
-
-  function getRemainTimeColor(dayRemain: number, hourRemain: number) {
-    if (new Date() < begin) return noneColor
-    if (dayRemain > 0) return attentionColor
-    if (hourRemain > 0) return cautionColor
-    return criticalColor
-  }
-
-  function getRemainTime(dayRemain: number, hourRemain: number): LocalizedString | string {
-    if (new Date() < begin) return `${LL.lesson.notStart()} - ${LL.common.begin()}: ${begin.toLocaleDateString()} ${begin.toLocaleTimeString()}`
-
-    if (dayRemain === 0) {
-      if (hourRemain === 0) return LL.lesson.overdue()
-      return LL.lesson.timeRemainWithHour({ hour: hourRemain })
-    }
-
-    if (hourRemain === 0) return LL.lesson.timeRemainWithDay({ day: dayRemain })
-    return LL.lesson.timeRemainWithDayAndHour({ day: dayRemain, hour: hourRemain })
-  }
 
   async function handleEdit(name: string, begin: string, end: string, description?: string): Promise<void> {
     if (onEdit) await onEdit(id, name, begin, end, description)
@@ -119,13 +77,11 @@ function DeadlineItem({
         >
           <Flex gridGap="0.5rem" alignItems="center" flexGrow="1">
             <Icon fontSize="1.25rem" as={DeadlineIcon} />
-            <Link as={RouterLink} to="/">
+            <Link as={RouterLink} to={`lessons/${lessonId}/deadlines/${id}`}>
               {name}
             </Link>
             <Text> - </Text>
-            <Text textAlign="center" fontWeight="semibold" color={attentionColor}>
-              {`${begin.toLocaleDateString()} ${begin.toLocaleTimeString()} - ${end.toLocaleDateString()} ${end.toLocaleTimeString()}`}
-            </Text>
+            <RangeDate begin={begin} end={end} />
           </Flex>
           {isInEditingMode && (
             <ButtonGroup size="sm" visibility="hidden" _groupHover={{ visibility: 'visible' }} isAttached>
@@ -191,18 +147,16 @@ function DeadlineItem({
       <Flex role="group" gridGap="0.5rem" alignItems="center" w="100%">
         <Flex gridGap="0.5rem" alignItems="center" flexGrow="1">
           <Icon fontSize="1.25rem" as={DeadlineIcon} />
-          <Link as={RouterLink} to="/">
+          <Link as={RouterLink} to={`lessons/${lessonId}/submitdeadline/${submitId}`}>
             {name}
           </Link>
           <Text> - </Text>
-          <Text textAlign="center" fontWeight="semibold" color={getRemainTimeColor(dayRemain, hourRemain)}>
-            {getRemainTime(dayRemain, hourRemain)}
-          </Text>
+          <RemainTime begin={begin} end={end} isFinished={isFinished} />
         </Flex>
       </Flex>
       {description && <Text>{description}</Text>}
       <Flex direction="column" pl="0.75rem" mt="0.5rem">
-        {locationItems && <LocationTreeView childType="deadline" items={locationItems} />}
+        {locationItems && <LocationTreeView childType="deadlineItem" items={locationItems} />}
       </Flex>
     </Box>
   )

@@ -19,7 +19,10 @@ const en: BaseTranslation = {
     on: 'On',
     off: 'Off',
     successfully: 'Successfully',
-    failed: 'Failed'
+    failed: 'Failed',
+    error: 'Error',
+    none: 'None',
+    submit: 'Submit'
   },
   error: {
     default: 'An error happened! Please try again!',
@@ -64,6 +67,12 @@ const en: BaseTranslation = {
   },
   lesson: {
     overdue: 'Overdue',
+    submitted: 'Submitted',
+    notSubmitted: 'Not submitted',
+    submissionStatus: 'Submission status',
+    remainTime: 'Remain time',
+    finishedAt: 'Finished at',
+    submittedFiles: 'Submitted files',
     notStart: 'Not started yet',
     timeRemainWithDayAndHour: '{day} day {hour} hour remain',
     timeRemainWithDay: '{day} day remain',
@@ -74,6 +83,8 @@ const en: BaseTranslation = {
     endTime: 'End time',
     name: 'Name',
     namePlaceholder: 'Your lesson name',
+    addSubmitFile: 'Add submit file',
+    editSubmittedFiles: 'Edit submitted files',
     description: 'Description',
     descriptionPlaceholder: 'Your lesson description',
     createNew: 'Create a new lesson',
@@ -107,7 +118,13 @@ const en: BaseTranslation = {
     editDeadlineFile: 'Edit a deadline file',
     editedDeadlineFileStatus: 'Edited a file of deadline {status}!',
     deleteDeadlineFile: 'Delete a deadline file',
-    deletedDeadlineFileStatus: 'Deleted a file of deadline {status}!'
+    deletedDeadlineFileStatus: 'Deleted a file of deadline {status}!',
+    addSubmitDeadlineFile: 'Add a submit file to deadline',
+    addedSubmitDeadlineFileStatus: 'Added a submit file to deadline {status}!',
+    editSubmittedDeadlineFile: 'Edit a submitted deadline file',
+    editedSubmittedDeadlineFileStatus: 'Edited a submitted file of deadline {status}!',
+    deleteSubmittedDeadlineFile: 'Delete a submitted deadline file',
+    deletedSubmittedDeadlineFileStatus: 'Deleted a submitted file of deadline {status}!'
   },
   user: {
     overview: 'Overview',

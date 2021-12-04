@@ -1,3 +1,5 @@
 export * from './token'
 export * from './context'
 export * from './lesson'
+export * from './location'
+export * from './deadline'

@@ -79,6 +79,18 @@ export type Translation = {
      * Failed
      */
     failed: string
+    /**
+     * Error
+     */
+    error: string
+    /**
+     * None
+     */
+    none: string
+    /**
+     * Submit
+     */
+    submit: string
   }
   error: {
     /**
@@ -220,6 +232,30 @@ export type Translation = {
      */
     overdue: string
     /**
+     * Submitted
+     */
+    submitted: string
+    /**
+     * Not submitted
+     */
+    notSubmitted: string
+    /**
+     * Submission status
+     */
+    submissionStatus: string
+    /**
+     * Remain time
+     */
+    remainTime: string
+    /**
+     * Finished at
+     */
+    finishedAt: string
+    /**
+     * Submitted files
+     */
+    submittedFiles: string
+    /**
      * Not started yet
      */
     notStart: string
@@ -263,6 +299,14 @@ export type Translation = {
      * Your lesson name
      */
     namePlaceholder: string
+    /**
+     * Add submit file
+     */
+    addSubmitFile: string
+    /**
+     * Edit submitted files
+     */
+    editSubmittedFiles: string
     /**
      * Description
      */
@@ -410,6 +454,33 @@ export type Translation = {
      * @param {unknown} status
      */
     deletedDeadlineFileStatus: RequiredParams1<'status'>
+    /**
+     * Add a submit file to deadline
+     */
+    addSubmitDeadlineFile: string
+    /**
+     * Added a submit file to deadline {status}!
+     * @param {unknown} status
+     */
+    addedSubmitDeadlineFileStatus: RequiredParams1<'status'>
+    /**
+     * Edit a submitted deadline file
+     */
+    editSubmittedDeadlineFile: string
+    /**
+     * Edited a submitted file of deadline {status}!
+     * @param {unknown} status
+     */
+    editedSubmittedDeadlineFileStatus: RequiredParams1<'status'>
+    /**
+     * Delete a submitted deadline file
+     */
+    deleteSubmittedDeadlineFile: string
+    /**
+     * Deleted a submitted file of deadline {status}!
+     * @param {unknown} status
+     */
+    deletedSubmittedDeadlineFileStatus: RequiredParams1<'status'>
   }
   user: {
     /**
@@ -518,6 +589,18 @@ export type TranslationFunctions = {
      * Failed
      */
     failed: () => LocalizedString
+    /**
+     * Error
+     */
+    error: () => LocalizedString
+    /**
+     * None
+     */
+    none: () => LocalizedString
+    /**
+     * Submit
+     */
+    submit: () => LocalizedString
   }
   error: {
     /**
@@ -659,6 +742,30 @@ export type TranslationFunctions = {
      */
     overdue: () => LocalizedString
     /**
+     * Submitted
+     */
+    submitted: () => LocalizedString
+    /**
+     * Not submitted
+     */
+    notSubmitted: () => LocalizedString
+    /**
+     * Submission status
+     */
+    submissionStatus: () => LocalizedString
+    /**
+     * Remain time
+     */
+    remainTime: () => LocalizedString
+    /**
+     * Finished at
+     */
+    finishedAt: () => LocalizedString
+    /**
+     * Submitted files
+     */
+    submittedFiles: () => LocalizedString
+    /**
      * Not started yet
      */
     notStart: () => LocalizedString
@@ -698,6 +805,14 @@ export type TranslationFunctions = {
      * Your lesson name
      */
     namePlaceholder: () => LocalizedString
+    /**
+     * Add submit file
+     */
+    addSubmitFile: () => LocalizedString
+    /**
+     * Edit submitted files
+     */
+    editSubmittedFiles: () => LocalizedString
     /**
      * Description
      */
@@ -834,6 +949,30 @@ export type TranslationFunctions = {
      * Deleted a file of deadline {status}!
      */
     deletedDeadlineFileStatus: (arg: { status: unknown }) => LocalizedString
+    /**
+     * Add a submit file to deadline
+     */
+    addSubmitDeadlineFile: () => LocalizedString
+    /**
+     * Added a submit file to deadline {status}!
+     */
+    addedSubmitDeadlineFileStatus: (arg: { status: unknown }) => LocalizedString
+    /**
+     * Edit a submitted deadline file
+     */
+    editSubmittedDeadlineFile: () => LocalizedString
+    /**
+     * Edited a submitted file of deadline {status}!
+     */
+    editedSubmittedDeadlineFileStatus: (arg: { status: unknown }) => LocalizedString
+    /**
+     * Delete a submitted deadline file
+     */
+    deleteSubmittedDeadlineFile: () => LocalizedString
+    /**
+     * Deleted a submitted file of deadline {status}!
+     */
+    deletedSubmittedDeadlineFileStatus: (arg: { status: unknown }) => LocalizedString
   }
   user: {
     /**

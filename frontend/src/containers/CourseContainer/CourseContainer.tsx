@@ -15,15 +15,15 @@ function CourseContainer(): JSX.Element {
   const { isInEditingMode, setInEditingMode } = useEdit()
   const { LL } = React.useContext(I18nContext)
   const { courseId } = useParams()
-  const [isMounted, setMounted] = React.useState<boolean>(false)
   const [isLoading, setLoading] = React.useState<boolean>(true)
   const [course, setCourse] = React.useState<Course>()
 
   const textColorDefault = useColorModeValue('light.text.default', 'dark.text.default')
 
   React.useEffect(() => {
+    let isMounted = true
+
     async function getData(): Promise<void> {
-      setMounted(true)
       setLoading(true)
 
       try {
@@ -38,7 +38,7 @@ function CourseContainer(): JSX.Element {
     getData()
 
     return () => {
-      setMounted(false)
+      isMounted = false
     }
   }, [])
 

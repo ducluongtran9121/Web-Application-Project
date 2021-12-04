@@ -10,6 +10,8 @@ import Home from './Home'
 import CourseContainer from './CourseContainer/CourseContainer'
 import CourseLessons from './CourseContainer/CourseLessons'
 import CourseStudents from './CourseContainer/CourseStudent'
+import CourseDeadlineStudent from './CourseContainer/CourseDeadlineStudent'
+import CourseDeadlineLecturer from './CourseContainer/CourseDeadlineLecturer'
 import UserContainer from './UserContainer/UserContainer'
 import UserOverview from './UserContainer/UserOverview'
 import UserCourses from './UserContainer/UserCourses'
@@ -59,6 +61,8 @@ function PrivateElementContainer(): JSX.Element {
         >
           <Route path="" element={<CourseLessons />} />
           <Route path="students" element={<CourseStudents />} />
+          {user?.role === 'lecturer' && <Route path="lessons/:lessonId/deadlines/:deadlineId" element={<CourseDeadlineLecturer />} />}
+          {user?.role === 'student' && <Route path="lessons/:lessonId/submitdeadline/:submitId" element={<CourseDeadlineStudent />} />}
         </Route>
         <Route path="users/:userId" element={<UserContainer />}>
           <Route path="" element={<UserOverview />} />
