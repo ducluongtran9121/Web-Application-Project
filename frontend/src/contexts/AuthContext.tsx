@@ -35,7 +35,9 @@ import type {
   RefreshSessionPayLoad,
   ErrorResponsePayload,
   DeadlineSubmitPayload,
-  DeadlineStatus
+  DeadlineStatus,
+  LocationPayload,
+  DeadlineStatusPayload
 } from '../models'
 
 interface AuthProviderProps {
@@ -223,12 +225,12 @@ function AuthProvider({ children }: AuthProviderProps): JSX.Element {
   }
 
   async function addCourseLessonFile(courseId: number, lessonId: number, formData: FormData): Promise<File> {
-    const { data } = await axiosInstance.post(Constants.Api.CourseLessonFiles(courseId, lessonId), formData)
+    const { data } = await axiosInstance.post<LocationPayload>(Constants.Api.CourseLessonFiles(courseId, lessonId), formData)
     return fromLocationPayLoadToFile(data)
   }
 
   async function editCourseLessonFile(courseId: number, lessonId: number, fileId: number, formData: FormData): Promise<File> {
-    const { data } = await axiosInstance.put(Constants.Api.CourseLessonFile(courseId, lessonId, fileId), formData)
+    const { data } = await axiosInstance.put<LocationPayload>(Constants.Api.CourseLessonFile(courseId, lessonId, fileId), formData)
     return fromLocationPayLoadToFile(data)
   }
 
@@ -263,12 +265,12 @@ function AuthProvider({ children }: AuthProviderProps): JSX.Element {
   }
 
   async function addLessonDeadlineFile(lessonId: number, deadlineId: number, formData: FormData): Promise<File> {
-    const { data } = await axiosInstance.post(Constants.Api.LecturerDeadlineFiles(lessonId, deadlineId), formData)
+    const { data } = await axiosInstance.post<LocationPayload>(Constants.Api.LecturerDeadlineFiles(lessonId, deadlineId), formData)
     return fromLocationPayLoadToFile(data)
   }
 
   async function editLessonDeadlineFile(lessonId: number, deadlineId: number, fileId: number, formData: FormData): Promise<File> {
-    const { data } = await axiosInstance.put(Constants.Api.LecturerDeadlineFile(lessonId, deadlineId, fileId), formData)
+    const { data } = await axiosInstance.put<LocationPayload>(Constants.Api.LecturerDeadlineFile(lessonId, deadlineId, fileId), formData)
     return fromLocationPayLoadToFile(data)
   }
 
@@ -296,12 +298,12 @@ function AuthProvider({ children }: AuthProviderProps): JSX.Element {
   }
 
   async function addStudentDeadlineFile(lessonId: number, submitId: number, formData: FormData): Promise<File> {
-    const { data } = await axiosInstance.post(Constants.Api.StudentLessonDeadlineFiles(lessonId, submitId), formData)
+    const { data } = await axiosInstance.post<LocationPayload>(Constants.Api.StudentLessonDeadlineFiles(lessonId, submitId), formData)
     return fromLocationPayLoadToFile(data)
   }
 
   async function editStudentDeadlineFile(lessonId: number, submitId: number, fileId: number, formData: FormData): Promise<File> {
-    const { data } = await axiosInstance.put(Constants.Api.StudentLessonDeadlineFile(lessonId, submitId, fileId), formData)
+    const { data } = await axiosInstance.put<LocationPayload>(Constants.Api.StudentLessonDeadlineFile(lessonId, submitId, fileId), formData)
     return fromLocationPayLoadToFile(data)
   }
 
@@ -310,17 +312,17 @@ function AuthProvider({ children }: AuthProviderProps): JSX.Element {
   }
 
   async function getLecturerDeadlines(lessonId: number): Promise<Deadline[]> {
-    const { data } = await axiosInstance.get(Constants.Api.LecturerDeadlines(lessonId))
+    const { data } = await axiosInstance.get<DeadlinePayload[]>(Constants.Api.LecturerDeadlines(lessonId))
     return fromDeadlinesPayload(data)
   }
 
   async function getLecturerDeadline(lessonId: number, deadlineId: number): Promise<Deadline> {
-    const { data } = await axiosInstance.get(Constants.Api.LecturerDeadline(lessonId, deadlineId))
+    const { data } = await axiosInstance.get<DeadlinePayload>(Constants.Api.LecturerDeadline(lessonId, deadlineId))
     return fromDeadlinePayload(data)
   }
 
   async function listStudentsDeadlineStatus(lessonId: number, deadlineId: number): Promise<DeadlineStatus[]> {
-    const { data } = await axiosInstance.get(Constants.Api.LecturerDeadlinesStatus(lessonId, deadlineId))
+    const { data } = await axiosInstance.get<DeadlineStatusPayload[]>(Constants.Api.LecturerDeadlinesStatus(lessonId, deadlineId))
     return fromDeadlinesStatusPayloadToDeadlineStatus(data)
   }
 
