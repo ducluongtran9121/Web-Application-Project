@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { I18nContext } from '../i18n/i18n-react'
-import { Text, useColorModeValue } from '@chakra-ui/react'
+import { Text, Tooltip, useColorModeValue } from '@chakra-ui/react'
 import type { TextProps } from '@chakra-ui/react'
 import type { LocalizedString } from 'typesafe-i18n'
 
@@ -65,9 +65,11 @@ function RemainTime({ begin, end, isFinished, onTimeChange, ...rest }: RemainTim
   }
 
   return (
-    <Text fontWeight="semibold" color={remainTimeColor} {...rest}>
-      {remainTime}
-    </Text>
+    <Tooltip label={`${begin.toLocaleDateString()} ${begin.toLocaleTimeString()} - ${end.toLocaleDateString()} ${end.toLocaleTimeString()}`}>
+      <Text fontWeight="semibold" color={remainTimeColor} {...rest}>
+        {remainTime}
+      </Text>
+    </Tooltip>
   )
 }
 

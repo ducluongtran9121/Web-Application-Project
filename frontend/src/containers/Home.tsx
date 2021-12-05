@@ -2,7 +2,7 @@ import * as React from 'react'
 import { I18nContext } from '../i18n/i18n-react'
 import { Link as RouterLink } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
-import { Box, Flex, Link, Spinner, Text } from '@chakra-ui/react'
+import { Box, Flex, Link, Spinner, Text, Tooltip } from '@chakra-ui/react'
 import CardSkeleton from '../components/CardSkeleton'
 import CourseItem from '../components/CourseItem'
 import Footer from '../components/Footer'
@@ -57,20 +57,21 @@ function Home(): JSX.Element {
               <Spinner />
             ) : (
               deadlines &&
-              deadlines.map(({ id, name, begin, end, courseId, lessonId, submitId }) => (
-                <Link
-                  as={RouterLink}
-                  key={id}
-                  to={`courses/${courseId}/lessons/${lessonId}/submitdeadline/${submitId}`}
-                  display="flex"
-                  alignItems="center"
-                  gridGap="0.5rem"
-                  textAlign="left"
-                >
-                  <Text>{name}</Text>
-                  <Text>-</Text>
-                  <RemainTime begin={begin} end={end} />
-                </Link>
+              deadlines.map(({ id, name, begin, end, courseId, lessonId, submitId, courseCode, courseName, lessonName }) => (
+                <Tooltip key={id} label={`${courseName} - ${courseCode} > ${lessonName}`}>
+                  <Link
+                    as={RouterLink}
+                    to={`courses/${courseId}/lessons/${lessonId}/submitdeadline/${submitId}`}
+                    display="flex"
+                    alignItems="center"
+                    gridGap="0.5rem"
+                    textAlign="left"
+                  >
+                    <Text>{name}</Text>
+                    <Text>-</Text>
+                    <RemainTime begin={begin} end={end} />
+                  </Link>
+                </Tooltip>
               ))
             )}
           </Flex>
