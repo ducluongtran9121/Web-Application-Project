@@ -27,7 +27,7 @@ function ConfirmDialog({ heading, name, description, actionContent, cancelConten
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>{heading}</ModalHeader>
-        <ModalCloseButton />
+        <ModalCloseButton aria-label="Close confirm dialog" />
         <ModalBody>
           <Text>
             {description}:{' '}
@@ -38,8 +38,10 @@ function ConfirmDialog({ heading, name, description, actionContent, cancelConten
           </Text>
         </ModalBody>
         <ModalFooter as={Flex} gridGap="0.75rem">
-          <Button onClick={onClose}>{cancelContent ? cancelContent : LL.common.cancel()}</Button>
-          <Button isLoading={isLoading} variant="accent" onClick={handleConfirm}>
+          <Button aria-label="Cancel confirm dialog" onClick={onClose}>
+            {cancelContent ? cancelContent : LL.common.cancel()}
+          </Button>
+          <Button aria-label="Confirm action" isLoading={isLoading} variant="accent" onClick={handleConfirm}>
             {actionContent ? actionContent : LL.common.confirm()}
           </Button>
         </ModalFooter>

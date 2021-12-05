@@ -80,7 +80,7 @@ function CourseContainer(): JSX.Element {
             {course?.name}
           </Heading>
           {user?.role === 'lecturer' && (
-            <Button variant="accent" onClick={handleEnterEditMode}>
+            <Button aria-label="Enter edit mode" variant="accent" onClick={handleEnterEditMode}>
               {isInEditingMode ? LL.course.finishEditing() : LL.course.enterEditing()}
             </Button>
           )}
@@ -98,10 +98,10 @@ function CourseContainer(): JSX.Element {
                 <Text fontWeight="semibold">{LL.course.lecturers()}:</Text>
                 <Flex direction="column" alignItems="start" gridGap="0.25rem">
                   {course?.lecturers.map((lecturer) => (
-                    <Link as={RouterLink} key={lecturer.id} display="flex" gridGap="0.5rem" pl="1rem" alignItems="center" to="/">
+                    <Text key={lecturer.id} display="flex" gridGap="0.5rem" pl="1rem" alignItems="center">
                       <Icon color={textColorDefault} as={FiUser} />
-                      <Text>{lecturer.name}</Text>
-                    </Link>
+                      <Text as="span">{lecturer.name}</Text>
+                    </Text>
                   ))}
                 </Flex>
                 <Link mt="0.75rem" display="flex" gridGap="0.5rem" as={RouterLink} alignItems="center" to="">

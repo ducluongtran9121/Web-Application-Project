@@ -83,7 +83,7 @@ function SignIn(): JSX.Element {
               <FormLabel htmlFor="password_field">{LL.signIn.password()}</FormLabel>
               <Input type="password" id="password_field" ref={passwordRef} />
             </FormControl>
-            <Button type="submit" mt="0.5rem" variant="accent" isLoading={isLoading} loadingText="Signing you in...">
+            <Button aria-label="Sign in button" type="submit" mt="0.5rem" variant="accent" isLoading={isLoading} loadingText="Signing you in...">
               {LL.signIn.signIn()}
             </Button>
             <Link href="#">{LL.signIn.forgotPassword()}</Link>
