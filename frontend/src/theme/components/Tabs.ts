@@ -51,10 +51,12 @@ const variantSolid: PartsStyleFunction<typeof parts> = (props: StyleFunctionProp
   }
 })
 
-export default {
+const Tabs = {
   parts: parts.keys,
   baseStyle,
   variants: {
     solid: variantSolid
   }
 }
+
+export default Tabs

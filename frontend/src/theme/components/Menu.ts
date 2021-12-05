@@ -19,7 +19,9 @@ const baseStyle: PartsStyleFunction<typeof parts> = (props: StyleFunctionProps) 
   list: baseStyleList(props)
 })
 
-export default {
+const Menu = {
   parts: parts.keys,
   baseStyle
 }
+
+export default Menu

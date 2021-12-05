@@ -1,56 +1,61 @@
 {
   "name": "frontend",
-  "version": "0.4.5",
-  "license": "MIT",
-  "contributors": [
-    "pinanek23"
-  ],
+  "version": "0.1.0",
+  "private": true,
   "engines": {
-    "node": "17.2.0",
-    "yarn":"1.22.15"
-  },
-  "description": "Frontend part of Alunno - A web-based courses management application 😘",
-  "scripts": {
-    "start": "vite",
-    "build": "tsc && vite build",
-    "serve": "vite preview",
-    "lint": "prettier --check --plugin-search-dir=. . && eslint .",
-    "format": "prettier --write --plugin-search-dir=. .",
-    "typesafe-i18n": "typesafe-i18n"
+    "node": "16.x"
   },
   "dependencies": {
     "@chakra-ui/react": "^1.7.2",
-    "@emotion/react": "^11.7.0",
-    "@emotion/styled": "^11.6.0",
+    "@emotion/react": "^11",
+    "@emotion/styled": "^11",
+    "@types/node": "^12.0.0",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
     "axios": "^0.24.0",
     "chakra-dayzed-datepicker": "^0.1.4",
     "date-fns": "^2.26.0",
     "dayzed": "^3.2.2",
     "focus-visible": "^5.2.0",
-    "framer-motion": "^4.1.17",
+    "framer-motion": "^4",
     "lodash": "^4.17.21",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-icons": "^4.3.1",
     "react-router-dom": "^6.0.2",
-    "typesafe-i18n": "2.52.2"
+    "react-scripts": "4.0.3",
+    "typesafe-i18n": "2.52.2",
+    "typescript": "^4.1.2"
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",
     "@types/lodash": "^4.14.177",
-    "@types/react": "^17.0.37",
-    "@types/react-dom": "^17.0.11",
     "@types/react-router-dom": "^5.3.2",
-    "@typescript-eslint/eslint-plugin": "^5.4.0",
-    "@typescript-eslint/parser": "^5.4.0",
-    "@vitejs/plugin-react": "^1.1.0",
-    "eslint": "^8.3.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-react": "^7.27.1",
     "prettier": "^2.5.0",
-    "prop-types": "^15.7.2",
-    "typescript": "^4.5.2",
-    "vite": "^2.6.14",
-    "vite-plugin-svgr": "^0.6.0"
+    "prop-types": "^15.7.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

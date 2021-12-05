@@ -123,7 +123,8 @@ function SubmitDeadlineDialog({
 
   function handleClose(): void {
     if (isUseUserData) {
-      setNameState(name), setDescriptionState(description)
+      setNameState(name)
+      setDescriptionState(description)
       setSelectedStartDate(startDate)
       setSelectedEndDate(endDate)
       setStartTime(getTimeString(begin))
