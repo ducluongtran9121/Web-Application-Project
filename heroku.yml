@@ -1,5 +1,7 @@
 build:
   docker:
-    web: backend/Dockerfile
+    web: frontend/Dockerfile
+    api: backend/Dockerfile
 run:
-  backend: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+  web: bash -c 'npm run build && npm run serve --port $PORT'
+  api: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"

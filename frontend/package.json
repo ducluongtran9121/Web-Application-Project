@@ -5,6 +5,9 @@
   "contributors": [
     "pinanek23"
   ],
+  "engines": {
+    "node": "17.x"
+  },
   "description": "Frontend part of Alunno - A web-based courses management application 😘",
   "scripts": {
     "dev": "vite",
