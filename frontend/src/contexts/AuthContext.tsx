@@ -182,7 +182,6 @@ function AuthProvider({ children }: AuthProviderProps): JSX.Element {
   }
 
   async function getCourseLessons(courseId: number): Promise<Lesson[]> {
-    if (!user) return []
     const { data } = await axiosInstance.get<LessonPayload[]>(Constants.Api.CourseLessons(courseId))
     const lessons = fromLessonsPayload(data, courseId)
     if (user?.role === 'lecturer') return lessons
@@ -239,8 +238,9 @@ function AuthProvider({ children }: AuthProviderProps): JSX.Element {
   }
 
   async function getStudentDeadlines(): Promise<Deadline[]> {
-    const { data } = await axiosInstance.get<DeadlinePayload[]>(Constants.Api.StudentDeadlines)
-    return fromDeadlinesPayload(data)
+    if (!user) return []
+    const { data } = await axiosInstance.get<DeadlineSubmitPayload[]>(Constants.Api.StudentDeadlines)
+    return fromDeadlineSubmitsPayload(data)
   }
 
   async function createNewLessonDeadline(lessonId: number, name: string, begin: string, end: string, description?: string): Promise<Deadline> {

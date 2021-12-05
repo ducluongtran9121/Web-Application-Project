@@ -103,6 +103,14 @@ export type Translation = {
      * Lessons
      */
     lessons: string
+    /**
+     * Deadline
+     */
+    deadline: string
+    /**
+     * Deadlines
+     */
+    deadlines: string
   }
   error: {
     /**
@@ -500,14 +508,6 @@ export type Translation = {
      */
     overview: string
     /**
-     * Courses
-     */
-    courses: string
-    /**
-     * Deadlines
-     */
-    deadlines: string
-    /**
      * You don't have any courses
      */
     noCourses: string
@@ -625,6 +625,14 @@ export type TranslationFunctions = {
      * Lessons
      */
     lessons: () => LocalizedString
+    /**
+     * Deadline
+     */
+    deadline: () => LocalizedString
+    /**
+     * Deadlines
+     */
+    deadlines: () => LocalizedString
   }
   error: {
     /**
@@ -1003,14 +1011,6 @@ export type TranslationFunctions = {
      * Overview
      */
     overview: () => LocalizedString
-    /**
-     * Courses
-     */
-    courses: () => LocalizedString
-    /**
-     * Deadlines
-     */
-    deadlines: () => LocalizedString
     /**
      * You don't have any courses
      */

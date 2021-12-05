@@ -25,7 +25,9 @@ const en: BaseTranslation = {
     submit: 'Submit',
     allCourses: 'All courses',
     courses: 'Courses',
-    lessons: 'Lessons'
+    lessons: 'Lessons',
+    deadline: 'Deadline',
+    deadlines: 'Deadlines'
   },
   error: {
     default: 'An error happened! Please try again!',
@@ -131,8 +133,6 @@ const en: BaseTranslation = {
   },
   user: {
     overview: 'Overview',
-    courses: 'Courses',
-    deadlines: 'Deadlines',
     noCourses: "You don't have any courses",
     survived: 'You survived! For now..',
     empty: "It's empty here!",

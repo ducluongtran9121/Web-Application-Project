@@ -142,7 +142,7 @@ function SearchBox({
               ))}
             {isLessonsSpinnerLoading && <Spinner alignSelf="center" />}
           </Flex>
-          <Text fontWeight="bold">Deadlines</Text>
+          <Text fontWeight="bold">{LL.common.deadlines()}</Text>
           <Flex direction="column">
             {filteredDeadlines &&
               filteredDeadlines.map(({ id, name, courseId, lessonId, submitId, courseName, lessonName }) =>

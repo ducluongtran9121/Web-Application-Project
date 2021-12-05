@@ -16,7 +16,22 @@ interface DeadlineSubmitPayload {
   is_finished: boolean
   finish_at?: string
   file_deadlineSubmit_lesson: LocationPayload[]
-  deadline: DeadlinePayload
+  deadline: {
+    id: number
+    lesson: {
+      id: number
+      name: string
+      course: {
+        id: number
+        mskh: string
+        name: string
+      }
+    }
+    name: string
+    description: string
+    begin: string
+    end: string
+  }
 }
 
 interface DeadlineStatusPayload {
@@ -45,6 +60,7 @@ interface Deadline {
   lessonId: number
   courseId?: number
   courseName?: string
+  courseCode?: string
   lessonName?: string
   isFinished?: boolean
   submitId?: number

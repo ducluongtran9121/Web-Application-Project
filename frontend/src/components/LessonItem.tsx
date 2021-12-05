@@ -158,7 +158,7 @@ function LessonItem({
                     </Tooltip>
                     <MenuList>
                       <MenuItem onClick={onAddFileOpen}>{LL.lesson.file()}</MenuItem>
-                      <MenuItem onClick={onAddDeadlineOpen}>Deadline</MenuItem>
+                      <MenuItem onClick={onAddDeadlineOpen}>{LL.common.deadline()}</MenuItem>
                     </MenuList>
                   </Menu>
                   <Tooltip label={LL.lesson.delete()}>
