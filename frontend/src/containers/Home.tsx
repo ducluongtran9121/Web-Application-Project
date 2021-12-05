@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { I18nContext } from '../i18n/i18n-react'
 import { useAuth } from '../contexts/AuthContext'
 import { Box, Flex, Text } from '@chakra-ui/react'
 import CardSkeleton from '../components/CardSkeleton'
@@ -7,6 +8,7 @@ import Footer from '../components/Footer'
 import type { Course } from '../models'
 
 function Home(): JSX.Element {
+  const { LL } = React.useContext(I18nContext)
   const { getUserCourses } = useAuth()
   const [courses, setCourses] = React.useState<Course[]>()
   const [isLoading, setLoading] = React.useState<boolean>(true)
@@ -39,7 +41,7 @@ function Home(): JSX.Element {
         <Text fontWeight="bold">Deadlines</Text>
       </Box>
       <Box flexGrow={1} px={{ base: '0.75rem', md: '1.5rem' }}>
-        <Text fontWeight="bold">All courses</Text>
+        <Text fontWeight="bold">{LL.common.allCourses()}</Text>
         {isLoading ? (
           <CardSkeleton cardNumber="4" />
         ) : (

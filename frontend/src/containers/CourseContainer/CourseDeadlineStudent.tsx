@@ -33,8 +33,8 @@ function CourseDeadlineStudent(): JSX.Element {
   const [isOverDue, setOverDue] = React.useState<boolean>(false)
   const [isSubmittingFile, setSubmittingFile] = React.useState<boolean>(false)
   const { lessonId: lessonIdStr, submitId: submitIdStr } = useParams()
-  const lessonId = Number(lessonIdStr)
-  const submitId = Number(submitIdStr)
+  const [lessonId, setLessonId] = React.useState<number>(Number(lessonIdStr))
+  const [submitId, setSubmitId] = React.useState<number>(Number(submitIdStr))
 
   React.useEffect(() => {
     let isCurrentMounted = true
@@ -59,6 +59,25 @@ function CourseDeadlineStudent(): JSX.Element {
       setMounted(false)
     }
   }, [])
+
+  React.useEffect(() => {
+    async function getData(): Promise<void> {
+      if (isMounted) {
+        setLoading(true)
+        setLessonId(Number(lessonIdStr))
+        setSubmitId(Number(submitIdStr))
+      }
+      try {
+        const data = await getStudentDeadlineSubmit(Number(lessonIdStr), Number(submitIdStr))
+        if (isMounted) setDeadline(data)
+        // eslint-disable-next-line no-empty
+      } catch {}
+
+      if (isMounted) setLoading(false)
+    }
+
+    getData()
+  }, [lessonIdStr, submitIdStr])
 
   function handleRemainTimeChange(isDeadlineOverDue: boolean): void {
     setOverDue(isDeadlineOverDue)

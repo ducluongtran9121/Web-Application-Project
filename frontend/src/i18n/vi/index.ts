@@ -22,7 +22,10 @@ const vi: Translation = {
     failed: 'Thất bại',
     error: 'Lỗi',
     none: 'Không có',
-    submit: 'Nộp bài'
+    submit: 'Nộp bài',
+    allCourses: 'Tất cả các khoá học',
+    courses: 'Các khoá học',
+    lessons: 'Các bài học'
   },
   error: {
     default: 'Có lỗi xảy ra! Vui lòng thử lại!',

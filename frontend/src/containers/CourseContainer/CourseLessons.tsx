@@ -58,7 +58,7 @@ function CourseLessons(): JSX.Element {
   } = useAuth()
   const { isInEditingMode } = useEdit()
   const { LL } = React.useContext(I18nContext)
-  const { courseId } = useParams()
+  const { courseId: courseIdStr } = useParams()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { notify } = useNotification()
   const nameNewLessonInputRef = React.useRef<HTMLInputElement>(null)
@@ -67,6 +67,50 @@ function CourseLessons(): JSX.Element {
   const [isLoading, setLoading] = React.useState<boolean>(true)
   const [isNewLessonLoading, setNewLessonLoading] = React.useState<boolean>(false)
   const [lessons, setLessons] = React.useState<Lesson[]>()
+  const [courseId, setCourseId] = React.useState<number>(Number(courseIdStr))
+
+  React.useEffect(() => {
+    let isCurrentMounted = true
+    setMounted(true)
+
+    async function getData(): Promise<void> {
+      setLoading(true)
+
+      try {
+        const data = await getCourseLessons(Number(courseId))
+        if (isCurrentMounted) setLessons(data)
+        // eslint-disable-next-line no-empty
+      } catch {}
+
+      if (isCurrentMounted) setLoading(false)
+    }
+
+    getData()
+
+    return () => {
+      isCurrentMounted = false
+      setMounted(false)
+    }
+  }, [user])
+
+  React.useEffect(() => {
+    async function getData(): Promise<void> {
+      if (isMounted) {
+        setLoading(true)
+        setCourseId(Number(courseIdStr))
+      }
+
+      try {
+        const data = await getCourseLessons(Number(courseIdStr))
+        if (isMounted) setLessons(data)
+        // eslint-disable-next-line no-empty
+      } catch {}
+
+      if (isMounted) setLoading(false)
+    }
+
+    getData()
+  }, [courseIdStr])
 
   async function handleCreateLesson(e: React.FormEvent): Promise<void> {
     e.preventDefault()
@@ -75,13 +119,13 @@ function CourseLessons(): JSX.Element {
 
     try {
       if (nameNewLessonInputRef.current && descriptionNewLessonInputRef.current) {
-        const data = await createNewLesson(Number(courseId), nameNewLessonInputRef.current?.value, descriptionNewLessonInputRef.current?.value)
+        const data = await createNewLesson(courseId, nameNewLessonInputRef.current?.value, descriptionNewLessonInputRef.current?.value)
 
-        if (isMounted)
-          setLessons((previousValue) => {
-            previousValue?.push(data)
-            return previousValue
-          })
+        if (isMounted) {
+          const currentLessons = lessons
+          currentLessons?.push(data)
+          setLessons(currentLessons)
+        }
 
         notify('info', 'createLesson')
       } else throw 'Invalid Data'
@@ -94,14 +138,14 @@ function CourseLessons(): JSX.Element {
 
   async function handleEditLesson(lessonId: number, name: string, description: string): Promise<void> {
     try {
-      await editCourseLesson(Number(courseId), lessonId, name, description)
+      await editCourseLesson(courseId, lessonId, name, description)
       // eslint-disable-next-line no-empty
     } catch {}
   }
 
   async function handleDeleteLesson(lessonId: number): Promise<void> {
     try {
-      await deleteCourseLesson(Number(courseId), lessonId)
+      await deleteCourseLesson(courseId, lessonId)
       if (isMounted) setLessons((previousValue) => previousValue?.filter((lesson) => lesson.id !== lessonId))
       notify('info', 'deleteLesson')
     } catch {
@@ -111,7 +155,7 @@ function CourseLessons(): JSX.Element {
 
   async function handleAddFile(lessonId: number, formData: FormData) {
     try {
-      const data = await addCourseLessonFile(Number(courseId), lessonId, formData)
+      const data = await addCourseLessonFile(courseId, lessonId, formData)
       if (isMounted) setLessons((previousValue) => addFileToLessons(previousValue, lessonId, data))
       notify('info', 'addFile')
     } catch {
@@ -121,7 +165,7 @@ function CourseLessons(): JSX.Element {
 
   async function handleEditFile(lessonId: number, fileId: number, formData: FormData): Promise<void> {
     try {
-      const data = await editCourseLessonFile(Number(courseId), lessonId, fileId, formData)
+      const data = await editCourseLessonFile(courseId, lessonId, fileId, formData)
       if (isMounted)
         setLessons((previousValue) => {
           const value = deleteLessonsFile(previousValue, lessonId, fileId, false)
@@ -135,7 +179,7 @@ function CourseLessons(): JSX.Element {
 
   async function handleDeleteFile(lessonId: number, fileId: number): Promise<void> {
     try {
-      await deleteCourseLessonFile(Number(courseId), lessonId, fileId)
+      await deleteCourseLessonFile(courseId, lessonId, fileId)
       if (isMounted) setLessons((previousValue) => deleteLessonsFile(previousValue, lessonId, fileId))
       notify('info', 'deleteFile')
     } catch {
@@ -214,31 +258,7 @@ function CourseLessons(): JSX.Element {
     }
   }
 
-  React.useEffect(() => {
-    let isCurrentMounted = true
-    setMounted(true)
-
-    async function getData(): Promise<void> {
-      setLoading(true)
-
-      try {
-        const data = await getCourseLessons(Number(courseId))
-        if (isCurrentMounted) setLessons(data)
-        // eslint-disable-next-line no-empty
-      } catch {}
-
-      if (isCurrentMounted) setLoading(false)
-    }
-
-    getData()
-
-    return () => {
-      isCurrentMounted = false
-      setMounted(false)
-    }
-  }, [])
-
-  if (isLoading) {
+  if (isLoading || !user) {
     return <CardSkeleton cardNumber="4" />
   }
 

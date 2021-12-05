@@ -14,21 +14,24 @@ function CourseContainer(): JSX.Element {
   const { user, getUserCourse } = useAuth()
   const { isInEditingMode, setInEditingMode } = useEdit()
   const { LL } = React.useContext(I18nContext)
-  const { courseId } = useParams()
+  const { courseId: courseIdStr } = useParams()
   const [isLoading, setLoading] = React.useState<boolean>(true)
+  const [isMounted, setMounted] = React.useState<boolean>(false)
   const [course, setCourse] = React.useState<Course>()
+  const [courseId, setCourseId] = React.useState<number>(Number(courseIdStr))
 
   const textColorDefault = useColorModeValue('light.text.default', 'dark.text.default')
 
   React.useEffect(() => {
-    let isMounted = true
+    let isCurrentMounted = true
+    setMounted(true)
 
     async function getData(): Promise<void> {
       setLoading(true)
 
       try {
-        const data = await getUserCourse(Number(courseId))
-        if (isMounted) setCourse(data)
+        const data = await getUserCourse(courseId)
+        if (isCurrentMounted) setCourse(data)
         // eslint-disable-next-line no-empty
       } catch {}
 
@@ -38,9 +41,29 @@ function CourseContainer(): JSX.Element {
     getData()
 
     return () => {
-      isMounted = false
+      isCurrentMounted = false
+      setMounted(false)
     }
   }, [])
+
+  React.useEffect(() => {
+    async function getData(): Promise<void> {
+      if (isMounted) {
+        setLoading(true)
+        setCourseId(Number(courseIdStr))
+      }
+
+      try {
+        const data = await getUserCourse(Number(courseIdStr))
+        if (isMounted) setCourse(data)
+        // eslint-disable-next-line no-empty
+      } catch {}
+
+      setLoading(false)
+    }
+
+    getData()
+  }, [courseIdStr])
 
   function handleEnterEditMode(): void {
     const inEdit = isInEditingMode

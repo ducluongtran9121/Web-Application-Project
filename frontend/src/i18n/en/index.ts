@@ -22,7 +22,10 @@ const en: BaseTranslation = {
     failed: 'Failed',
     error: 'Error',
     none: 'None',
-    submit: 'Submit'
+    submit: 'Submit',
+    allCourses: 'All courses',
+    courses: 'Courses',
+    lessons: 'Lessons'
   },
   error: {
     default: 'An error happened! Please try again!',

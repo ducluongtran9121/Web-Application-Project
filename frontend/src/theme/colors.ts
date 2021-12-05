@@ -30,7 +30,8 @@ const colors = {
     },
     card: {
       default: '#ffffffb3',
-      secondary: '#f6f6f680'
+      secondary: '#f6f6f680',
+      solid: '#ffffff'
     },
     hoverable: {
       secondary: '#0000000d',
@@ -82,12 +83,13 @@ const colors = {
       disabled: '#0000009b'
     },
     hoverable: {
-      secondary: '#00000015',
-      ternary: '#00000012'
+      secondary: '#ffffff12',
+      ternary: '#ffffff08'
     },
     card: {
       default: '#ffffff0d',
-      secondary: '#ffffff08'
+      secondary: '#ffffff08',
+      solid: '#292b2f'
     },
     border: {
       control: '#ffffff12',

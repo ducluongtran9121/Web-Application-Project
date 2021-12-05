@@ -3,7 +3,7 @@ import { sortLocationItems } from '../helpers'
 import type { Deadline, DeadlinePayload, DeadlineStatus, DeadlineStatusPayload, DeadlineSubmitPayload } from '../models/deadline'
 import { fromUserPayload } from '.'
 
-function fromDeadlinePayload({ id, name, description, begin, end, lesson, file_deadline_lesson }: DeadlinePayload): Deadline {
+function fromDeadlinePayload({ id, name, description, begin, end, lesson, file_deadline_lesson }: DeadlinePayload, courseId?: number): Deadline {
   return {
     id,
     name,
@@ -11,12 +11,13 @@ function fromDeadlinePayload({ id, name, description, begin, end, lesson, file_d
     begin: new Date(begin),
     end: new Date(end),
     lessonId: lesson,
-    locationItems: sortLocationItems(fromLocationPayloads(file_deadline_lesson))
+    locationItems: sortLocationItems(fromLocationPayloads(file_deadline_lesson)),
+    courseId
   }
 }
 
-function fromDeadlinesPayload(deadlinesResponse: DeadlinePayload[]): Deadline[] {
-  return deadlinesResponse.map((deadlineResponse) => fromDeadlinePayload(deadlineResponse))
+function fromDeadlinesPayload(deadlinesResponse: DeadlinePayload[], courseId?: number): Deadline[] {
+  return deadlinesResponse.map((deadlineResponse) => fromDeadlinePayload(deadlineResponse, courseId))
 }
 
 function fromDeadlineSubmitPayload({ id, is_finished, finish_at, file_deadlineSubmit_lesson, deadline }: DeadlineSubmitPayload): Deadline {

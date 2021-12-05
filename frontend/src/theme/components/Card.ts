@@ -22,11 +22,17 @@ const variantClickable: SystemStyleFunction = (props: StyleFunctionProps) => ({
   }
 })
 
+const variantSearch: SystemStyleFunction = (props: StyleFunctionProps) => ({
+  bg: mode('light.card.solid', 'dark.card.solid')(props),
+  p: '1rem'
+})
+
 const Card = {
   baseStyle,
   variants: {
     hoverable: variantHoverable,
-    clickable: variantClickable
+    clickable: variantClickable,
+    search: variantSearch
   }
 }
 export default Card

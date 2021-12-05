@@ -15,6 +15,8 @@ interface Lesson {
   description: string
   locationItems: LocationItem[]
   deadlines: Deadline[]
+  courseId: number
+  courseName?: string
 }
 
 export type { Lesson, LessonPayload }

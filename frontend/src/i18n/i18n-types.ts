@@ -91,6 +91,18 @@ export type Translation = {
      * Submit
      */
     submit: string
+    /**
+     * All courses
+     */
+    allCourses: string
+    /**
+     * Courses
+     */
+    courses: string
+    /**
+     * Lessons
+     */
+    lessons: string
   }
   error: {
     /**
@@ -601,6 +613,18 @@ export type TranslationFunctions = {
      * Submit
      */
     submit: () => LocalizedString
+    /**
+     * All courses
+     */
+    allCourses: () => LocalizedString
+    /**
+     * Courses
+     */
+    courses: () => LocalizedString
+    /**
+     * Lessons
+     */
+    lessons: () => LocalizedString
   }
   error: {
     /**

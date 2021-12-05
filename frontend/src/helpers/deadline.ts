@@ -56,4 +56,17 @@ function deleteSubmitFileDeadline(deadline: Deadline | undefined, fileId: number
   return Object.create(deadline)
 }
 
-export { addSubmitFileDeadline, deleteSubmitFileDeadline }
+function addCourseAndLessonNameToDeadline(deadlines: Deadline[], courseName: string, lessonName: string): Deadline[] {
+  const newDeadlines: Deadline[] = []
+  for (let i = 0; i < deadlines.length; i++) {
+    newDeadlines.push({
+      ...deadlines[i],
+      courseName: courseName,
+      lessonName: lessonName
+    })
+  }
+
+  return newDeadlines
+}
+
+export { addSubmitFileDeadline, deleteSubmitFileDeadline, addCourseAndLessonNameToDeadline }

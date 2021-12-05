@@ -43,6 +43,9 @@ interface Deadline {
   begin: Date
   end: Date
   lessonId: number
+  courseId?: number
+  courseName?: string
+  lessonName?: string
   isFinished?: boolean
   submitId?: number
   submitItems?: LocationItem[]

@@ -16,18 +16,37 @@ import UserContainer from './UserContainer/UserContainer'
 import UserOverview from './UserContainer/UserOverview'
 import UserCourses from './UserContainer/UserCourses'
 import UserDeadlines from './UserContainer/UserDeadlines'
+import type { Course, Deadline, Lesson } from '../models'
+import { addCourseAndLessonNameToDeadline, addCourseNameToLesson } from '../helpers'
 
 function PrivateElementContainer(): JSX.Element {
-  const { user, signOut, getUserProfile } = useAuth()
+  const { user, signOut, getUserProfile, getUserCourses, getCourseLessons } = useAuth()
   const { notify } = useNotification()
   const { locale } = React.useContext(I18nContext)
+  const [isMounted, setMounted] = React.useState<boolean>(false)
+  const [isCoursesLoading, setCoursesLoading] = React.useState<boolean>(false)
+  const [courses, setCourses] = React.useState<Course[]>([])
+  const [isGetCoursesFailed, setGetCoursesFailed] = React.useState<boolean>(true)
+  const [isLessonsLoading, setLessonsLoading] = React.useState<boolean>(false)
+  const [lessons, setLessons] = React.useState<Lesson[]>([])
+  const [currentLessonGetIndex, setCurrentLessonGetIndex] = React.useState<number>(0)
+  const [deadlines, setDeadlines] = React.useState<Deadline[]>([])
+  const [isCoursesSpinnerLoading, setCoursesSpinnerLoading] = React.useState<boolean>(true)
+  const [isLessonsSpinnerLoading, setLessonsSpinnerLoading] = React.useState<boolean>(true)
+  const [isDeadlinesSpinnerLoading, setDeadlinesSpinnerLoading] = React.useState<boolean>(true)
 
   React.useEffect(() => {
+    setMounted(true)
+
     async function getUserData() {
       await getUserProfile()
     }
 
     getUserData()
+
+    return () => {
+      setMounted(false)
+    }
   }, [])
 
   React.useEffect(() => {
@@ -46,9 +65,107 @@ function PrivateElementContainer(): JSX.Element {
     return () => window.removeEventListener('online', handleNetworkOnline)
   }, [locale])
 
+  async function handleGetCourses(): Promise<Course[]> {
+    if (isMounted) {
+      setCoursesLoading(true)
+      setCoursesSpinnerLoading(true)
+    }
+    let coursesData: Course[] = []
+    if (!isCoursesLoading) {
+      if (isGetCoursesFailed) {
+        try {
+          coursesData = await getUserCourses()
+          if (isMounted) {
+            setCourses(coursesData)
+            setGetCoursesFailed(false)
+          }
+          // eslint-disable-next-line no-empty
+        } catch {}
+      }
+    }
+    if (isMounted) {
+      setCoursesLoading(false)
+      setCoursesSpinnerLoading(false)
+    }
+    return coursesData
+  }
+
+  async function handleSearchBoxFocus(): Promise<void> {
+    await handleGetCourses()
+  }
+
+  async function handleSearchBoxChange(): Promise<void> {
+    if (isCoursesLoading) return
+
+    let tempCourses = courses
+    if (isGetCoursesFailed) {
+      const coursesData = await handleGetCourses()
+      if (!coursesData) return
+      tempCourses = coursesData
+    }
+
+    if (tempCourses.length === 0 || isLessonsLoading) return
+    if (isMounted) {
+      setLessonsLoading(true)
+      setLessonsSpinnerLoading(true)
+      setDeadlinesSpinnerLoading(true)
+    }
+    for (let i = currentLessonGetIndex; i < tempCourses.length; i++) {
+      try {
+        let lessonsData = await getCourseLessons(tempCourses[i].id)
+        lessonsData = addCourseNameToLesson(lessonsData, tempCourses[i].name)
+        let tempDeadlines: Deadline[] = []
+        for (let j = 0; j < lessonsData.length; j++) {
+          tempDeadlines = tempDeadlines.concat(addCourseAndLessonNameToDeadline(lessonsData[j].deadlines, tempCourses[i].name, lessonsData[j].name))
+        }
+        if (isMounted) {
+          setLessons((previousValue) => previousValue.concat(lessonsData))
+          setDeadlines((previousValue) => previousValue.concat(tempDeadlines))
+        }
+      } catch {
+        if (isMounted) setCurrentLessonGetIndex(i)
+        break
+      }
+    }
+
+    if (isMounted) {
+      setCurrentLessonGetIndex(tempCourses.length)
+      setLessonsLoading(false)
+      setLessonsSpinnerLoading(false)
+      setDeadlinesSpinnerLoading(false)
+    }
+  }
+
+  async function handleSearchBoxBlur(): Promise<void> {
+    if (isMounted) {
+      setCourses([])
+      setLessons([])
+      setDeadlines([])
+      setGetCoursesFailed(true)
+      setCurrentLessonGetIndex(0)
+      setCoursesSpinnerLoading(true)
+      setLessonsSpinnerLoading(true)
+      setDeadlinesSpinnerLoading(true)
+    }
+  }
+
   return (
     <Box>
-      {user && <NavBar user={user} signOut={signOut} />}
+      {user && (
+        <NavBar
+          user={user}
+          signOut={signOut}
+          courses={courses}
+          lessons={lessons}
+          deadlines={deadlines}
+          isCoursesSpinnerLoading={isCoursesSpinnerLoading}
+          isLessonsSpinnerLoading={isLessonsSpinnerLoading}
+          isDeadlinesSpinnerLoading={isDeadlinesSpinnerLoading}
+          onSearchBoxFocus={handleSearchBoxFocus}
+          onSearchBoxChange={handleSearchBoxChange}
+          onSearchBoxBlur={handleSearchBoxBlur}
+        />
+      )}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route

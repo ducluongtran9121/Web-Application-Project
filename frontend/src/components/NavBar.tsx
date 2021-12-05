@@ -9,9 +9,6 @@ import {
   Icon,
   IconButton,
   Image,
-  Input,
-  InputGroup,
-  InputLeftElement,
   Link,
   Menu,
   MenuButton,
@@ -26,17 +23,39 @@ import {
   useColorModeValue,
   useDisclosure
 } from '@chakra-ui/react'
-import { FiX, FiLogOut, FiMenu, FiBell, FiSearch } from 'react-icons/fi'
+import { FiX, FiLogOut, FiMenu, FiBell } from 'react-icons/fi'
 import { ReactComponent as Logo } from '../assets/svg/logo.svg'
-import type { User } from '../models'
+import SearchBox from './SearchBox'
+import type { User, Course, Deadline, Lesson } from '../models'
 import type { Locales } from '../i18n/i18n-types'
 
 interface NavBarProps {
   user: User
+  courses?: Course[]
+  lessons?: Lesson[]
+  deadlines?: Deadline[]
+  isCoursesSpinnerLoading?: boolean
+  isLessonsSpinnerLoading?: boolean
+  isDeadlinesSpinnerLoading?: boolean
+  onSearchBoxFocus?(): void
+  onSearchBoxChange?(): void
+  onSearchBoxBlur?(): void
   signOut(): Promise<void>
 }
 
-function NavBar({ user: { id, name, imageUrl }, signOut }: NavBarProps): JSX.Element {
+function NavBar({
+  user: { id, name, imageUrl, role },
+  courses,
+  lessons,
+  deadlines,
+  isCoursesSpinnerLoading,
+  isLessonsSpinnerLoading,
+  isDeadlinesSpinnerLoading,
+  onSearchBoxFocus,
+  onSearchBoxChange,
+  onSearchBoxBlur,
+  signOut
+}: NavBarProps): JSX.Element {
   const { LL, locale, setLocale } = React.useContext(I18nContext)
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { colorMode, toggleColorMode } = useColorMode()
@@ -86,10 +105,31 @@ function NavBar({ user: { id, name, imageUrl }, signOut }: NavBarProps): JSX.Ele
           gridGap="0.75rem"
           fontWeight="semibold"
         >
-          <InputGroup w={{ base: 'full', md: '20rem' }}>
-            <InputLeftElement children={<Icon as={FiSearch} />} />
-            <Input type="search" placeholder={LL.navbar.searchBoxPlaceHolder()} />
-          </InputGroup>
+          <Box
+            position="relative"
+            w={{ base: '100%', md: '20rem' }}
+            _focusWithin={{
+              w: { md: '30rem' }
+            }}
+            transition="width"
+            transitionTimingFunction="ease-in-out"
+            transitionDuration="0.4s"
+          >
+            <SearchBox
+              w="100%"
+              role={role}
+              placeholder={LL.navbar.searchBoxPlaceHolder()}
+              courses={courses}
+              lessons={lessons}
+              deadlines={deadlines}
+              isCoursesSpinnerLoading={isCoursesSpinnerLoading}
+              isLessonsSpinnerLoading={isLessonsSpinnerLoading}
+              isDeadlinesSpinnerLoading={isDeadlinesSpinnerLoading}
+              onSearchBoxFocus={onSearchBoxFocus}
+              onSearchBoxChange={onSearchBoxChange}
+              onSearchBoxBlur={onSearchBoxBlur}
+            />
+          </Box>
           <Flex direction="column" justifyContent="stretch" gridGap="0.75rem" display={{ base: 'flex', md: 'none' }} w="full">
             <Link variant="menu" as={RouteLink} to={`/users/${id}`} display="flex" gridGap="0.5rem" alignItems="center">
               <Avatar src={imageUrl} boxSize="1.25rem" bg="white" />

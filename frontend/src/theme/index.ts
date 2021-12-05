@@ -14,6 +14,7 @@ import Alert from './components/Alert'
 import Tabs from './components/Tabs'
 import Menu from './components/Menu'
 import Tooltip from './components/Tooltip'
+import Spinner from './components/Spinner'
 
 const theme = extendTheme({
   config,
@@ -28,7 +29,8 @@ const theme = extendTheme({
     Link,
     Menu,
     Tabs,
-    Tooltip
+    Tooltip,
+    Spinner
   }
 })
 

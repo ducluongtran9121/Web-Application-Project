@@ -73,6 +73,7 @@ interface AuthContextProviderProps {
   deleteStudentDeadlineFile(lessonId: number, submitId: number, fileId: number): Promise<void>
   listStudentsDeadlineStatus(lessonId: number, deadlineId: number): Promise<DeadlineStatus[]>
   getLecturerDeadline(lessonId: number, deadlineId: number): Promise<Deadline>
+  getLecturerDeadlines(lessonId: number): Promise<Deadline[]>
 }
 
 const [useAuth, AuthContextProvider] = createContext<AuthContextProviderProps>()
@@ -179,8 +180,9 @@ function AuthProvider({ children }: AuthProviderProps): JSX.Element {
   }
 
   async function getCourseLessons(courseId: number): Promise<Lesson[]> {
+    if (!user) return []
     const { data } = await axiosInstance.get<LessonPayload[]>(Constants.Api.CourseLessons(courseId))
-    const lessons = fromLessonsPayload(data)
+    const lessons = fromLessonsPayload(data, courseId)
     if (user?.role === 'lecturer') return lessons
 
     const arr: Promise<Deadline[]>[] = []
@@ -194,6 +196,7 @@ function AuthProvider({ children }: AuthProviderProps): JSX.Element {
       const tempDeadlines = lessons[i].deadlines
       for (let j = 0; j < tempDeadlines.length; j++) {
         deadlinesArr[i][j].locationItems = tempDeadlines[j].locationItems
+        deadlinesArr[i][j].courseId = courseId
       }
       lessons[i].deadlines = deadlinesArr[i]
     }
@@ -208,7 +211,7 @@ function AuthProvider({ children }: AuthProviderProps): JSX.Element {
 
   async function createNewLesson(courseId: number, name?: string, description?: string): Promise<Lesson> {
     const { data } = await axiosInstance.post<LessonPayload>(Constants.Api.CourseLessons(courseId), { name, description })
-    return fromLessonPayload(data)
+    return fromLessonPayload(data, courseId)
   }
 
   async function editCourseLesson(courseId: number, lessonId: number, name: string, description: string): Promise<void> {
@@ -306,6 +309,11 @@ function AuthProvider({ children }: AuthProviderProps): JSX.Element {
     await axiosInstance.delete(Constants.Api.StudentLessonDeadlineFile(lessonId, submitId, fileId))
   }
 
+  async function getLecturerDeadlines(lessonId: number): Promise<Deadline[]> {
+    const { data } = await axiosInstance.get(Constants.Api.LecturerDeadlines(lessonId))
+    return fromDeadlinesPayload(data)
+  }
+
   async function getLecturerDeadline(lessonId: number, deadlineId: number): Promise<Deadline> {
     const { data } = await axiosInstance.get(Constants.Api.LecturerDeadline(lessonId, deadlineId))
     return fromDeadlinePayload(data)
@@ -346,6 +354,7 @@ function AuthProvider({ children }: AuthProviderProps): JSX.Element {
     editStudentDeadlineFile,
     deleteStudentDeadlineFile,
     listStudentsDeadlineStatus,
+    getLecturerDeadlines,
     getLecturerDeadline
   }
 
