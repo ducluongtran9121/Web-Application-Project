@@ -11,7 +11,7 @@
   },
   "description": "Frontend part of Alunno - A web-based courses management application 😘",
   "scripts": {
-    "dev": "vite",
+    "start": "vite",
     "build": "tsc && vite build",
     "serve": "vite preview",
     "lint": "prettier --check --plugin-search-dir=. . && eslint .",

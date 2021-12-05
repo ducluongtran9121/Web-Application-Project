@@ -25,9 +25,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-=2jsix&m1#r!jchg+@ma5(e!*=jw7&znqu%6#s1(jzmc#1=d^b'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['alunno-api.herokuapp.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -177,4 +177,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 AUTH_USER_MODEL = 'account.Member'
 
-CORS_ALLOWED_ORIGINS = ['*']
+CORS_ALLOWED_ORIGINS = ['https://alunno-app.herokuapp.com/']
