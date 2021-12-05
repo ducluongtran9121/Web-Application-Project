@@ -31,7 +31,7 @@ class DeadlineApiStructure(APIView):
             "lesson_pk/studentDeadlines/pk/submit/": "update finish status to True",
             "lesson_pk/studentDeadlines/pk/unsubmit/": "update finish status to False and delete all deadline file already submit",
             "lesson_pk/studentDeadlines/deadlineSubmit_pk/files": "List/Create deadline submit file (not update finish status, Create will update finish time)",
-            "lesson_pk/studentDeadlines/eadlineSubmit_pk/files/pk/": "Retrieve/Update/Destroy deadline submit file with id pk (not update finish status, Update and Destroy will update finish time)"
+            "lesson_pk/studentDeadlines/deadlineSubmit_pk/files/pk/": "Retrieve/Update/Destroy deadline submit file with id pk (not update finish status, Update and Destroy will update finish time)"
         })
 
 
@@ -149,7 +149,8 @@ class StudentDeadlineViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, v
         queryset = DeadlineSubmit.objects.filter(
             id=pk, member=member_pk, deadline__lesson=lesson_pk)
         if queryset.exists():
-            serializer = DeadlineStatusSerializer(queryset[0])
+            serializer = DeadlineStatusSerializer(
+                queryset[0])
             return Response(serializer.data)
         return Response({'errors': 'Objects not found'}, status=404)
 
