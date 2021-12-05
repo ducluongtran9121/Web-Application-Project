@@ -2,6 +2,39 @@ import { sortLocationItems } from './location'
 import { Folder } from '../models'
 import type { Deadline, LocationItem } from '../models'
 
+function sortDeadlines(deadlines: Deadline[]): Deadline[] {
+  const currentDate = new Date()
+  const inTimeDeadline = deadlines.filter((deadline) => deadline.end > currentDate)
+  const overdueDeadline = deadlines.filter((deadline) => deadline.end <= currentDate)
+
+  function compare(a: Deadline, b: Deadline) {
+    if (a.end < b.end) return -1
+    if (a.end > b.end) return 1
+    return 0
+  }
+
+  inTimeDeadline.sort(compare)
+  overdueDeadline.sort(compare)
+
+  return inTimeDeadline.concat(overdueDeadline)
+}
+
+function getLimitInTimeDeadline(deadlines: Deadline[], limit: number): Deadline[] {
+  const currentDate = new Date()
+  const inTimeDeadline = deadlines.filter((deadline) => deadline.end > currentDate && !deadline.isFinished)
+
+  function compare(a: Deadline, b: Deadline) {
+    if (a.end < b.end) return -1
+    if (a.end > b.end) return 1
+    return 0
+  }
+
+  inTimeDeadline.sort(compare)
+
+  if (limit >= inTimeDeadline.length) return inTimeDeadline
+  return inTimeDeadline.slice(0, limit)
+}
+
 function addSubmitFileDeadline(deadline: Deadline | undefined, file: LocationItem, isSortLocationItem = true): Deadline | undefined {
   if (!deadline || !deadline.submitItems) return undefined
 
@@ -69,4 +102,4 @@ function addCourseAndLessonNameToDeadline(deadlines: Deadline[], courseName: str
   return newDeadlines
 }
 
-export { addSubmitFileDeadline, deleteSubmitFileDeadline, addCourseAndLessonNameToDeadline }
+export { addSubmitFileDeadline, deleteSubmitFileDeadline, addCourseAndLessonNameToDeadline, sortDeadlines, getLimitInTimeDeadline }

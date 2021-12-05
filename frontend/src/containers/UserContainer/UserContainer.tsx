@@ -57,12 +57,14 @@ function UserContainer(): JSX.Element {
               </Tab>
               <Tab as={RouterLink} to="courses" gridGap="0.5rem" display="flex">
                 <Icon as={FiBriefcase} />
-                <Text>{LL.user.courses()}</Text>
+                <Text>{LL.common.courses()}</Text>
               </Tab>
-              <Tab as={RouterLink} to="deadlines" gridGap="0.5rem" display="flex">
-                <Icon as={FiCalendar} />
-                <Text>{LL.user.deadlines()}</Text>
-              </Tab>
+              {user?.role === 'student' && (
+                <Tab as={RouterLink} to="deadlines" gridGap="0.5rem" display="flex">
+                  <Icon as={FiCalendar} />
+                  <Text>{LL.common.deadlines()}</Text>
+                </Tab>
+              )}
             </TabList>
           </Tabs>
           <Box mt="2rem">

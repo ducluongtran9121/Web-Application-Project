@@ -184,7 +184,7 @@ function PrivateElementContainer(): JSX.Element {
         <Route path="users/:userId" element={<UserContainer />}>
           <Route path="" element={<UserOverview />} />
           <Route path="courses" element={<UserCourses />} />
-          <Route path="deadlines" element={<UserDeadlines />} />
+          {user?.role === 'student' && <Route path="deadlines" element={<UserDeadlines />} />}
         </Route>
       </Routes>
     </Box>

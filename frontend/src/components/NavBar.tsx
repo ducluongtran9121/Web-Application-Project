@@ -161,9 +161,11 @@ function NavBar({
               <MenuItem as={RouteLink} to={`users/${id}/courses`}>
                 {LL.navbar.yourCourses()}
               </MenuItem>
-              <MenuItem as={RouteLink} to={`users/${id}/deadlines`}>
-                {LL.navbar.yourDeadlines()}
-              </MenuItem>
+              {role === 'student' && (
+                <MenuItem as={RouteLink} to={`users/${id}/deadlines`}>
+                  {LL.navbar.yourDeadlines()}
+                </MenuItem>
+              )}
               <MenuDivider />
               <MenuOptionGroup defaultValue={locale} title={LL.navbar.languages()} type="radio">
                 <MenuItemOption onClick={handleChangeLanguage} value="en">
