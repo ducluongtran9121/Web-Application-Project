@@ -46,7 +46,6 @@ class DeadlineStatusSerializer(serializers.ModelSerializer):
         fields = ['id', 'is_finished', 'finish_at',
                   'file_deadlineSubmit_lesson', 'deadline']
         read_only_fields = ['is_finished', 'finish_at']
-        depth = 1
 
 
 class DeadlineSerializer(serializers.ModelSerializer):
