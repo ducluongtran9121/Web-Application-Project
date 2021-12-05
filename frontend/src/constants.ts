@@ -1,6 +1,6 @@
 class Constants {
   public static readonly Api = class {
-    public static readonly Base = import.meta.env.VITE_API_URL
+    public static readonly Base = process.env.REACT_APP_API_URL
     public static readonly SignIn = '/account/login/'
     public static readonly SignOut = '/account/logout/'
     public static readonly UserProfile = '/account/profile/'
