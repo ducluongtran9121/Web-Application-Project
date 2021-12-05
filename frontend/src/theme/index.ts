@@ -15,6 +15,7 @@ import Tabs from './components/Tabs'
 import Menu from './components/Menu'
 import Tooltip from './components/Tooltip'
 import Spinner from './components/Spinner'
+import Modal from './components/Modal'
 
 const theme = extendTheme({
   config,
@@ -30,7 +31,8 @@ const theme = extendTheme({
     Menu,
     Tabs,
     Tooltip,
-    Spinner
+    Spinner,
+    Modal
   }
 })
 

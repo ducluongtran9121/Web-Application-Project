@@ -47,6 +47,9 @@ const colors = {
       secondary: '#21212180',
       inverse: '#ffffffff'
     },
+    popup: {
+      default: '#ffffff'
+    },
     scrollBar: {
       default: '#a8a8a8ff',
       secondary: '#b2b2b2ff',
@@ -105,6 +108,9 @@ const colors = {
       default: '#c6c6c6ff',
       secondary: '#d0d0d0ff',
       ternary: '#dadadaff'
+    },
+    popup: {
+      default: '#292b2f'
     }
   }
 }

@@ -27,6 +27,7 @@ const global: SystemStyleFunction = (props: StyleFunctionProps) => ({
   },
   '::-webkit-file-upload-button': {
     bg: mode('light.control.default', 'dark.control.default')(props),
+    color: mode('light.text.default', 'dark.text.default')(props),
     border: '1px solid',
     borderColor: mode('light.border.control', 'dark.border.control')(props),
     borderRadius: '6px',

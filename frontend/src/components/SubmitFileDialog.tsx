@@ -79,7 +79,7 @@ function SubmitFileDialog({ heading, submitButtonContent, onSubmit, onClose, ...
       <ModalOverlay />
       <ModalContent as="form" onSubmit={handleSubmit}>
         <ModalHeader>{heading}</ModalHeader>
-        <ModalCloseButton />
+        <ModalCloseButton aria-label="Close submit file dialog" />
         <ModalBody as={Flex} flexDirection="column" gridGap="0.75rem">
           <FormControl isRequired>
             <FormLabel>{LL.lesson.fileUpload()}</FormLabel>
@@ -95,8 +95,10 @@ function SubmitFileDialog({ heading, submitButtonContent, onSubmit, onClose, ...
           </FormControl>
         </ModalBody>
         <ModalFooter as={Flex} gridGap="0.75rem">
-          <Button onClick={handleClose}>{LL.common.cancel()}</Button>
-          <Button variant="accent" type="submit" isLoading={isLoading}>
+          <Button aria-label="Cancel submit file dialog" onClick={handleClose}>
+            {LL.common.cancel()}
+          </Button>
+          <Button aria-label="Submit file" variant="accent" type="submit" isLoading={isLoading}>
             {submitButtonContent}
           </Button>
         </ModalFooter>

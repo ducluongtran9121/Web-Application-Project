@@ -1,8 +1,11 @@
 import { menuAnatomy as parts } from '@chakra-ui/anatomy'
+import { mode } from '@chakra-ui/theme-tools'
 import type { PartsStyleFunction, SystemStyleFunction, StyleFunctionProps } from '@chakra-ui/theme-tools'
 
-const baseStyleList: SystemStyleFunction = () => {
+const baseStyleList: SystemStyleFunction = (props: StyleFunctionProps) => {
   return {
+    bg: mode('light.popup.default', 'dark.popup.default')(props),
+    borderColor: mode('light.border.control', 'dark.border.control')(props),
     color: 'inherit',
     minW: '8rem',
     py: '2',

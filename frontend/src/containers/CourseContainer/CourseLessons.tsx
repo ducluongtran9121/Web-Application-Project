@@ -310,7 +310,7 @@ function CourseLessons(): JSX.Element {
           <ModalOverlay />
           <ModalContent as="form" onSubmit={handleCreateLesson}>
             <ModalHeader>{LL.lesson.createNew()}</ModalHeader>
-            <ModalCloseButton />
+            <ModalCloseButton aria-label="Close create lesson" />
             <ModalBody as={Flex} flexDirection="column" gridGap="0.75rem">
               <FormControl isRequired>
                 <FormLabel>{LL.lesson.name()}</FormLabel>
@@ -324,8 +324,10 @@ function CourseLessons(): JSX.Element {
             </ModalBody>
 
             <ModalFooter as={Flex} gridGap="0.75rem">
-              <Button onClick={onClose}>{LL.common.cancel()}</Button>
-              <Button isLoading={isNewLessonLoading} variant="accent" type="submit">
+              <Button aria-label="Cancel create lesson" onClick={onClose}>
+                {LL.common.cancel()}
+              </Button>
+              <Button aria-label="Create lesson" isLoading={isNewLessonLoading} variant="accent" type="submit">
                 {LL.common.create()}
               </Button>
             </ModalFooter>

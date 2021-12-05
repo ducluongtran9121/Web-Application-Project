@@ -200,12 +200,13 @@ function CourseDeadlineStudent(): JSX.Element {
               {isSubmittingFile ? (
                 <IconButton onClick={onAddFileOpen} aria-label="Add new submit file" icon={<FiPlus />}></IconButton>
               ) : (
-                <Button onClick={handleSubmitFile}>
+                <Button aria-label="Submit file" onClick={handleSubmitFile}>
                   {deadline.submitItems && deadline.submitItems.length > 0 ? LL.lesson.editSubmittedFiles() : LL.lesson.addSubmitFile()}
                 </Button>
               )}
               {!deadline.isFinished && (
                 <Button
+                  aria-label="Submit file"
                   variant="accent"
                   onClick={handleSubmitDeadline}
                   isLoading={isSubmitLoading}
@@ -215,7 +216,7 @@ function CourseDeadlineStudent(): JSX.Element {
                 </Button>
               )}
               {isSubmittingFile && (
-                <Button variant="criticalOutLine" onClick={handleCancel}>
+                <Button aria-label="Cancel submit" variant="criticalOutLine" onClick={handleCancel}>
                   {LL.common.cancel()}
                 </Button>
               )}

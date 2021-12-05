@@ -1,6 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 import * as React from 'react'
 import { useAuth } from '../../contexts/AuthContext'
+import { I18nContext } from '../../i18n/i18n-react'
 import { Flex, Text } from '@chakra-ui/react'
 import CardSkeleton from '../../components/CardSkeleton'
 import CourseItem from '../../components/CourseItem'
@@ -8,6 +9,7 @@ import type { Course } from '../../models'
 
 function UserCourses(): JSX.Element {
   const { getUserCourses } = useAuth()
+  const { LL } = React.useContext(I18nContext)
   const [isLoading, setLoading] = React.useState<boolean>(true)
   const [courses, setCourses] = React.useState<Course[]>()
 
@@ -41,7 +43,7 @@ function UserCourses(): JSX.Element {
   }
   return (
     <Flex direction="column" alignItems="center">
-      <Text fontSize="3rem">🐧 You don't have any courses</Text>
+      <Text fontSize="3rem">{`🐧 ${LL.user.noCourses()}`}</Text>
     </Flex>
   )
 }

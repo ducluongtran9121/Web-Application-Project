@@ -2,7 +2,7 @@ import * as React from 'react'
 import { useAuth } from '../../contexts/AuthContext'
 import { useParams } from 'react-router-dom'
 import { I18nContext } from '../../i18n/i18n-react'
-import { Avatar, Flex, Link, Text } from '@chakra-ui/react'
+import { Avatar, Flex, Text } from '@chakra-ui/react'
 import Card from '../../components/Card'
 import CardSkeleton from '../../components/CardSkeleton'
 import type { Student } from '../../models'
@@ -45,10 +45,10 @@ function CourseStudents(): JSX.Element {
         </Text>
         <Flex direction="column" gridGap="0.5rem" mt="0.75rem" pl="1rem" alignItems="stretch">
           {students.map(({ id, name, imageUrl }) => (
-            <Link key={id} display="flex" gridGap="0.5rem" alignItems="center">
+            <Text key={id} display="flex" gridGap="0.5rem" alignItems="center">
               <Avatar bg="transparent" size="xs" name={name} src={imageUrl} />
-              <Text>{name}</Text>
-            </Link>
+              <Text as="span">{name}</Text>
+            </Text>
           ))}
         </Flex>
       </Card>

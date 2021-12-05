@@ -3,7 +3,6 @@ import * as React from 'react'
 import { Link as RouteLink } from 'react-router-dom'
 import { I18nContext } from '../i18n/i18n-react'
 import {
-  Avatar,
   Box,
   Flex,
   Icon,
@@ -23,7 +22,7 @@ import {
   useColorModeValue,
   useDisclosure
 } from '@chakra-ui/react'
-import { FiX, FiLogOut, FiMenu, FiBell } from 'react-icons/fi'
+import { FiX, FiLogOut, FiMenu } from 'react-icons/fi'
 import { ReactComponent as Logo } from '../assets/svg/logo.svg'
 import SearchBox from './SearchBox'
 import type { User, Course, Deadline, Lesson } from '../models'
@@ -86,7 +85,7 @@ function NavBar({
     >
       <IconButton
         display={{ base: 'inline-block', md: 'none' }}
-        aria-label="nav toggle button"
+        aria-label="Nav bar toggle button"
         bg="transparent"
         icon={<Icon as={isOpen ? FiX : FiMenu} fontSize="xl" />}
         onClick={() => (isOpen ? onClose() : onOpen())}
@@ -132,7 +131,7 @@ function NavBar({
           </Box>
           <Flex direction="column" justifyContent="stretch" gridGap="0.75rem" display={{ base: 'flex', md: 'none' }} w="full">
             <Link variant="menu" as={RouteLink} to={`/users/${id}`} display="flex" gridGap="0.5rem" alignItems="center">
-              <Avatar src={imageUrl} boxSize="1.25rem" bg="white" />
+              <Image borderRadius="full" alt="User avatar" src={imageUrl} boxSize="1.25rem" bg="white" />
               <Text>{name}</Text>
             </Link>
             <Link variant="menu" onClick={handleSignOut} display="flex" gridGap="0.5rem" alignItems="center">
@@ -144,11 +143,10 @@ function NavBar({
       )}
 
       <Flex alignItems="center" gridGap="0.75rem">
-        <IconButton aria-label="" bg="transparent" icon={<Icon as={FiBell} fontSize="large" />} border="none" alignContent="center" />
         <Box display={{ base: 'none', md: 'block' }}>
           <Menu>
-            <MenuButton>
-              <Avatar display={{ base: 'none', md: 'inline-block' }} bg="white" boxSize="2rem" src={imageUrl} />
+            <MenuButton aria-label="Avatar button">
+              <Image borderRadius="full" display={{ base: 'none', md: 'inline-block' }} bg="white" boxSize="2rem" src={imageUrl} alt="User avatar" />
             </MenuButton>
             <MenuList minW="15rem">
               <MenuItem as={RouteLink} to={`users/${id}`}>

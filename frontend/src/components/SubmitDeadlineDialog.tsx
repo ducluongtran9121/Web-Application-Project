@@ -12,7 +12,8 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
-  ModalOverlay
+  ModalOverlay,
+  useColorModeValue
 } from '@chakra-ui/react'
 import { SingleDatepicker } from 'chakra-dayzed-datepicker'
 import type { ModalProps } from '@chakra-ui/react'
@@ -55,7 +56,9 @@ function SubmitDeadlineDialog({
   const [startTime, setStartTime] = React.useState<string>(getTimeString(begin))
   const [endTime, setEndTime] = React.useState<string>(getTimeString(end))
   const [isLoading, setLoading] = React.useState<boolean>(false)
-
+  const accentColor = useColorModeValue('light.accent.default', 'dark.accent.default')
+  const accentTernaryColor = useColorModeValue('light.accent.ternary', 'dark.accent.ternary')
+  const borderControlColor = useColorModeValue('light.border.control', 'dark.border.control')
   React.useEffect(() => {
     setMounted(true)
     return () => {
@@ -141,7 +144,7 @@ function SubmitDeadlineDialog({
       <ModalOverlay />
       <ModalContent as="form" onSubmit={handleSubmit}>
         <ModalHeader>{heading}</ModalHeader>
-        <ModalCloseButton />
+        <ModalCloseButton aria-label="Close submit deadline dialog" />
         <ModalBody as={Flex} flexDirection="column" gridGap="0.75rem">
           <FormControl isRequired>
             <FormLabel>{LL.lesson.name()}</FormLabel>
@@ -153,7 +156,21 @@ function SubmitDeadlineDialog({
           </FormControl>
           <FormControl isRequired>
             <FormLabel>{LL.lesson.startDate()}</FormLabel>
-            <SingleDatepicker date={selectedStartDate} onDateChange={setSelectedStartDate} />
+            <SingleDatepicker
+              date={selectedStartDate}
+              onDateChange={setSelectedStartDate}
+              propsConfigs={{
+                dateNavBtnProps: {
+                  borderColor: borderControlColor
+                },
+                dayOfMonthBtnProps: {
+                  selectedBg: accentColor,
+                  _hover: {
+                    bg: accentTernaryColor
+                  }
+                }
+              }}
+            />
           </FormControl>
           <FormControl isRequired>
             <FormLabel>{LL.lesson.startTime()}</FormLabel>
@@ -161,7 +178,21 @@ function SubmitDeadlineDialog({
           </FormControl>
           <FormControl isRequired>
             <FormLabel>{LL.lesson.endDate()}</FormLabel>
-            <SingleDatepicker date={selectedEndDate} onDateChange={setSelectedEndDate} />
+            <SingleDatepicker
+              date={selectedEndDate}
+              onDateChange={setSelectedEndDate}
+              propsConfigs={{
+                dateNavBtnProps: {
+                  borderColor: borderControlColor
+                },
+                dayOfMonthBtnProps: {
+                  selectedBg: accentColor,
+                  _hover: {
+                    bg: accentTernaryColor
+                  }
+                }
+              }}
+            />
           </FormControl>
           <FormControl isRequired>
             <FormLabel>{LL.lesson.endTime()}</FormLabel>
@@ -169,8 +200,10 @@ function SubmitDeadlineDialog({
           </FormControl>
         </ModalBody>
         <ModalFooter as={Flex} gridGap="0.75rem">
-          <Button onClick={onClose}>{LL.common.cancel()}</Button>
-          <Button variant="accent" type="submit" isLoading={isLoading}>
+          <Button aria-label="Cancel submit deadline dialog" onClick={onClose}>
+            {LL.common.cancel()}
+          </Button>
+          <Button aria-label="Submit deadline" variant="accent" type="submit" isLoading={isLoading}>
             {submitButtonContent}
           </Button>
         </ModalFooter>
