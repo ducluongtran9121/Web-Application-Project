@@ -56,7 +56,7 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
     'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': True,
@@ -117,11 +117,14 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'd9rjqp05kkmpfe',
+        'HOST': 'ec2-54-198-213-75.compute-1.amazonaws.com',
+        'PORT': 5432,
+        'USER': 'qtcotraylgioka',
+        'PASSWORD': '60ff1fb573e201f118435d621057f82238eaef083d1126f563738477ebcb538d'
     }
 }
-
 
 ##
 
