@@ -182,6 +182,7 @@ function AuthProvider({ children }: AuthProviderProps): JSX.Element {
   }
 
   async function getCourseLessons(courseId: number): Promise<Lesson[]> {
+    if (!user) return []
     const { data } = await axiosInstance.get<LessonPayload[]>(Constants.Api.CourseLessons(courseId))
     const lessons = fromLessonsPayload(data, courseId)
     if (user?.role === 'lecturer') return lessons

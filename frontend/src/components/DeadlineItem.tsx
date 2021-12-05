@@ -101,7 +101,7 @@ function DeadlineItem({
         <Flex direction="column" pl="0.75rem" mt="0.5rem">
           {locationItems && (
             <LocationTreeView
-              childType="deadline"
+              childType="deadlineItem"
               items={locationItems}
               isInEditingMode={isInEditingMode}
               onEditDeadlineFile={handleEditFile}
