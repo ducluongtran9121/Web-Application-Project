@@ -3,7 +3,7 @@ from .models import *
 from resource.models import File
 from account.models import Member
 from resource.serializers import FileSerializer
-from course.models import Lesson
+from course.models import Lesson, Course
 
 
 class StudentSerializer(serializers.ModelSerializer):
@@ -23,10 +23,18 @@ class DeadlineStudentStatusSerializer(serializers.ModelSerializer):
         read_only_fields = ['is_finished', 'finish_at']
 
 
+class SubCourse(serializers.ModelSerializer):
+    class Meta:
+        model = Course
+        fields = ['id', 'mskh', 'name']
+
+
 class SubLesson(serializers.ModelSerializer):
+    course = SubCourse(read_only=True)
+
     class Meta:
         model = Lesson
-        fields = ['id', 'course']
+        fields = ['id', 'name', 'course']
 
 
 class SubDeadline(serializers.ModelSerializer):
