@@ -117,14 +117,21 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'd9rjqp05kkmpfe',
-        'HOST': 'ec2-54-198-213-75.compute-1.amazonaws.com',
-        'PORT': 5432,
-        'USER': 'qtcotraylgioka',
-        'PASSWORD': '60ff1fb573e201f118435d621057f82238eaef083d1126f563738477ebcb538d'
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': '',
+#         'HOST': '',
+#         'PORT': 5432,
+#         'USER': '',
+#         'PASSWORD': ''
+#     }
+# }
 
 ##
 
@@ -166,11 +173,6 @@ USE_TZ = True
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 
-# Extra places for collectstatic to find static files.
-# STATICFILES_DIRS = (
-#     os.path.join(BASE_DIR, 'static'),
-# )
-# Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
