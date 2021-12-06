@@ -4,6 +4,4 @@ from .models import *
 
 # Register your models here.
 admin.site.register(Course)
-# admin.site.register(Member)
 admin.site.register(Lesson)
-# admin.site.register(File)

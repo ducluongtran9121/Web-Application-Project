@@ -6,12 +6,6 @@ from resource.serializers import FileSerializer
 from deadline.serializers import DeadlineSerializer
 
 
-# class MemberSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Member
-#         fields = '__all__'
-
-
 class LectureSerializer(serializers.ModelSerializer):
     class Meta:
         model = Member

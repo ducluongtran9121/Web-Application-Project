@@ -29,7 +29,4 @@ urlpatterns = [
     path('myDeadlines/', StudentDeadlineStatusApiView.as_view()),
     path('<int:lesson_pk>/', include(deadlineFileSubmit_router.urls)),
     path('<int:lesson_pk>/', include(deadlineFile_router.urls))
-    # path('<int:lesson_pk>/studentDeadlines/<int:pk>/submit/',
-    #      DeadlineSubmitAPIView.as_view())
-    #path('<int:lesson_pk>', LessonMemberDeadlineApiView.as_view())
 ]
