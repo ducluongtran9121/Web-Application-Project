@@ -147,7 +147,7 @@ function NavBar({
         <Box display={{ base: 'none', md: 'block' }}>
           <Menu>
             <MenuButton aria-label="Avatar button">
-              <Avatar display={{ base: 'none', md: 'inline-block' }} bg="white" boxSize="2rem" name={name} src={imageUrl} />
+              <Avatar display={{ base: 'none', md: 'inline-block' }} boxSize="2rem" name={name} src={imageUrl} />
             </MenuButton>
             <MenuList minW="15rem">
               <MenuItem as={RouteLink} to={`users/${id}`}>

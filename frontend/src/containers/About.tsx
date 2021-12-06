@@ -41,7 +41,7 @@ function IconElement(): JSX.Element {
 
 function SlideElement({ img, content, description, swap = false }: SlideElementProps): JSX.Element {
   const ref = React.useRef(null)
-  const rootMargin = useBreakpointValue({ base: '-180px', md: '-250px', lg: '-340px' })
+  const rootMargin = useBreakpointValue({ base: '-180px', lg: '-250px' })
   const offsetX = useBreakpointValue({ base: '50px', lg: '200px' })
   const { inViewport } = useInViewport(ref, { rootMargin }, { disconnectOnLeave: false }, {})
 
