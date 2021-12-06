@@ -10,12 +10,24 @@ Alunno is a web-based course management application for Web application programm
 
 ## Features
 
+- User friendly: With simple and institutional UI
+
+![alt feature1](./assets/feature1.png)
+
+- Beautiful design: Eye catching and fresh
+
+![alt feature2](./assets/feature2.png)
+
+- Powerful: Tons of editing functionality
+
+![alt feature3](./assets/feature3.png)
+
 ## Getting Started
 
 ### Prerequisites
 
 - Python: [3.9.7](https://www.python.org/ftp/python/3.9.7/)
-- Nodejs: [17.1.0](https://nodejs.org/dist/v17.1.0/)
+- Nodejs: [16.13.1](https://nodejs.org/dist/v16.13.1/)
 
 ### Setup
 
@@ -76,7 +88,7 @@ Alunno is a web-based course management application for Web application programm
 
     ```
     cd frontend
-    pnpm i
+    yarn
     ```
 
   - Add server api url environment variable: (You can use your backend url)
@@ -98,13 +110,13 @@ Alunno is a web-based course management application for Web application programm
   - To run dev app:
 
     ```
-    pnpm run dev
+    yarn start
     ```
 
   - To build the app:
 
     ```
-    pnpm run build
+    yarn build
     ```
 
 ## Tech Stack
@@ -113,10 +125,9 @@ Alunno is a web-based course management application for Web application programm
 - [TypeScript](https://www.typescriptlang.org/)
 - [Django](https://www.djangoproject.com/)
 - [Django REST](https://www.django-rest-framework.org/)
-- [SQLite](https://www.sqlite.org/index.html)
 - [React](https://reactjs.org/)
 - [Chakra UI](https://chakra-ui.com/)
-- [Vite](https://vitejs.dev/)
+- [Create React App](https://create-react-app.dev/)
 
 ## Contributors
 
