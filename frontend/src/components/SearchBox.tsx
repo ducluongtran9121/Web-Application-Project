@@ -6,6 +6,7 @@ import { FiSearch } from 'react-icons/fi'
 import Card from './Card'
 import type { InputProps } from '@chakra-ui/react'
 import type { Course, Deadline, Lesson, UserRole } from '../models'
+import { removeVietnameseTones } from '../helpers'
 
 interface SearchBoxProps extends InputProps {
   role?: UserRole
@@ -51,17 +52,19 @@ function SearchBox({
 
   function search(value: string) {
     if (courses) {
-      let filtered = courses.filter((course) => course.name.toLowerCase().includes(value.toLowerCase()))
+      let filtered = courses.filter((course) => removeVietnameseTones(course.name.toLowerCase()).includes(removeVietnameseTones(value.toLowerCase())))
       if (filtered.length > 4) filtered = filtered.slice(0, 3)
       setFilteredCourses(filtered)
     }
     if (lessons) {
-      let filtered = lessons.filter((lesson) => lesson.name.toLowerCase().includes(value.toLowerCase()))
+      let filtered = lessons.filter((lesson) => removeVietnameseTones(lesson.name.toLowerCase()).includes(removeVietnameseTones(value.toLowerCase())))
       if (filtered.length > 4) filtered = filtered.slice(0, 3)
       setFilteredLessons(filtered)
     }
     if (deadlines) {
-      let filtered = deadlines.filter((deadline) => deadline.name.toLowerCase().includes(value.toLowerCase()))
+      let filtered = deadlines.filter((deadline) =>
+        removeVietnameseTones(deadline.name.toLowerCase()).includes(removeVietnameseTones(value.toLowerCase()))
+      )
       if (filtered.length > 4) filtered = filtered.slice(0, 3)
       setFilteredDeadlines(filtered)
     }

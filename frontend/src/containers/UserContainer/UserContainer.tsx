@@ -2,7 +2,7 @@ import * as React from 'react'
 import { I18nContext } from '../../i18n/i18n-react'
 import { useAuth } from '../../contexts/AuthContext'
 import { Link as RouterLink, Outlet, useLocation } from 'react-router-dom'
-import { Box, Flex, Heading, Icon, Image, Link, Tab, TabList, Tabs, Text, useColorMode } from '@chakra-ui/react'
+import { Avatar, Box, Flex, Heading, Icon, Image, Link, Tab, TabList, Tabs, Text, useColorMode } from '@chakra-ui/react'
 import { FiBookOpen, FiCalendar, FiBriefcase, FiMail, FiUser } from 'react-icons/fi'
 import Footer from '../../components/Footer'
 
@@ -24,15 +24,14 @@ function UserContainer(): JSX.Element {
       <Flex direction={{ base: 'column', md: 'row' }} px={{ base: '1rem', md: '6rem' }} py="3rem">
         <Flex direction="column" pr={{ base: '0', md: '1.5rem' }} gridGap="1rem">
           <Flex direction={{ base: 'row', md: 'column' }} gridGap="1rem">
-            <Image
+            <Avatar
               w={{ base: '5rem', md: '15rem', lg: '20rem' }}
               h={{ base: '5rem', md: '15rem', lg: '20rem' }}
-              borderRadius="full"
               bg="transparent"
               alignSelf="center"
               src={user?.imageUrl}
+              name={user?.name}
               border={`1px solid ${colorMode === 'light' ? '#00000022' : '#ffffff12'}`}
-              alt="User profile avatar"
             />
             <Flex direction="column">
               <Heading as="h1">{user?.name}</Heading>
@@ -40,7 +39,7 @@ function UserContainer(): JSX.Element {
             </Flex>
           </Flex>
           <Flex direction="column" gridGap="0.5rem">
-            <Link display="flex" alignItems="center" gridGap="0.5rem" variant="text">
+            <Link href={`mailto:${user?.email}`} display="flex" alignItems="center" gridGap="0.5rem" variant="text">
               <Icon as={FiMail} />
               <Text>{user?.email}</Text>
             </Link>

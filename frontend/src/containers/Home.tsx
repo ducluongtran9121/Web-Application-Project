@@ -50,7 +50,7 @@ function Home(): JSX.Element {
   return (
     <Flex direction={{ base: 'column', md: 'row' }} mt="1.5rem" gridGap={{ base: '1.5rem', md: '0' }}>
       {user?.role === 'student' && (
-        <Box flexShrink={0} px={{ base: '0.75rem', md: '1.5rem' }}>
+        <Box flexShrink={0} px={{ base: '0.75rem', md: '1.5rem' }} maxW={{ base: '10rem', md: '18rem' }}>
           <Text fontWeight="bold">{LL.common.deadlines()}</Text>
           <Flex direction="column" gridGap="0.75rem" pl="0.5rem" mt="0.75rem">
             {isLoading ? (

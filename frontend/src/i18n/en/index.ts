@@ -138,6 +138,17 @@ const en: BaseTranslation = {
     empty: "It's empty here!",
     student: 'Student',
     lecturer: 'Lecturer'
+  },
+  about: {
+    learnTogether: 'Where we can learn together',
+    connect: 'Connect students, and also people who love to learn with our lecturers',
+    userFriendly: 'User friendly',
+    userFriendlyDescription: 'With simple and institutional UI',
+    beautifulDesign: 'Beautiful design',
+    beautifulDesignDescription: 'Eye catching and fresh',
+    powerful: 'Powerful',
+    powerfulDescription: 'Tons of editing functionality',
+    contributors: 'Contributors'
   }
 }
 

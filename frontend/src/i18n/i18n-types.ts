@@ -528,6 +528,44 @@ export type Translation = {
      */
     lecturer: string
   }
+  about: {
+    /**
+     * Where we can learn together
+     */
+    learnTogether: string
+    /**
+     * Connect students, and also people who love to learn with our lecturers
+     */
+    connect: string
+    /**
+     * User friendly
+     */
+    userFriendly: string
+    /**
+     * With simple and institutional UI
+     */
+    userFriendlyDescription: string
+    /**
+     * Beautiful design
+     */
+    beautifulDesign: string
+    /**
+     * Eye catching and fresh
+     */
+    beautifulDesignDescription: string
+    /**
+     * Powerful
+     */
+    powerful: string
+    /**
+     * Tons of editing functionality
+     */
+    powerfulDescription: string
+    /**
+     * Contributors
+     */
+    contributors: string
+  }
 }
 
 export type TranslationFunctions = {
@@ -1031,6 +1069,44 @@ export type TranslationFunctions = {
      * Lecturer
      */
     lecturer: () => LocalizedString
+  }
+  about: {
+    /**
+     * Where we can learn together
+     */
+    learnTogether: () => LocalizedString
+    /**
+     * Connect students, and also people who love to learn with our lecturers
+     */
+    connect: () => LocalizedString
+    /**
+     * User friendly
+     */
+    userFriendly: () => LocalizedString
+    /**
+     * With simple and institutional UI
+     */
+    userFriendlyDescription: () => LocalizedString
+    /**
+     * Beautiful design
+     */
+    beautifulDesign: () => LocalizedString
+    /**
+     * Eye catching and fresh
+     */
+    beautifulDesignDescription: () => LocalizedString
+    /**
+     * Powerful
+     */
+    powerful: () => LocalizedString
+    /**
+     * Tons of editing functionality
+     */
+    powerfulDescription: () => LocalizedString
+    /**
+     * Contributors
+     */
+    contributors: () => LocalizedString
   }
 }
 

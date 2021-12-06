@@ -1,7 +1,11 @@
 {
   "name": "frontend",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.0.0",
+  "license": "MIT",
+  "contributors": [
+    "pinanek23"
+  ],
+  "description": "Frontend part of Alunno - A web-based courses management application 😘",
   "engines": {
     "node": "16.x"
   },
@@ -22,6 +26,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-icons": "^4.3.1",
+    "react-in-viewport": "^1.0.0-alpha.20",
     "react-router-dom": "^6.0.2",
     "react-scripts": "4.0.3",
     "typesafe-i18n": "2.52.2",
@@ -38,7 +43,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "format": "prettier --write --plugin-search-dir=. .",
+    "typesafe-i18n": "typesafe-i18n"
   },
   "eslintConfig": {
     "extends": [

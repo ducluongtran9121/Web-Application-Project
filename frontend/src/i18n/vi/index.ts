@@ -138,6 +138,17 @@ const vi: Translation = {
     empty: 'Ở đây không có gì!',
     student: 'Học sinh',
     lecturer: 'Giảng viên'
+  },
+  about: {
+    learnTogether: 'Nơi mà chúng ta học tập cùng nhau',
+    connect: 'Kết nối học sinh, và những người yêu thích việc học với các giảng viên của chúng tôi',
+    userFriendly: 'Thân thiện với người dùng',
+    userFriendlyDescription: 'Giao diện đơn giản và tin cậy',
+    beautifulDesign: 'Thiết kế ưa nhìn',
+    beautifulDesignDescription: 'Bắt mắt và tươi sáng',
+    powerful: 'Mạnh mẽ',
+    powerfulDescription: 'Với hàng loại chức năng chỉnh sửa',
+    contributors: 'Những người tham gia thực hiện'
   }
 }
 

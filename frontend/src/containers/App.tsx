@@ -8,6 +8,7 @@ import TypesafeI18n from '../i18n/i18n-react'
 import { detectLocale } from '../i18n/i18n-util'
 import theme from '../theme'
 import SignIn from './SignIn'
+import About from './About'
 import PrivateElement from '../components/PrivateElement'
 import PrivateElementContainer from './PrivateElementContainer'
 
@@ -26,6 +27,7 @@ function App() {
             <AuthProvider>
               <Routes>
                 <Route path="signin" element={<SignIn />} />
+                <Route path="about" element={<About />} />
                 <Route
                   path="/*"
                   element={

@@ -3,6 +3,7 @@ import * as React from 'react'
 import { Link as RouteLink } from 'react-router-dom'
 import { I18nContext } from '../i18n/i18n-react'
 import {
+  Avatar,
   Box,
   Flex,
   Icon,
@@ -131,7 +132,7 @@ function NavBar({
           </Box>
           <Flex direction="column" justifyContent="stretch" gridGap="0.75rem" display={{ base: 'flex', md: 'none' }} w="full">
             <Link variant="menu" as={RouteLink} to={`/users/${id}`} display="flex" gridGap="0.5rem" alignItems="center">
-              <Image borderRadius="full" alt="User avatar" src={imageUrl} boxSize="1.25rem" bg="white" />
+              <Avatar name={name} borderRadius="full" src={imageUrl} boxSize="1.25rem" bg="white" />
               <Text>{name}</Text>
             </Link>
             <Link variant="menu" onClick={handleSignOut} display="flex" gridGap="0.5rem" alignItems="center">

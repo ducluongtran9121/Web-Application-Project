@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { Link as RouterLink } from 'react-router-dom'
 import { Flex, Link, Text } from '@chakra-ui/react'
 import { I18nContext } from '../i18n/i18n-react'
 import type { FlexProps } from '@chakra-ui/react'
@@ -23,8 +24,10 @@ function Footer({ ...rest }: FlexProps): JSX.Element {
         </Text>
       </Text>
       <Flex gridGap="0.75rem">
-        <Link>{LL.footer.contact()}</Link>
-        <Link>{LL.footer.about()}</Link>
+        <Link href="mailto:alunnowebapp@gmail.com">{LL.footer.contact()}</Link>
+        <Link as={RouterLink} to="/about">
+          {LL.footer.about()}
+        </Link>
       </Flex>
     </Flex>
   )
